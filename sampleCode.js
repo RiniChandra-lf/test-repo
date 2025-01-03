@@ -43,7 +43,12 @@ const VpaidNonLinear = class {
       'skippableState': false,
       'viewMode': 'normal',
       'width': 0,
-      'volume': 1.0
+      'volume': 1.0,
+      'countdownTime': 10,  // The countdown duration in seconds.
+      'currentTime': 0,     // Current time of the countdown.
+      'linear': false,      // Linear ad state.
+      'skippableState': false, // Skippable state of the ad.
+      'volume': 1.0         // Volume of the ad.
     };
 
     /**
