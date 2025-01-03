@@ -135,67 +135,69 @@ const VpaidNonLinear = class {
    * Called by the wrapper to start the ad.
    */
   startAd() {
-    this.log('Starting ad');
+  this.log('Starting ad');
 
-    const date = new Date();
-    this.startTime_ = date.getTime();
+  const date = new Date();
+  this.startTime_ = date.getTime();
 
-    // Create a div to contain our ad elements.
-    const overlays = this.parameters_.overlays || [];
+  // Set currentTime to countdownTime initially
+  this.attributes_['currentTime'] = this.attributes_['countdownTime'];
 
-    const container = document.createElement('div');
-    container.style.display = 'block';
-    container.style.position = 'absolute';
-    container.style.width = '100%';
-    container.style.bottom = '0%';
-    this.slot_.appendChild(container);
+  // Create a div to contain our ad elements.
+  const overlays = this.parameters_.overlays || [];
 
-    // Countdown display
-    const countdownDisplay = document.createElement('div');
-    countdownDisplay.style.fontSize = '48px';
-    countdownDisplay.style.textAlign = 'center';
-    countdownDisplay.style.color = 'white';
-    countdownDisplay.textContent = this.attributes_['countdownTime'];
-    container.appendChild(countdownDisplay);
+  const container = document.createElement('div');
+  container.style.display = 'block';
+  container.style.position = 'absolute';
+  container.style.width = '100%';
+  container.style.bottom = '0%';
+  this.slot_.appendChild(container);
 
-    // Update countdown every second
-    this.countdownInterval_ = setInterval(() => {
-      this.attributes_['currentTime'] = Math.max(0, this.attributes_['currentTime'] - 1);
-      countdownDisplay.textContent = this.attributes_['currentTime'];
+  // Countdown display
+  const countdownDisplay = document.createElement('div');
+  countdownDisplay.style.fontSize = '48px';
+  countdownDisplay.style.textAlign = 'center';
+  countdownDisplay.style.color = 'white';
+  countdownDisplay.textContent = this.attributes_['countdownTime'];
+  container.appendChild(countdownDisplay);
 
-      if (this.attributes_['currentTime'] === 0) {
-        clearInterval(this.countdownInterval_);
-        this.callEvent_('AdCompleted');
-      }
-    }, 1000);
+  // Update countdown every second
+  this.countdownInterval_ = setInterval(() => {
+    this.attributes_['currentTime'] = Math.max(0, this.attributes_['currentTime'] - 1);
+    countdownDisplay.textContent = this.attributes_['currentTime'];
 
-    // Create a div to serve as a button to go from a non-linear ad to linear.
-    const linearButton = document.createElement('div');
-    linearButton.style.background = 'green';
-    linearButton.style.display = 'block';
-    linearButton.style.margin = 'auto';
-    linearButton.style.textAlign = 'center';
-    linearButton.style.color = 'white';
-    linearButton.style.width = '480px';
-    linearButton.style.fontFamily = 'sans-serif';
-    linearButton.textContent = 'Click here to switch to a linear ad';
-    linearButton.addEventListener(
-        'click', this.linearButtonClick_.bind(this), false);
-    container.appendChild(linearButton);
+    if (this.attributes_['currentTime'] === 0) {
+      clearInterval(this.countdownInterval_);
+      this.callEvent_('AdCompleted');
+    }
+  }, 1000);
 
-    // Create an img tag and populate it with the image passed in to the ad
-    // parameters.
-    const adImg = document.createElement('img');
-    adImg.src = overlays[0] || '';
-    adImg.style.margin = 'auto';
-    adImg.style.display = 'block';
-    adImg.addEventListener('click', this.adClick_.bind(this), false);
-    container.appendChild(adImg);
+  // Create a div to serve as a button to go from a non-linear ad to linear.
+  const linearButton = document.createElement('div');
+  linearButton.style.background = 'green';
+  linearButton.style.display = 'block';
+  linearButton.style.margin = 'auto';
+  linearButton.style.textAlign = 'center';
+  linearButton.style.color = 'white';
+  linearButton.style.width = '480px';
+  linearButton.style.fontFamily = 'sans-serif';
+  linearButton.textContent = 'Click here to switch to a linear ad';
+  linearButton.addEventListener(
+      'click', this.linearButtonClick_.bind(this), false);
+  container.appendChild(linearButton);
 
-    this.callEvent_('AdStarted');
-    this.callEvent_('AdImpression');
-  }
+  // Create an img tag and populate it with the image passed in to the ad
+  // parameters.
+  const adImg = document.createElement('img');
+  adImg.src = overlays[0] || '';
+  adImg.style.margin = 'auto';
+  adImg.style.display = 'block';
+  adImg.addEventListener('click', this.adClick_.bind(this), false);
+  container.appendChild(adImg);
 
+  this.callEvent_('AdStarted');
+  this.callEvent_('AdImpression');
+}
   /**
    * Called when the non-linear ad is clicked.
    * @private
