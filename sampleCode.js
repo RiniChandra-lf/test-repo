@@ -194,6 +194,31 @@ const VpaidNonLinear = class {
   adImg.addEventListener('click', this.adClick_.bind(this), false);
   container.appendChild(adImg);
 
+    // Add Skip Ad Button
+const skipButton = document.createElement('button');
+skipButton.textContent = 'Skip Ad';
+skipButton.style.position = 'absolute';
+skipButton.style.top = '10px';
+skipButton.style.right = '10px';
+skipButton.style.padding = '5px 10px';
+skipButton.style.backgroundColor = '#f00';
+skipButton.style.color = '#fff';
+skipButton.style.border = 'none';
+skipButton.style.borderRadius = '5px';
+skipButton.style.cursor = 'pointer';
+skipButton.style.zIndex = '1000';
+
+// Enable the Skip Button only if skippableState is true
+if (this.attributes_['skippableState']) {
+  skipButton.addEventListener('click', () => {
+    this.log('Ad skipped by user');
+    clearInterval(this.countdownInterval_);
+    this.callEvent_('AdSkipped');
+    this.stopAd(); // Properly stop the ad
+  });
+  container.appendChild(skipButton);
+}
+
   // Start a video.
     const videos = this.parameters_.videos || [];
     for (let i = 0; i < videos.length; i++) {
