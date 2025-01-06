@@ -139,9 +139,6 @@ const VpaidNonLinear = class {
   const date = new Date();
   this.startTime_ = date.getTime();
 
-  // Set currentTime to countdownTime initially
-  this.attributes_['currentTime'] = this.attributes_['countdownTime'];
-
   // Create a div to contain our ad elements.
   const overlays = this.parameters_.overlays || [];
 
@@ -154,100 +151,83 @@ const VpaidNonLinear = class {
 
   // Countdown display
   const countdownDisplay = document.createElement('div');
-  countdownDisplay.style.fontSize = this.parameters_.countdown.fontSize;
+  countdownDisplay.style.fontSize = this.parameters_.countdown?.fontSize || '24px';
   countdownDisplay.style.textAlign = 'center';
-  countdownDisplay.style.color = this.parameters_.countdown.color;
-  countdownDisplay.textContent = this.attributes_['countdownTime'];
+  countdownDisplay.style.color = this.parameters_.countdown?.color || '#fff';
   container.appendChild(countdownDisplay);
+
+  // Parse target time from parameters
+  const targetTime = new Date(this.parameters_.targetTime); // ISO 8601 format
+
+  if (isNaN(targetTime.getTime())) {
+    this.log('Invalid targetTime parameter.');
+    countdownDisplay.textContent = 'Invalid Countdown Time';
+    return;
+  }
 
   // Update countdown every second
   this.countdownInterval_ = setInterval(() => {
-    this.attributes_['currentTime'] = Math.max(0, this.attributes_['currentTime'] - 1);
-    countdownDisplay.textContent = this.attributes_['currentTime'];
+    const now = new Date();
+    const diffMs = targetTime - now;
 
-    if (this.attributes_['currentTime'] === 0) {
+    if (diffMs <= 0) {
       clearInterval(this.countdownInterval_);
+      countdownDisplay.textContent = '00:00:00';
       this.callEvent_('AdCompleted');
+      return;
     }
+
+    const hours = String(Math.floor(diffMs / 3600000)).padStart(2, '0');
+    const minutes = String(Math.floor((diffMs % 3600000) / 60000)).padStart(2, '0');
+    const seconds = String(Math.floor((diffMs % 60000) / 1000)).padStart(2, '0');
+
+    countdownDisplay.textContent = `${hours}:${minutes}:${seconds}`;
   }, 1000);
 
-  // Create a div to serve as a button to go from a non-linear ad to linear.
-  const linearButton = document.createElement('div');
-  linearButton.style.background = 'green';
-  linearButton.style.display = 'block';
-  linearButton.style.margin = 'auto';
-  linearButton.style.textAlign = 'center';
-  linearButton.style.color = 'white';
-  linearButton.style.width = '480px';
-  linearButton.style.fontFamily = 'sans-serif';
-  linearButton.textContent = 'Click here to switch to a linear ad';
-  linearButton.addEventListener(
-      'click', this.linearButtonClick_.bind(this), false);
-  container.appendChild(linearButton);
+  // Create a Skip Ad button
+  const skipButton = document.createElement('button');
+  skipButton.textContent = 'Skip Ad';
+  skipButton.style.position = 'absolute';
+  skipButton.style.top = '10px';
+  skipButton.style.right = '10px';
+  skipButton.style.padding = '5px 10px';
+  skipButton.style.backgroundColor = '#f00';
+  skipButton.style.color = '#fff';
+  skipButton.style.border = 'none';
+  skipButton.style.borderRadius = '5px';
+  skipButton.style.cursor = 'pointer';
+  skipButton.style.zIndex = '1000';
 
-  // Create an img tag and populate it with the image passed in to the ad
-  // parameters.
-  const adImg = document.createElement('img');
-  adImg.src = overlays[0] || '';
-  adImg.style.margin = 'auto';
-  adImg.style.display = 'block';
-  adImg.addEventListener('click', this.adClick_.bind(this), false);
-  container.appendChild(adImg);
-
-    // Add Skip Ad Button
-const skipButton = document.createElement('button');
-skipButton.textContent = 'Skip Ad';
-skipButton.style.position = 'absolute';
-skipButton.style.top = '10px';
-skipButton.style.right = '10px';
-skipButton.style.padding = '5px 10px';
-skipButton.style.backgroundColor = '#f00';
-skipButton.style.color = '#fff';
-skipButton.style.border = 'none';
-skipButton.style.borderRadius = '5px';
-skipButton.style.cursor = 'pointer';
-skipButton.style.zIndex = '1000';
-
-// Enable the Skip Button only if skippableState is true
-if (this.attributes_['skippableState']) {
-  skipButton.addEventListener('click', () => {
-    this.log('Ad skipped by user');
-    clearInterval(this.countdownInterval_);
-    this.callEvent_('AdSkipped');
-    this.stopAd(); // Properly stop the ad
-  });
-  container.appendChild(skipButton);
-}
+  if (this.attributes_['skippableState']) {
+    skipButton.addEventListener('click', () => {
+      this.log('Ad skipped by user');
+      clearInterval(this.countdownInterval_);
+      this.callEvent_('AdSkipped');
+      this.stopAd();
+    });
+    container.appendChild(skipButton);
+  }
 
   // Start a video.
-    const videos = this.parameters_.videos || [];
-    for (let i = 0; i < videos.length; i++) {
-      // Choose the first video with a supported mimetype.
-      if (this.videoSlot_.canPlayType(videos[i].mimetype) != '') {
-        this.videoSlot_.setAttribute('src', videos[i].url);
+  const videos = this.parameters_.videos || [];
+  for (let i = 0; i < videos.length; i++) {
+    if (this.videoSlot_.canPlayType(videos[i].mimetype) != '') {
+      this.videoSlot_.setAttribute('src', videos[i].url);
 
-        // Set start time of linear ad to calculate remaining time.
-        const date = new Date();
-        this.startTime_ = date.getTime();
+      this.videoSlot_.addEventListener('timeupdate', this.timeUpdateHandler_.bind(this), false);
+      this.videoSlot_.addEventListener('loadedmetadata', this.loadedMetadata_.bind(this), false);
+      this.videoSlot_.addEventListener('ended', this.stopAd.bind(this), false);
 
-        this.videoSlot_.addEventListener(
-            'timeupdate', this.timeUpdateHandler_.bind(this), false);
-        this.videoSlot_.addEventListener(
-            'loadedmetadata', this.loadedMetadata_.bind(this), false);
-        this.videoSlot_.addEventListener(
-            'ended', this.stopAd.bind(this), false);
-
-        this.videoSlot_.play();
-
-        return;
-      }
+      this.videoSlot_.play();
+      return;
     }
-    // Haven't found a video, so error.
-    this.callEvent_('AdError');
+  }
+  this.callEvent_('AdError');
 
   this.callEvent_('AdStarted');
   this.callEvent_('AdImpression');
 }
+
   /**
    * Called when the non-linear ad is clicked.
    * @private
