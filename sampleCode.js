@@ -184,6 +184,29 @@ const VpaidNonLinear = class {
     countdownDisplay.textContent = `${hours}:${minutes}:${seconds}`;
   }, 1000);
 
+  // Create a div to serve as a button to go from a non-linear ad to linear.
+  const linearButton = document.createElement('div');
+  linearButton.style.background = 'green';
+  linearButton.style.display = 'block';
+  linearButton.style.margin = 'auto';
+  linearButton.style.textAlign = 'center';
+  linearButton.style.color = 'white';
+  linearButton.style.width = '480px';
+  linearButton.style.fontFamily = 'sans-serif';
+  linearButton.textContent = 'Click here to switch to a linear ad';
+  linearButton.addEventListener(
+      'click', this.linearButtonClick_.bind(this), false);
+  container.appendChild(linearButton);
+
+  // Create an img tag and populate it with the image passed in to the ad
+  // parameters.
+  const adImg = document.createElement('img');
+  adImg.src = overlays[0] || '';
+  adImg.style.margin = 'auto';
+  adImg.style.display = 'block';
+  adImg.addEventListener('click', this.adClick_.bind(this), false);
+  container.appendChild(adImg);
+
   // Create a Skip Ad button
   const skipButton = document.createElement('button');
   skipButton.textContent = 'Skip Ad';
