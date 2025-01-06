@@ -155,9 +155,9 @@ const VpaidNonLinear = class {
 
   // Countdown display
   const countdownDisplay = document.createElement('div');
-  countdownDisplay.style.fontSize = '48px';
+  countdownDisplay.style.fontSize = this.parameters_.countdown.initialTime;
   countdownDisplay.style.textAlign = 'center';
-  countdownDisplay.style.color = 'white';
+  countdownDisplay.style.color = this.parameters_.countdown.color;
   countdownDisplay.textContent = this.attributes_['countdownTime'];
   container.appendChild(countdownDisplay);
 
@@ -194,6 +194,32 @@ const VpaidNonLinear = class {
   adImg.style.display = 'block';
   adImg.addEventListener('click', this.adClick_.bind(this), false);
   container.appendChild(adImg);
+
+  // Start a video.
+    const videos = this.parameters_.videos || [];
+    for (let i = 0; i < videos.length; i++) {
+      // Choose the first video with a supported mimetype.
+      if (this.videoSlot_.canPlayType(videos[i].mimetype) != '') {
+        this.videoSlot_.setAttribute('src', videos[i].url);
+
+        // Set start time of linear ad to calculate remaining time.
+        const date = new Date();
+        this.startTime_ = date.getTime();
+
+        this.videoSlot_.addEventListener(
+            'timeupdate', this.timeUpdateHandler_.bind(this), false);
+        this.videoSlot_.addEventListener(
+            'loadedmetadata', this.loadedMetadata_.bind(this), false);
+        this.videoSlot_.addEventListener(
+            'ended', this.stopAd.bind(this), false);
+
+        this.videoSlot_.play();
+
+        return;
+      }
+    }
+    // Haven't found a video, so error.
+    this.callEvent_('AdError');
 
   this.callEvent_('AdStarted');
   this.callEvent_('AdImpression');
