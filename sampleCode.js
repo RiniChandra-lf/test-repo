@@ -155,7 +155,7 @@ const VpaidNonLinear = class {
 
   // Countdown display
   const countdownDisplay = document.createElement('div');
-  countdownDisplay.style.fontSize = this.parameters_.countdown.initialTime;
+  countdownDisplay.style.fontSize = this.parameters_.countdown.fontSize;
   countdownDisplay.style.textAlign = 'center';
   countdownDisplay.style.color = this.parameters_.countdown.color;
   countdownDisplay.textContent = this.attributes_['countdownTime'];
