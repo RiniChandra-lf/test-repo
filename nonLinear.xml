@@ -1,0 +1,52 @@
+<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd" version="3.0">
+  <script/>
+  <Ad id="1234567">
+    <InLine>
+      <AdSystem/>
+      <AdTitle>NonLinear VPAID Countdown</AdTitle>
+      <Description>Vpaid NonLinear Countdown Ad</Description>
+      <Error>http://www.example.com/error</Error>
+      <Impression>http://www.example.com/impression</Impression>
+      <Creatives>
+        <Creative sequence="1">
+          <NonLinearAds>
+            <TrackingEvents>
+              <Tracking event="start">http://www.example.com/start</Tracking>
+              <Tracking event="complete">http://www.example.com/complete</Tracking>
+            </TrackingEvents>
+            <NonLinear apiFramework="VPAID" width="300" height="60" id="overlay-1">
+              <AdParameters>
+                <![CDATA[
+                  {
+                    "targetTime": "2025-01-07T23:59:59Z",
+                    "overlays": ["https://storage.googleapis.com/interactive-media-ads/images/NonLinearVpaid.png"],
+                    "videos": [
+                      {
+                        "url": "https://dzs6a98gfqi0x.cloudfront.net/paintCare.mp4",
+                        "mimetype": "video/mp4"
+                      }
+                    ],
+                    "countdown": {
+                      "initialTime": 30,
+                      "fontSize": "48px",
+                      "color": "red",
+                      "backgroundColor": "rgba(0, 0, 0, 0.7)"
+                    }
+                  }
+                ]]>
+              </AdParameters>
+              <StaticResource creativeType="application/javascript">
+                <![CDATA[
+                  https://rinichandra-lf.github.io/test-repo/sampleCode.js
+                ]]>
+              </StaticResource>
+              <NonLinearClickThrough id="GDFP">
+                <![CDATA[ http://google.com ]]>
+              </NonLinearClickThrough>
+            </NonLinear>
+          </NonLinearAds>
+        </Creative>
+      </Creatives>
+    </InLine>
+  </Ad>
+</VAST>
