@@ -190,8 +190,8 @@ startAd() {
     img.src = overlays[1] || '';
     img.style.display = 'block';
     //img.style.position = 'absolute';
-    //img.style.left = '50%';
-    //img.style.transform = 'translateX(-50%)';
+    img.style.left = '50%';
+    img.style.transform = 'translateX(-50%)';
     //img.style.width = '60%';
     //img.style.height = '20%';
     imageContainer.addEventListener('click', this.adClick_.bind(this), false);
