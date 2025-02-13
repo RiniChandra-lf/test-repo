@@ -188,14 +188,14 @@ startAd() {
 
   const img = document.createElement('img');
     img.src = overlays[2] || '';
-    img.style.margin = 'auto';
+    /*img.style.margin = 'auto';
     img.style.display = 'block';
     img.style.position = 'absolute';
     img.style.left = '50%';
     img.style.transform = 'translateX(-50%)';
     img.style.width = '60%';
     img.style.height = '20%';
-    img.addEventListener('click', this.adClick_.bind(this), false);
+    img.addEventListener('click', this.adClick_.bind(this), false);*/
     container.appendChild(img);
 
   /*
