@@ -29,6 +29,18 @@ const VpaidNonLinear = class {
     this.eventsCallbacks_ = {};
 
     /**
+     * Current index of the displayed overlay image
+     * @private {number}
+     */
+    this.currentOverlayIndex_ = 0;
+
+    /**
+     * Interval ID for the image carousel
+     * @private {number}
+     */
+    this.carouselInterval_ = null;
+
+    /**
      * A list of getable and setable attributes.
      * @private {Object}
      */
@@ -47,7 +59,8 @@ const VpaidNonLinear = class {
       'currentTime': 0,     // Current time of the countdown.
       'linear': false,      // Linear ad state.
       'skippableState': true, // Skippable state of the ad.
-      'volume': 1.0         // Volume of the ad.
+      'volume': 1.0,         // Volume of the ad.
+      'carouselInterval': 3000, // Transition every 3 seconds by default
     };
 
     /**
@@ -133,14 +146,14 @@ const VpaidNonLinear = class {
   /**
    * Called by the wrapper to start the ad.
    */
-  startAd() {
+startAd() {
   this.log('Starting ad');
 
   const date = new Date();
   this.startTime_ = date.getTime();
 
   // Create a div to contain our ad elements.
-  const overlays = this.parameters_.overlays || [];
+  //const overlays = this.parameters_.overlays || [];
 
   const container = document.createElement('div');
   container.style.display = 'block';
@@ -165,6 +178,37 @@ const VpaidNonLinear = class {
     return;
   }
 
+  // Create image container for carousel
+  const imageContainer = document.createElement('div');
+  imageContainer.style.margin = 'auto';
+  imageContainer.style.display = 'block';
+  imageContainer.style.position = 'relative';
+  container.appendChild(imageContainer);
+
+  // Create and setup overlay images
+  const overlays = this.parameters_.overlays || [];
+  this.overlayImages_ = overlays.map((src, index) => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.style.margin = 'auto';
+    img.style.display = index === 0 ? 'block' : 'none';
+    img.style.position = 'absolute';
+    img.style.left = '50%';
+    img.style.transform = 'translateX(-50%)';
+    img.style.width = '60%';
+    img.style.height = '20%';
+    img.addEventListener('click', this.adClick_.bind(this), false);
+    imageContainer.appendChild(img);
+    return img;
+  });
+
+  // Setup carousel interval if multiple images exist
+  if (this.overlayImages_.length > 1) {
+    this.carouselInterval_ = setInterval(() => {
+      this.updateOverlayImage_();
+    }, this.attributes_.carouselInterval);
+  }
+
   // Update countdown every second
   this.countdownInterval_ = setInterval(() => {
     const now = new Date();
@@ -185,7 +229,7 @@ const VpaidNonLinear = class {
   }, 1000);
 
   // Create a div to serve as a button to go from a non-linear ad to linear.
-  const linearButton = document.createElement('div');
+  /*const linearButton = document.createElement('div');
   linearButton.style.background = 'green';
   linearButton.style.display = 'block';
   linearButton.style.margin = 'auto';
@@ -196,16 +240,16 @@ const VpaidNonLinear = class {
   linearButton.textContent = 'Click here to switch to a linear ad';
   linearButton.addEventListener(
       'click', this.linearButtonClick_.bind(this), false);
-  container.appendChild(linearButton);
+  container.appendChild(linearButton);*/
 
   // Create an img tag and populate it with the image passed in to the ad
   // parameters.
-  const adImg = document.createElement('img');
+  /*const adImg = document.createElement('img');
   adImg.src = overlays[0] || '';
   adImg.style.margin = 'auto';
   adImg.style.display = 'block';
   adImg.addEventListener('click', this.adClick_.bind(this), false);
-  container.appendChild(adImg);
+  container.appendChild(adImg);*/
 
   // Create a Skip Ad button
   const skipButton = document.createElement('button');
@@ -250,6 +294,23 @@ const VpaidNonLinear = class {
   this.callEvent_('AdStarted');
   this.callEvent_('AdImpression');
 }
+
+  /**
+   * Updates the currently displayed overlay image
+   * @private
+   */
+  updateOverlayImage_() {
+    if (!this.overlayImages_ || this.overlayImages_.length <= 1) return;
+
+    // Hide current image
+    this.overlayImages_[this.currentOverlayIndex_].style.display = 'none';
+    
+    // Update index
+    this.currentOverlayIndex_ = (this.currentOverlayIndex_ + 1) % this.overlayImages_.length;
+    
+    // Show next image
+    this.overlayImages_[this.currentOverlayIndex_].style.display = 'block';
+  }
 
   /**
    * Called when the non-linear ad is clicked.
@@ -344,6 +405,7 @@ const VpaidNonLinear = class {
   stopAd() {
     this.log('Stopping ad');
     clearInterval(this.countdownInterval_);
+    clearInterval(this.carouselInterval_);
     this.callEvent_('AdStopped');
     // Calling AdStopped immediately terminates the ad. Setting a timeout allows
     // events to go through.
