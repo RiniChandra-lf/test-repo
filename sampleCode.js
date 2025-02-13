@@ -211,9 +211,9 @@ startAd() {
     //img.style.position = 'absolute';
     img.style.left = '50%';
     img.style.transform = 'translateX(-50%)';
-    /*img.style.width = '60%';
+    img.style.width = '60%';
     img.style.height = '20%';
-    img.addEventListener('click', this.adClick_.bind(this), false);*/
+    //img.addEventListener('click', this.adClick_.bind(this), false);
     imageContainer.appendChild(img);
     return img;
   });
@@ -319,13 +319,13 @@ startAd() {
     if (!this.overlayImages_ || this.overlayImages_.length <= 1) return;
 
     // Hide current image
-    this.overlayImages_[this.currentOverlayIndex_].style.display = 'block';
+    this.overlayImages_[this.currentOverlayIndex_].style.display = 'none';
     
     // Update index
     this.currentOverlayIndex_ = (this.currentOverlayIndex_ + 1) % this.overlayImages_.length;
     
     // Show next image
-    this.overlayImages_[this.currentOverlayIndex_].style.display = 'none';
+    this.overlayImages_[this.currentOverlayIndex_].style.display = 'block';
   }
 
   /**
