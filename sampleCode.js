@@ -192,8 +192,8 @@ startAd() {
     img.style.display = 'block';
     img.style.margin = 'auto';
     //img.style.position = 'absolute';
-    img.style.left = '50%';
-    img.style.transform = 'translateX(-50%)';
+    //img.style.left = '50%';
+    //img.style.transform = 'translateX(-50%)';
     //img.style.width = '60%';
     //img.style.height = '20%';
     imageContainer.addEventListener('click', this.adClick_.bind(this), false);
