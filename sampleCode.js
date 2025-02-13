@@ -153,7 +153,7 @@ startAd() {
   this.startTime_ = date.getTime();
 
   // Create a div to contain our ad elements.
-  //const overlays = this.parameters_.overlays || [];
+  const overlays = this.parameters_.overlays || [];
 
   const container = document.createElement('div');
   container.style.display = 'block';
@@ -178,6 +178,7 @@ startAd() {
     return;
   }
 
+  /*
   // Create image container for carousel
   const imageContainer = document.createElement('div');
   imageContainer.style.margin = 'auto';
@@ -208,6 +209,7 @@ startAd() {
       this.updateOverlayImage_();
     }, this.attributes_.carouselInterval);
   }
+  */
 
   // Update countdown every second
   this.countdownInterval_ = setInterval(() => {
@@ -229,7 +231,7 @@ startAd() {
   }, 1000);
 
   // Create a div to serve as a button to go from a non-linear ad to linear.
-  /*const linearButton = document.createElement('div');
+  const linearButton = document.createElement('div');
   linearButton.style.background = 'green';
   linearButton.style.display = 'block';
   linearButton.style.margin = 'auto';
@@ -240,7 +242,7 @@ startAd() {
   linearButton.textContent = 'Click here to switch to a linear ad';
   linearButton.addEventListener(
       'click', this.linearButtonClick_.bind(this), false);
-  container.appendChild(linearButton);*/
+  container.appendChild(linearButton);
 
   // Create an img tag and populate it with the image passed in to the ad
   // parameters.
@@ -405,7 +407,7 @@ startAd() {
   stopAd() {
     this.log('Stopping ad');
     clearInterval(this.countdownInterval_);
-    clearInterval(this.carouselInterval_);
+    //clearInterval(this.carouselInterval_);
     this.callEvent_('AdStopped');
     // Calling AdStopped immediately terminates the ad. Setting a timeout allows
     // events to go through.
