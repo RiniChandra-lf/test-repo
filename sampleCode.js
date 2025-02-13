@@ -187,7 +187,7 @@ startAd() {
   container.appendChild(imageContainer);
 
   const img = document.createElement('img');
-    img.src = overlays[1] || '';
+    img.src = overlays[0] || '';
     img.style.margin = 'auto';
     img.style.display = 'block';
     img.style.position = 'absolute';
