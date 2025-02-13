@@ -39,6 +39,7 @@ const VpaidNonLinear = class {
      * @private {number}
      */
     this.carouselInterval_ = null;
+    this.overlayImages_ = [];
 
     /**
      * A list of getable and setable attributes.
@@ -187,32 +188,32 @@ startAd() {
   imageContainer.style.width = '80%';
   container.appendChild(imageContainer);
 
-  const img = document.createElement('img');
+  /*const img = document.createElement('img');
     img.src = overlays[1] || '';
     img.style.display = 'block';
-    img.style.margin = 'auto';
+    img.style.margin = 'auto';*/
     //img.style.position = 'absolute';
     //img.style.left = '50%';
     //img.style.transform = 'translateX(-50%)';
     //img.style.width = '60%';
     //img.style.height = '20%';
-    imageContainer.addEventListener('click', this.adClick_.bind(this), false);
-    imageContainer.appendChild(img);
+    //imageContainer.addEventListener('click', this.adClick_.bind(this), false);
+    //imageContainer.appendChild(img);
 
-  /*
+  
   // Create and setup overlay images
-  const overlays = this.parameters_.overlays || [];
+  //const overlays = this.parameters_.overlays || [];
   this.overlayImages_ = overlays.map((src, index) => {
     const img = document.createElement('img');
     img.src = src;
     img.style.margin = 'auto';
     img.style.display = index === 0 ? 'block' : 'none';
-    img.style.position = 'absolute';
+    /*img.style.position = 'absolute';
     img.style.left = '50%';
     img.style.transform = 'translateX(-50%)';
     img.style.width = '60%';
     img.style.height = '20%';
-    img.addEventListener('click', this.adClick_.bind(this), false);
+    img.addEventListener('click', this.adClick_.bind(this), false);*/
     imageContainer.appendChild(img);
     return img;
   });
@@ -221,9 +222,8 @@ startAd() {
   if (this.overlayImages_.length > 1) {
     this.carouselInterval_ = setInterval(() => {
       this.updateOverlayImage_();
-    }, this.attributes_.carouselInterval);
+    }, this.attributes_['carouselInterval']);
   }
-  */
 
   // Update countdown every second
   this.countdownInterval_ = setInterval(() => {
