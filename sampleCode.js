@@ -264,7 +264,7 @@ startAd() {
   adImg.style.margin = 'auto';
   adImg.style.display = 'block';
   adImg.addEventListener('click', this.adClick_.bind(this), false);
-  container.appendChild(adImg);
+  //container.appendChild(adImg);
 
   // Create a Skip Ad button
   const skipButton = document.createElement('button');
