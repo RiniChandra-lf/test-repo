@@ -207,7 +207,7 @@ startAd() {
     const img = document.createElement('img');
     img.src = src;
     img.style.margin = 'auto';
-    img.style.display = 'block';
+    img.style.display = 'none';
     /*img.style.position = 'absolute';
     img.style.left = '50%';
     img.style.transform = 'translateX(-50%)';
@@ -319,13 +319,13 @@ startAd() {
     if (!this.overlayImages_ || this.overlayImages_.length <= 1) return;
 
     // Hide current image
-    this.overlayImages_[this.currentOverlayIndex_].style.display = 'none';
+    this.overlayImages_[this.currentOverlayIndex_].style.display = 'block';
     
     // Update index
     this.currentOverlayIndex_ = (this.currentOverlayIndex_ + 1) % this.overlayImages_.length;
     
     // Show next image
-    this.overlayImages_[this.currentOverlayIndex_].style.display = 'block';
+    this.overlayImages_[this.currentOverlayIndex_].style.display = 'none';
   }
 
   /**
