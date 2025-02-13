@@ -183,7 +183,7 @@ startAd() {
   const imageContainer = document.createElement('div');
   imageContainer.style.margin = 'auto';
   imageContainer.style.display = 'block';
-  //imageContainer.style.position = 'relative';
+  imageContainer.style.position = 'relative';
   container.appendChild(imageContainer);
 
   const img = document.createElement('img');
