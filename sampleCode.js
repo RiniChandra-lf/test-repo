@@ -184,16 +184,18 @@ startAd() {
   imageContainer.style.margin = 'auto';
   imageContainer.style.display = 'block';
   imageContainer.style.position = 'relative';
+  imageContainer.style.width = '80%';
   container.appendChild(imageContainer);
 
   const img = document.createElement('img');
     img.src = overlays[1] || '';
     img.style.display = 'block';
+    img.style.margin = 'auto';
     //img.style.position = 'absolute';
     img.style.left = '50%';
     img.style.transform = 'translateX(-50%)';
-    img.style.width = '60%';
-    img.style.height = '20%';
+    //img.style.width = '60%';
+    //img.style.height = '20%';
     imageContainer.addEventListener('click', this.adClick_.bind(this), false);
     imageContainer.appendChild(img);
 
