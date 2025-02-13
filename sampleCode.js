@@ -183,7 +183,7 @@ startAd() {
   const imageContainer = document.createElement('div');
   imageContainer.style.margin = 'auto';
   imageContainer.style.display = 'block';
-  imageContainer.style.position = 'relative';
+  //imageContainer.style.position = 'relative';
   container.appendChild(imageContainer);
 
   const img = document.createElement('img');
@@ -194,8 +194,8 @@ startAd() {
     //img.style.transform = 'translateX(-50%)';
     //img.style.width = '60%';
     //img.style.height = '20%';
-    img.addEventListener('click', this.adClick_.bind(this), false);
-    container.appendChild(img);
+    imageContainer.addEventListener('click', this.adClick_.bind(this), false);
+    imageContainer.appendChild(img);
 
   /*
   // Create and setup overlay images
