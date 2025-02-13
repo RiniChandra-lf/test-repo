@@ -187,7 +187,7 @@ startAd() {
   container.appendChild(imageContainer);
 
   const img = document.createElement('img');
-    img.src = overlays[0] || '';
+    img.src = overlays[2] || '';
     img.style.margin = 'auto';
     img.style.display = 'block';
     img.style.position = 'absolute';
@@ -196,7 +196,7 @@ startAd() {
     img.style.width = '60%';
     img.style.height = '20%';
     img.addEventListener('click', this.adClick_.bind(this), false);
-    imageContainer.appendChild(img);
+    container.appendChild(img);
 
   /*
   // Create and setup overlay images
@@ -244,7 +244,7 @@ startAd() {
   }, 1000);
 
   // Create a div to serve as a button to go from a non-linear ad to linear.
-  const linearButton = document.createElement('div');
+  /*const linearButton = document.createElement('div');
   linearButton.style.background = 'green';
   linearButton.style.display = 'block';
   linearButton.style.margin = 'auto';
@@ -255,7 +255,7 @@ startAd() {
   linearButton.textContent = 'Click here to switch to a linear ad';
   linearButton.addEventListener(
       'click', this.linearButtonClick_.bind(this), false);
-  container.appendChild(linearButton);
+  container.appendChild(linearButton);*/
 
   // Create an img tag and populate it with the image passed in to the ad
   // parameters.
