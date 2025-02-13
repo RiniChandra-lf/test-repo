@@ -259,12 +259,12 @@ startAd() {
 
   // Create an img tag and populate it with the image passed in to the ad
   // parameters.
-  const adImg = document.createElement('img');
+  /*const adImg = document.createElement('img');
   adImg.src = overlays[0] || '';
   adImg.style.margin = 'auto';
   adImg.style.display = 'block';
   adImg.addEventListener('click', this.adClick_.bind(this), false);
-  //container.appendChild(adImg);
+  container.appendChild(adImg);*/
 
   // Create a Skip Ad button
   const skipButton = document.createElement('button');
