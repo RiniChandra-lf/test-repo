@@ -178,7 +178,7 @@ startAd() {
     return;
   }
 
-  /*
+  
   // Create image container for carousel
   const imageContainer = document.createElement('div');
   imageContainer.style.margin = 'auto';
@@ -186,6 +186,19 @@ startAd() {
   imageContainer.style.position = 'relative';
   container.appendChild(imageContainer);
 
+  const img = document.createElement('img');
+    img.src = overlays[1] || '';
+    img.style.margin = 'auto';
+    img.style.display = 'block';
+    img.style.position = 'absolute';
+    img.style.left = '50%';
+    img.style.transform = 'translateX(-50%)';
+    img.style.width = '60%';
+    img.style.height = '20%';
+    img.addEventListener('click', this.adClick_.bind(this), false);
+    imageContainer.appendChild(img);
+
+  /*
   // Create and setup overlay images
   const overlays = this.parameters_.overlays || [];
   this.overlayImages_ = overlays.map((src, index) => {
