@@ -197,15 +197,15 @@ startAd() {
     //img.style.transform = 'translateX(-50%)';
     //img.style.width = '60%';
     //img.style.height = '20%';
-    imageContainer.addEventListener('click', this.adClick_.bind(this), false);
+    //imageContainer.addEventListener('click', this.adClick_.bind(this), false);
     //imageContainer.appendChild(img);
 
   
   // Create and setup overlay images
   //const overlays = this.parameters_.overlays || [];
-  this.overlayImages_ = overlays.map((src, index) => {
+  this.overlayImages_ = overlays.map((overlay, index) => {
     const img = document.createElement('img');
-    img.src = src;
+    img.src = overlay.imageUrl || overlay;
     img.style.margin = 'auto';
     img.style.display = index === 0 ? 'block' : 'none';
     //img.style.position = 'absolute';
@@ -214,6 +214,9 @@ startAd() {
     img.style.width = '60%';
     img.style.height = '20%';
     //img.addEventListener('click', this.adClick_.bind(this), false);
+    img.addEventListener('click', () => {
+      this.adClick_(overlay.clickThrough);
+    }, false);
     imageContainer.appendChild(img);
     return img;
   });
@@ -329,12 +332,15 @@ startAd() {
   }
 
   /**
-   * Called when the non-linear ad is clicked.
+   * Called when an overlay image is clicked with its specific URL.
+   * @param {string} clickThrough The URL to navigate to (optional)
    * @private
    */
-  adClick_() {
+  adClick_(clickThrough) {
     if ('AdClickThru' in this.eventsCallbacks_) {
-      this.eventsCallbacks_['AdClickThru']('', '0', true);
+      // If specific URL provided, use it, otherwise use default
+      const url = clickThrough || '';
+      this.eventsCallbacks_['AdClickThru'](url, '0', true);
     }
   }
 
