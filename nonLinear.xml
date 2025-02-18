@@ -20,9 +20,18 @@
                   {
                     "targetTime": "2025-02-14T23:59:59Z",
                     "overlays": [
-                      "https://t4.ftcdn.net/jpg/02/56/10/07/240_F_256100731_qNLp6MQ3FjYtA3Freu9epjhsAj2cwU9c.jpg",
-                      "https://t3.ftcdn.net/jpg/03/15/34/90/240_F_315349043_6ohfFyx37AFusCKZtGQtJR0jqUxhb25Y.jpg",
-                      "https://t3.ftcdn.net/jpg/03/00/42/38/240_F_300423862_iwqKv5RiYoCdP8LPTS4NXK4gySW80t4Z.jpg"
+                      {
+                        "imageUrl": "https://t4.ftcdn.net/jpg/02/56/10/07/240_F_256100731_qNLp6MQ3FjYtA3Freu9epjhsAj2cwU9c.jpg",
+                        "clickThrough": "https://www.amazon.in/MARS-Lacquer-Pigmentation-Formula-Shade-46/dp/B0D1XJJRH1/?_encoding=UTF8&pd_rd_w=W3W6T&content-id=amzn1.sym.b5a625fa-e3eb-4301-a9e2-f9c8b3e7badf%3Aamzn1.symc.36bd837a-d66d-47d1-8457-ffe9a9f3ddab&pf_rd_p=b5a625fa-e3eb-4301-a9e2-f9c8b3e7badf&pf_rd_r=79HC0XB8NV845PKMHSHR&pd_rd_wg=gfVOZ&pd_rd_r=b1494874-222a-406b-8db3-83917e6ef9d3&ref_=pd_hp_d_btf_ci_mcx_mr_hp_atf_m"
+                      },
+                      {
+                        "imageUrl": "https://t3.ftcdn.net/jpg/03/15/34/90/240_F_315349043_6ohfFyx37AFusCKZtGQtJR0jqUxhb25Y.jpg",
+                        "clickThrough": "https://www.amazon.in/dp/B0DPT5H7F9/ref=sspa_dk_detail_0?pd_rd_i=B0DPT5H7F9&pd_rd_w=sPAc6&content-id=amzn1.sym.9f1cb690-f0b7-44de-b6ff-1bad1e37d3f0&pf_rd_p=9f1cb690-f0b7-44de-b6ff-1bad1e37d3f0&pf_rd_r=CXVTVSH279CF6S1G1A5S&pd_rd_wg=cerOS&pd_rd_r=88e7b21e-5ac7-4521-943c-6ff16ae53a62&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWxfdGhlbWF0aWM&th=1" 
+                      },
+                      {
+                        "imageUrl": "https://t3.ftcdn.net/jpg/03/00/42/38/240_F_300423862_iwqKv5RiYoCdP8LPTS4NXK4gySW80t4Z.jpg",
+                        "clickThrough": "https://www.amazon.in/dp/B0853LNFVV/ref=syn_sd_onsite_desktop_0?ie=UTF8&psc=1&pf_rd_p=fd82b077-06f6-479f-8fb9-11c7d326b43b&pf_rd_r=7N8BPS2HHTH4909TPZQ0&pd_rd_wg=TaRkN&pd_rd_w=NW78f&pd_rd_r=e102673e-3fb3-4fa0-80b5-da931d02279a&aref=KYJfPgqdBv"
+                      }
                     ],                    
                     "videos": [
                       {
