@@ -183,7 +183,7 @@ const VpaidNonLinear = class {
     
     // Create image container for carousel
     const imageContainer = document.createElement('div');
-    imageContainer.style.margin = 'auto';
+    //imageContainer.style.margin = 'auto';
     imageContainer.style.display = 'block';
     imageContainer.style.position = 'relative';
     imageContainer.style.height = '80%';
