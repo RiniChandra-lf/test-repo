@@ -257,6 +257,11 @@ const VpaidNonLinear = class {
           border-radius: 4px;
           width: 90%;
         }
+
+        .price {
+            color: red;
+            font-size: 28px;
+        }
       `;
       document.head.appendChild(styleEl);
       
@@ -275,10 +280,25 @@ const VpaidNonLinear = class {
         img.style.objectFit = 'contain';
         
         // Create text element
-        const textElement = document.createElement('div');
-        textElement.className = 'overlay-text';
-        textElement.textContent = overlay.text || `Overlay ${index + 1}`;
-        this.overlayTexts_.push(textElement);
+        const nameElement = document.createElement('h2');
+        nameElement.className = 'overlay-text';
+        nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
+        this.overlayTexts_.push(nameElement);
+
+        const availabilityElement = document.createElement('div');
+        availabilityElement.className = 'overlay-text';
+        availabilityElement.textContent = overlay.availability || `Overlay ${index + 1}`;
+        this.overlayTexts_.push(availabilityElement);
+
+        const productCodeElement = document.createElement('div');
+        productCodeElement.className = 'overlay-text';
+        productCodeElement.textContent = overlay.productCode || `Overlay ${index + 1}`;
+        this.overlayTexts_.push(productCodeElement);       
+        
+        const priceElement = document.createElement('div');
+        priceElement.className = 'price';
+        priceElement.textContent = overlay.price || `Overlay ${index + 1}`;
+        this.overlayTexts_.push(priceElement); 
         
         // Add click handler to the unit
         overlayUnit.addEventListener('click', () => {
@@ -286,8 +306,10 @@ const VpaidNonLinear = class {
         }, false);
         
         // Append image and text to the unit
+        overlayUnit.appendChild(nameElement);
         overlayUnit.appendChild(img);
-        overlayUnit.appendChild(textElement);
+        overlayUnit.appendChild(productCodeElement);
+        overlayUnit.appendChild(availabilityElement);
         
         // Add to container
         imageContainer.appendChild(overlayUnit);
