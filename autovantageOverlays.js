@@ -40,6 +40,19 @@ const VpaidNonLinear = class {
        */
       this.carouselInterval_ = null;
       this.overlayImages_ = [];
+      this.overlayTexts_ = [];
+  
+      /**
+       * Timeout for starting the carousel
+       * @private {number}
+       */
+      this.carouselStartTimeout_ = null;
+      
+      /**
+       * Timeout for ending the carousel
+       * @private {number}
+       */
+      this.carouselEndTimeout_ = null;
   
       /**
        * A list of getable and setable attributes.
@@ -62,6 +75,8 @@ const VpaidNonLinear = class {
         'skippableState': true, // Skippable state of the ad.
         'volume': 1.0,         // Volume of the ad.
         'carouselInterval': 3000, // Transition every 3 seconds by default
+        'carouselStartDelay': 4000, // Start carousel after 4 seconds
+        'carouselEndEarly': 5,   // End carousel 5 seconds before ad ends
       };
   
       /**
@@ -147,127 +162,172 @@ const VpaidNonLinear = class {
     /**
      * Called by the wrapper to start the ad.
      */
-  startAd() {
-    this.log('Starting ad');
+    startAd() {
+      this.log('Starting ad');
   
-    const date = new Date();
-    this.startTime_ = date.getTime();
+      const date = new Date();
+      this.startTime_ = date.getTime();
   
-    // Create a div to contain our ad elements.
-    const overlays = this.parameters_.overlays || [];
+      // Create a div to contain our ad elements.
+      const overlays = this.parameters_.overlays || [];
   
-    const container = document.createElement('div');
-    container.style.display = 'block';
-    container.style.position = 'absolute';
-    container.style.height = '100%';
-    container.style.width = '100%';
-    container.style.right = '0%';
-    this.slot_.appendChild(container);
+      const container = document.createElement('div');
+      container.style.display = 'block';
+      container.style.position = 'absolute';
+      container.style.height = '100%';
+      container.style.width = '100%';
+      container.style.right = '0%';
+      this.slot_.appendChild(container);
   
-    // Create image container for carousel - positioned on the right side
-    const imageContainer = document.createElement('div');
-    imageContainer.style.display = 'block';
-    imageContainer.style.position = 'absolute';
-    imageContainer.style.right = '0';
-    imageContainer.style.top = '10%';
-    imageContainer.style.height = '80%';
-    imageContainer.style.width = '36%'; // Adjust width for a vertical box
-    imageContainer.style.overflow = 'hidden'; // Hide overflow for slide animations
-    //imageContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'; // Optional: slight background
-    //imageContainer.style.borderRadius = '8px 0 0 8px'; // Rounded corners on left side
-    container.appendChild(imageContainer);
-    
-    // Add CSS animation styles
-    const styleEl = document.createElement('style');
-    styleEl.textContent = `
-      @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-      }
+      // Create image container for carousel - positioned on the right side
+      const imageContainer = document.createElement('div');
+      imageContainer.id = 'overlayContainer';
+      imageContainer.style.display = 'none'; // Initially hidden until delay time
+      imageContainer.style.position = 'absolute';
+      imageContainer.style.right = '0';
+      imageContainer.style.top = '10%';
+      imageContainer.style.height = '70%'; // Reduced to make room for bottom banner
+      imageContainer.style.width = '36%';
+      imageContainer.style.overflow = 'hidden';
+      container.appendChild(imageContainer);
       
-      @keyframes slideInFromTop {
-        from { transform: translateY(-100%); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-      }
+      // Create bottom red strip with website
+      const bottomStrip = document.createElement('div');
+      bottomStrip.style.position = 'absolute';
+      bottomStrip.style.bottom = '0';
+      bottomStrip.style.width = '100%';
+      bottomStrip.style.height = '30px';
+      bottomStrip.style.backgroundColor = 'red';
+      bottomStrip.style.color = 'white';
+      bottomStrip.style.textAlign = 'center';
+      bottomStrip.style.lineHeight = '30px';
+      bottomStrip.style.fontSize = '14px';
+      bottomStrip.style.fontWeight = 'bold';
+      bottomStrip.textContent = this.parameters_.website || 'www.example.com';
+      container.appendChild(bottomStrip);
       
-      .slide-out-right {
-        animation: slideOutRight 0.5s forwards;
-      }
+      // Create bottom image (above red strip)
+      const bottomImage = document.createElement('img');
+      bottomImage.src = this.parameters_.bottomImageUrl || (overlays[0]?.imageUrl || overlays[0]);
+      bottomImage.style.position = 'absolute';
+      bottomImage.style.bottom = '30px'; // Position just above the red strip
+      bottomImage.style.left = '0';
+      bottomImage.style.width = '100%';
+      bottomImage.style.height = '60px';
+      bottomImage.style.objectFit = 'contain';
+      container.appendChild(bottomImage);
       
-      .slide-in-from-top {
-        animation: slideInFromTop 0.5s forwards;
-      }
-    `;
-    document.head.appendChild(styleEl);
-    
-    // Create and setup overlay images
-    this.overlayImages_ = overlays.map((overlay, index) => {
-      const img = document.createElement('img');
-      img.src = overlay.imageUrl || overlay;
-      img.style.margin = 'auto';
-      img.style.display = index === 0 ? 'block' : 'none';
-      img.style.width = '90%';
-      img.style.maxHeight = '30%';
-      img.style.objectFit = 'contain';
-      img.style.position = 'relative';
-      img.style.top = '10px';
-      img.style.marginBottom = '20px';
-      img.addEventListener('click', () => {
-        this.adClick_(overlay.clickThrough);
-      }, false);
-      imageContainer.appendChild(img);
-      return img;
-    });
-  
-    // Setup carousel interval if multiple images exist
-    if (this.overlayImages_.length > 1) {
-      this.carouselInterval_ = setInterval(() => {
-        this.updateOverlayImage_();
-      }, this.attributes_['carouselInterval']);
-    }
-  
-    // Create a Skip Ad button
-    /*const skipButton = document.createElement('button');
-    skipButton.textContent = 'Skip Ad';
-    skipButton.style.position = 'absolute';
-    skipButton.style.top = '10px';
-    skipButton.style.right = '10px';
-    skipButton.style.padding = '5px 10px';
-    skipButton.style.backgroundColor = '#f00';
-    skipButton.style.color = '#fff';
-    skipButton.style.border = 'none';
-    skipButton.style.borderRadius = '5px';
-    skipButton.style.cursor = 'pointer';
-    skipButton.style.zIndex = '1000';
-  
-    if (this.attributes_['skippableState']) {
-      skipButton.addEventListener('click', () => {
-        this.log('Ad skipped by user');
-        clearInterval(this.carouselInterval_);
-        this.callEvent_('AdSkipped');
-        this.stopAd();
+      // Add CSS animation styles
+      const styleEl = document.createElement('style');
+      styleEl.textContent = `
+        @keyframes slideOutRight {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @keyframes slideInFromTop {
+          from { transform: translateY(-100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .slide-out-right {
+          animation: slideOutRight 0.5s forwards;
+        }
+        
+        .slide-in-from-top {
+          animation: slideInFromTop 0.5s forwards;
+        }
+        
+        .overlay-unit {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: auto;
+          width: 90%;
+        }
+        
+        .overlay-text {
+          color: black;
+          font-size: 14px;
+          margin-top: 10px;
+          text-align: center;
+          font-weight: bold;
+          background-color: rgba(255, 255, 255, 0.8);
+          padding: 5px;
+          border-radius: 4px;
+          width: 90%;
+        }
+      `;
+      document.head.appendChild(styleEl);
+      
+      // Create and setup overlay units (image + text)
+      this.overlayImages_ = overlays.map((overlay, index) => {
+        // Create a container for the image and text as a unit
+        const overlayUnit = document.createElement('div');
+        overlayUnit.className = 'overlay-unit';
+        overlayUnit.style.display = index === 0 ? 'flex' : 'none';
+        
+        // Create image element
+        const img = document.createElement('img');
+        img.src = overlay.imageUrl || overlay;
+        img.style.width = '100%';
+        img.style.maxHeight = '70%';
+        img.style.objectFit = 'contain';
+        
+        // Create text element
+        const textElement = document.createElement('div');
+        textElement.className = 'overlay-text';
+        textElement.textContent = overlay.text || `Overlay ${index + 1}`;
+        this.overlayTexts_.push(textElement);
+        
+        // Add click handler to the unit
+        overlayUnit.addEventListener('click', () => {
+          this.adClick_(overlay.clickThrough);
+        }, false);
+        
+        // Append image and text to the unit
+        overlayUnit.appendChild(img);
+        overlayUnit.appendChild(textElement);
+        
+        // Add to container
+        imageContainer.appendChild(overlayUnit);
+        
+        return overlayUnit;
       });
-      container.appendChild(skipButton);
-    }*/
-  
-    // Start a video.
-    const videos = this.parameters_.videos || [];
-    for (let i = 0; i < videos.length; i++) {
-      if (this.videoSlot_.canPlayType(videos[i].mimetype) != '') {
-        this.videoSlot_.setAttribute('src', videos[i].url);
-  
-        this.videoSlot_.addEventListener('timeupdate', this.timeUpdateHandler_.bind(this), false);
-        this.videoSlot_.addEventListener('loadedmetadata', this.loadedMetadata_.bind(this), false);
-        this.videoSlot_.addEventListener('ended', this.stopAd.bind(this), false);
-  
-        this.videoSlot_.play();
-        return;
+      
+      // Start the video
+      const videos = this.parameters_.videos || [];
+      for (let i = 0; i < videos.length; i++) {
+        if (this.videoSlot_.canPlayType(videos[i].mimetype) != '') {
+          this.videoSlot_.setAttribute('src', videos[i].url);
+          
+          this.videoSlot_.addEventListener('timeupdate', this.timeUpdateHandler_.bind(this), false);
+          this.videoSlot_.addEventListener('loadedmetadata', this.loadedMetadata_.bind(this), false);
+          this.videoSlot_.addEventListener('ended', this.stopAd.bind(this), false);
+          
+          this.videoSlot_.play();
+          break;
+        }
       }
+      
+      this.callEvent_('AdStarted');
+      this.callEvent_('AdImpression');
+      
+      // Schedule the start of carousel after the delay
+      this.carouselStartTimeout_ = setTimeout(() => {
+        const overlayContainer = document.getElementById('overlayContainer');
+        if (overlayContainer) {
+          overlayContainer.style.display = 'block';
+          
+          // Setup carousel interval if multiple images exist
+          if (this.overlayImages_.length > 1) {
+            this.carouselInterval_ = setInterval(() => {
+              this.updateOverlayImage_();
+            }, this.attributes_['carouselInterval']);
+          }
+        }
+      }, this.attributes_['carouselStartDelay']);
     }
-  
-    this.callEvent_('AdStarted');
-    this.callEvent_('AdImpression');
-  }
   
     /**
      * Updates the currently displayed overlay image with slide animations
@@ -276,30 +336,30 @@ const VpaidNonLinear = class {
     updateOverlayImage_() {
       if (!this.overlayImages_ || this.overlayImages_.length <= 1) return;
   
-      // Get current and next image
-      const currentImage = this.overlayImages_[this.currentOverlayIndex_];
+      // Get current and next image unit
+      const currentUnit = this.overlayImages_[this.currentOverlayIndex_];
       const nextIndex = (this.currentOverlayIndex_ + 1) % this.overlayImages_.length;
-      const nextImage = this.overlayImages_[nextIndex];
+      const nextUnit = this.overlayImages_[nextIndex];
       
-      // Add slide-out animation class to current image
-      currentImage.classList.add('slide-out-right');
+      // Add slide-out animation class to current unit
+      currentUnit.classList.add('slide-out-right');
       
       // After animation completes, hide current and show next with animation
       setTimeout(() => {
-        // Hide current image and remove animation class
-        currentImage.style.display = 'none';
-        currentImage.classList.remove('slide-out-right');
+        // Hide current unit and remove animation class
+        currentUnit.style.display = 'none';
+        currentUnit.classList.remove('slide-out-right');
         
-        // Show next image with slide-in animation
-        nextImage.style.display = 'block';
-        nextImage.classList.add('slide-in-from-top');
+        // Show next unit with slide-in animation
+        nextUnit.style.display = 'flex';
+        nextUnit.classList.add('slide-in-from-top');
         
         // Update index
         this.currentOverlayIndex_ = nextIndex;
         
         // Remove animation class after animation completes
         setTimeout(() => {
-          nextImage.classList.remove('slide-in-from-top');
+          nextUnit.classList.remove('slide-in-from-top');
         }, 500);
       }, 500);
     }
@@ -318,47 +378,30 @@ const VpaidNonLinear = class {
     }
   
     /**
-     * Called when the linear overlay is clicked.  Plays the video passed in the
-     * parameters.
+     * Called by the video element when video metadata is loaded.
      * @private
      */
-    linearButtonClick_() {
-      this.log('Linear Button Click');
-      // This will turn the ad into a linear ad.
-      this.attributes_.linear = true;
-      this.callEvent_('AdLinearChange');
-      // Remove all elements.
-      while (this.slot_.firstChild) {
-        this.slot_.removeChild(this.slot_.firstChild);
+    loadedMetadata_() {
+      // The ad duration is not known until the media metadata is loaded.
+      // Then, update the player with the duration change.
+      this.attributes_['duration'] = this.videoSlot_.duration;
+      this.callEvent_('AdDurationChange');
+      
+      // Schedule the end of carousel 5 seconds before the end of the video
+      if (this.videoSlot_.duration > this.attributes_['carouselEndEarly']) {
+        const endTime = (this.videoSlot_.duration - this.attributes_['carouselEndEarly']) * 1000;
+        this.carouselEndTimeout_ = setTimeout(() => {
+          if (this.carouselInterval_) {
+            clearInterval(this.carouselInterval_);
+            this.carouselInterval_ = null;
+          }
+          
+          const overlayContainer = document.getElementById('overlayContainer');
+          if (overlayContainer) {
+            overlayContainer.style.display = 'none';
+          }
+        }, endTime);
       }
-  
-      this.updateVideoPlayerSize_();
-  
-      // Start a video.
-      const videos = this.parameters_.videos || [];
-      for (let i = 0; i < videos.length; i++) {
-        // Choose the first video with a supported mimetype.
-        if (this.videoSlot_.canPlayType(videos[i].mimetype) != '') {
-          this.videoSlot_.setAttribute('src', videos[i].url);
-  
-          // Set start time of linear ad to calculate remaining time.
-          const date = new Date();
-          this.startTime_ = date.getTime();
-  
-          this.videoSlot_.addEventListener(
-              'timeupdate', this.timeUpdateHandler_.bind(this), false);
-          this.videoSlot_.addEventListener(
-              'loadedmetadata', this.loadedMetadata_.bind(this), false);
-          this.videoSlot_.addEventListener(
-              'ended', this.stopAd.bind(this), false);
-  
-          this.videoSlot_.play();
-  
-          return;
-        }
-      }
-      // Haven't found a video, so error.
-      this.callEvent_('AdError');
     }
   
     /**
@@ -384,22 +427,24 @@ const VpaidNonLinear = class {
     }
   
     /**
-     * Called by the video element when video metadata is loaded.
-     * @private
-     */
-    loadedMetadata_() {
-      // The ad duration is not known until the media metadata is loaded.
-      // Then, update the player with the duration change.
-      this.attributes_['duration'] = this.videoSlot_.duration;
-      this.callEvent_('AdDurationChange');
-    }
-  
-    /**
      * Called by the wrapper to stop the ad.
      */
     stopAd() {
       this.log('Stopping ad');
-      clearInterval(this.carouselInterval_);
+      
+      // Clear all timers
+      if (this.carouselInterval_) {
+        clearInterval(this.carouselInterval_);
+      }
+      
+      if (this.carouselStartTimeout_) {
+        clearTimeout(this.carouselStartTimeout_);
+      }
+      
+      if (this.carouselEndTimeout_) {
+        clearTimeout(this.carouselEndTimeout_);
+      }
+      
       this.callEvent_('AdStopped');
       // Calling AdStopped immediately terminates the ad. Setting a timeout allows
       // events to go through.
