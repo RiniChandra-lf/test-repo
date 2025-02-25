@@ -187,6 +187,7 @@ const VpaidNonLinear = class {
     imageContainer.style.display = 'block';
     imageContainer.style.position = 'relative';
     imageContainer.style.height = '80%';
+    imageContainer.style.width = '60%';
     container.appendChild(imageContainer);
   
     /*const img = document.createElement('img');
