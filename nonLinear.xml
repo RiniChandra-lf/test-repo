@@ -1,8 +1,7 @@
 <VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd" version="3.0">
-  <script/>
   <Ad id="1234567">
     <InLine>
-      <AdSystem/>
+      <AdSystem>ExampleSystem</AdSystem>
       <AdTitle>NonLinear VPAID Countdown</AdTitle>
       <Description>Vpaid NonLinear Countdown Ad</Description>
       <Error>http://www.example.com/error</Error>
