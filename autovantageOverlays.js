@@ -160,62 +160,58 @@ const VpaidNonLinear = class {
     container.style.display = 'block';
     container.style.position = 'absolute';
     container.style.height = '100%';
+    container.style.width = '100%';
     container.style.right = '0%';
     this.slot_.appendChild(container);
   
-    // Countdown display
-    /*
-    const countdownDisplay = document.createElement('div');
-    countdownDisplay.style.fontSize = this.parameters_.countdown?.fontSize || '24px';
-    countdownDisplay.style.textAlign = 'center';
-    countdownDisplay.style.color = this.parameters_.countdown?.color || '#fff';
-    container.appendChild(countdownDisplay);
-  
-    // Parse target time from parameters
-    const targetTime = new Date(this.parameters_.targetTime); // ISO 8601 format
-  
-    if (isNaN(targetTime.getTime())) {
-      this.log('Invalid targetTime parameter.');
-      countdownDisplay.textContent = 'Invalid Countdown Time';
-      return;
-    }*/
-  
-    
-    // Create image container for carousel
+    // Create image container for carousel - positioned on the right side
     const imageContainer = document.createElement('div');
-    //imageContainer.style.margin = 'auto';
     imageContainer.style.display = 'block';
-    imageContainer.style.position = 'relative';
+    imageContainer.style.position = 'absolute';
+    imageContainer.style.right = '0';
+    imageContainer.style.top = '10%';
     imageContainer.style.height = '80%';
-    imageContainer.style.width = '60%';
+    imageContainer.style.width = '25%'; // Adjust width for a vertical box
+    imageContainer.style.overflow = 'hidden'; // Hide overflow for slide animations
+    imageContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'; // Optional: slight background
+    imageContainer.style.borderRadius = '8px 0 0 8px'; // Rounded corners on left side
     container.appendChild(imageContainer);
-  
-    /*const img = document.createElement('img');
-      img.src = overlays[1] || '';
-      img.style.display = 'block';
-      img.style.margin = 'auto';*/
-      //img.style.position = 'absolute';
-      //img.style.left = '50%';
-      //img.style.transform = 'translateX(-50%)';
-      //img.style.width = '60%';
-      //img.style.height = '20%';
-      //imageContainer.addEventListener('click', this.adClick_.bind(this), false);
-      //imageContainer.appendChild(img);
-  
+    
+    // Add CSS animation styles
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+      @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+      
+      @keyframes slideInFromTop {
+        from { transform: translateY(-100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .slide-out-right {
+        animation: slideOutRight 0.5s forwards;
+      }
+      
+      .slide-in-from-top {
+        animation: slideInFromTop 0.5s forwards;
+      }
+    `;
+    document.head.appendChild(styleEl);
     
     // Create and setup overlay images
-    //const overlays = this.parameters_.overlays || [];
     this.overlayImages_ = overlays.map((overlay, index) => {
       const img = document.createElement('img');
       img.src = overlay.imageUrl || overlay;
       img.style.margin = 'auto';
       img.style.display = index === 0 ? 'block' : 'none';
-      //img.style.position = 'absolute';
-      //img.style.left = '50%';
-      //img.style.transform = 'translateX(-50%)';
-      img.style.width = '60%';
-      img.style.height = '20%';
-      //img.addEventListener('click', this.adClick_.bind(this), false);
+      img.style.width = '90%';
+      img.style.maxHeight = '30%';
+      img.style.objectFit = 'contain';
+      img.style.position = 'relative';
+      img.style.top = '10px';
+      img.style.marginBottom = '20px';
       img.addEventListener('click', () => {
         this.adClick_(overlay.clickThrough);
       }, false);
@@ -230,50 +226,8 @@ const VpaidNonLinear = class {
       }, this.attributes_['carouselInterval']);
     }
   
-    // Update countdown every second
-    this.countdownInterval_ = setInterval(() => {
-      const now = new Date();
-      const diffMs = targetTime - now;
-  
-      if (diffMs <= 0) {
-        clearInterval(this.countdownInterval_);
-        countdownDisplay.textContent = '00:00:00';
-        this.callEvent_('AdCompleted');
-        return;
-      }
-  
-      const hours = String(Math.floor(diffMs / 3600000)).padStart(2, '0');
-      const minutes = String(Math.floor((diffMs % 3600000) / 60000)).padStart(2, '0');
-      const seconds = String(Math.floor((diffMs % 60000) / 1000)).padStart(2, '0');
-  
-      countdownDisplay.textContent = `${hours}:${minutes}:${seconds}`;
-    }, 1000);
-  
-    // Create a div to serve as a button to go from a non-linear ad to linear.
-    /*const linearButton = document.createElement('div');
-    linearButton.style.background = 'green';
-    linearButton.style.display = 'block';
-    linearButton.style.margin = 'auto';
-    linearButton.style.textAlign = 'center';
-    linearButton.style.color = 'white';
-    linearButton.style.width = '480px';
-    linearButton.style.fontFamily = 'sans-serif';
-    linearButton.textContent = 'Click here to switch to a linear ad';
-    linearButton.addEventListener(
-        'click', this.linearButtonClick_.bind(this), false);
-    container.appendChild(linearButton);*/
-  
-    // Create an img tag and populate it with the image passed in to the ad
-    // parameters.
-    /*const adImg = document.createElement('img');
-    adImg.src = overlays[0] || '';
-    adImg.style.margin = 'auto';
-    adImg.style.display = 'block';
-    adImg.addEventListener('click', this.adClick_.bind(this), false);
-    container.appendChild(adImg);*/
-  
     // Create a Skip Ad button
-    const skipButton = document.createElement('button');
+    /*const skipButton = document.createElement('button');
     skipButton.textContent = 'Skip Ad';
     skipButton.style.position = 'absolute';
     skipButton.style.top = '10px';
@@ -289,12 +243,12 @@ const VpaidNonLinear = class {
     if (this.attributes_['skippableState']) {
       skipButton.addEventListener('click', () => {
         this.log('Ad skipped by user');
-        clearInterval(this.countdownInterval_);
+        clearInterval(this.carouselInterval_);
         this.callEvent_('AdSkipped');
         this.stopAd();
       });
       container.appendChild(skipButton);
-    }
+    }*/
   
     // Start a video.
     const videos = this.parameters_.videos || [];
@@ -310,27 +264,44 @@ const VpaidNonLinear = class {
         return;
       }
     }
-    this.callEvent_('AdError');
   
     this.callEvent_('AdStarted');
     this.callEvent_('AdImpression');
   }
   
     /**
-     * Updates the currently displayed overlay image
+     * Updates the currently displayed overlay image with slide animations
      * @private
      */
     updateOverlayImage_() {
       if (!this.overlayImages_ || this.overlayImages_.length <= 1) return;
   
-      // Hide current image
-      this.overlayImages_[this.currentOverlayIndex_].style.display = 'none';
+      // Get current and next image
+      const currentImage = this.overlayImages_[this.currentOverlayIndex_];
+      const nextIndex = (this.currentOverlayIndex_ + 1) % this.overlayImages_.length;
+      const nextImage = this.overlayImages_[nextIndex];
       
-      // Update index
-      this.currentOverlayIndex_ = (this.currentOverlayIndex_ + 1) % this.overlayImages_.length;
+      // Add slide-out animation class to current image
+      currentImage.classList.add('slide-out-right');
       
-      // Show next image
-      this.overlayImages_[this.currentOverlayIndex_].style.display = 'block';
+      // After animation completes, hide current and show next with animation
+      setTimeout(() => {
+        // Hide current image and remove animation class
+        currentImage.style.display = 'none';
+        currentImage.classList.remove('slide-out-right');
+        
+        // Show next image with slide-in animation
+        nextImage.style.display = 'block';
+        nextImage.classList.add('slide-in-from-top');
+        
+        // Update index
+        this.currentOverlayIndex_ = nextIndex;
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+          nextImage.classList.remove('slide-in-from-top');
+        }, 500);
+      }, 500);
     }
   
     /**
@@ -428,8 +399,7 @@ const VpaidNonLinear = class {
      */
     stopAd() {
       this.log('Stopping ad');
-      clearInterval(this.countdownInterval_);
-      //clearInterval(this.carouselInterval_);
+      clearInterval(this.carouselInterval_);
       this.callEvent_('AdStopped');
       // Calling AdStopped immediately terminates the ad. Setting a timeout allows
       // events to go through.
@@ -637,4 +607,3 @@ const VpaidNonLinear = class {
   var getVPAIDAd = function() {
     return new VpaidNonLinear();
   };
-  
