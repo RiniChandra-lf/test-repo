@@ -171,10 +171,10 @@ const VpaidNonLinear = class {
     imageContainer.style.right = '0';
     imageContainer.style.top = '10%';
     imageContainer.style.height = '80%';
-    imageContainer.style.width = '25%'; // Adjust width for a vertical box
+    imageContainer.style.width = '36%'; // Adjust width for a vertical box
     imageContainer.style.overflow = 'hidden'; // Hide overflow for slide animations
-    imageContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'; // Optional: slight background
-    imageContainer.style.borderRadius = '8px 0 0 8px'; // Rounded corners on left side
+    //imageContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'; // Optional: slight background
+    //imageContainer.style.borderRadius = '8px 0 0 8px'; // Rounded corners on left side
     container.appendChild(imageContainer);
     
     // Add CSS animation styles
