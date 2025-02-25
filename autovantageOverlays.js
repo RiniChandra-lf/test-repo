@@ -160,10 +160,11 @@ const VpaidNonLinear = class {
     container.style.display = 'block';
     container.style.position = 'absolute';
     container.style.width = '100%';
-    container.style.bottom = '0%';
+    container.style.right = '0%';
     this.slot_.appendChild(container);
   
     // Countdown display
+    /*
     const countdownDisplay = document.createElement('div');
     countdownDisplay.style.fontSize = this.parameters_.countdown?.fontSize || '24px';
     countdownDisplay.style.textAlign = 'center';
@@ -177,7 +178,7 @@ const VpaidNonLinear = class {
       this.log('Invalid targetTime parameter.');
       countdownDisplay.textContent = 'Invalid Countdown Time';
       return;
-    }
+    }*/
   
     
     // Create image container for carousel
@@ -185,7 +186,7 @@ const VpaidNonLinear = class {
     imageContainer.style.margin = 'auto';
     imageContainer.style.display = 'block';
     imageContainer.style.position = 'relative';
-    imageContainer.style.width = '80%';
+    imageContainer.style.height = '80%';
     container.appendChild(imageContainer);
   
     /*const img = document.createElement('img');
