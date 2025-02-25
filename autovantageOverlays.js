@@ -159,7 +159,7 @@ const VpaidNonLinear = class {
     const container = document.createElement('div');
     container.style.display = 'block';
     container.style.position = 'absolute';
-    container.style.width = '100%';
+    container.style.height = '100%';
     container.style.right = '0%';
     this.slot_.appendChild(container);
   
