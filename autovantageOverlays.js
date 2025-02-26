@@ -330,8 +330,8 @@ const VpaidNonLinear = class {
 
         const availabilityElement = document.createElement('div');
         availabilityElement.className = 'overlay-text';
-        availabilityElement.style.marginTop = '5px';
-        availabilityElement.style.marginBottom = '10px';
+        availabilityElement.style.marginTop = '2px';
+        availabilityElement.style.marginBottom = '12px';
         availabilityElement.textContent = overlay.availability || `Overlay ${index + 1}`;
         this.overlayTexts_.push(availabilityElement);
 
