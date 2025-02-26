@@ -45,8 +45,8 @@
                         "price": "$13,580"
                       }
                     ],     
-                    website: "Myautoadvangate.com",               
-                    bottomImageUrl: "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/thumb_90dfs_frame_upload_Ez1XwwYP.png",
+                    "website": "Myautoadvangate.com",               
+                    "bottomImageUrl": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/thumb_90dfs_frame_upload_Ez1XwwYP.png",
                     "videos": [
                       {
                         "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/original_90dfs_frame_upload_E0EK3i7y.mp4",
