@@ -74,9 +74,9 @@ const VpaidNonLinear = class {
         'linear': false,      // Linear ad state.
         'skippableState': true, // Skippable state of the ad.
         'volume': 1.0,         // Volume of the ad.
-        'carouselInterval': 3000, // Transition every 3 seconds by default
+        'carouselInterval': 5000, // Transition every x seconds by default
         'carouselStartDelay': 4000, // Start carousel after 4 seconds
-        'carouselEndEarly': 5,   // End carousel 5 seconds before ad ends
+        'carouselEndEarly': 4,   // End carousel x seconds before ad ends
       };
   
       /**
@@ -185,34 +185,57 @@ const VpaidNonLinear = class {
       imageContainer.style.display = 'none'; // Initially hidden until delay time
       imageContainer.style.position = 'absolute';
       imageContainer.style.right = '0';
-      imageContainer.style.top = '10%';
-      imageContainer.style.height = '70%'; // Reduced to make room for bottom banner
-      imageContainer.style.width = '36%';
+      imageContainer.style.height = '90%'; // Reduced to make room for bottom banner
+      imageContainer.style.width = '35%';
       imageContainer.style.overflow = 'hidden';
       container.appendChild(imageContainer);
       
-      // Create bottom red strip with website
-      const bottomStrip = document.createElement('div');
-      bottomStrip.style.position = 'absolute';
-      bottomStrip.style.bottom = '0';
-      bottomStrip.style.width = '100%';
-      bottomStrip.style.height = '30px';
-      bottomStrip.style.backgroundColor = 'red';
-      bottomStrip.style.color = 'white';
-      bottomStrip.style.textAlign = 'center';
-      bottomStrip.style.lineHeight = '30px';
-      bottomStrip.style.fontSize = '14px';
-      bottomStrip.style.fontWeight = 'bold';
-      bottomStrip.textContent = this.parameters_.website || 'www.example.com';
-      container.appendChild(bottomStrip);
+      // Create bottom strip with two parts
+      const bottomStripContainer = document.createElement('div');
+      bottomStripContainer.id = 'bottomStripContainer';
+      bottomStripContainer.style.display = 'none';
+      bottomStripContainer.style.position = 'absolute';
+      bottomStripContainer.style.bottom = '0';
+      bottomStripContainer.style.width = '100%';
+      bottomStripContainer.style.height = '30px';
+      container.appendChild(bottomStripContainer);
+      
+      // Left part - red with address
+      const leftStrip = document.createElement('div');
+      leftStrip.style.backgroundColor = this.parameters_.addressBackgroundColor || '#FF0000'; // Standard red
+      leftStrip.style.color = this.parameters_.addressColor || 'white';
+      leftStrip.style.textAlign = 'left';
+      leftStrip.style.lineHeight = '30px';
+      leftStrip.style.padding = '0 15px';
+      leftStrip.style.fontSize = (this.parameters_.addressFontSize + 'px') || '14px';
+      leftStrip.style.fontWeight = this.parameters_.addressFontStyle || 'bold';
+      leftStrip.style.fontFamily = this.parameters_.addressFont || 'sans-serif';
+      leftStrip.style.flex = '1'; 
+      leftStrip.textContent = this.parameters_.address || '123 Main St, Anytown';
+      bottomStripContainer.appendChild(leftStrip);
+      
+      // Right part - deeper red with website
+      const rightStrip = document.createElement('div');
+      rightStrip.style.backgroundColor = this.parameters_.websiteBackgroundColor || '#CC0000'; // Deeper red
+      rightStrip.style.color = this.parameters_.websiteColor || 'white';
+      rightStrip.style.textAlign = 'center';
+      rightStrip.style.lineHeight = '30px';
+      rightStrip.style.padding = '0 15px';
+      rightStrip.style.fontSize = (this.parameters_.websiteFontSize + 'px') + '14px';
+      rightStrip.style.fontWeight = this.parameters_.websiteFontStyle || 'bold';
+      rightStrip.style.fontFamily = this.parameters_.websiteFont || 'sans-serif';
+      rightStrip.style.flex = '0 0 30%';
+      rightStrip.textContent = this.parameters_.website || 'www.example.com';
+      bottomStripContainer.appendChild(rightStrip);
       
       // Create bottom image (above red strip)
       const bottomImage = document.createElement('img');
+      bottomImage.id = 'bottomImage';
+      bottomImage.style.display = 'none';
       bottomImage.src = this.parameters_.bottomImageUrl || (overlays[0]?.imageUrl || overlays[0]);
       bottomImage.style.position = 'absolute';
       bottomImage.style.bottom = '30px'; // Position just above the red strip
       bottomImage.style.left = '0';
-      bottomImage.style.width = '100%';
       bottomImage.style.height = '60px';
       bottomImage.style.objectFit = 'contain';
       container.appendChild(bottomImage);
@@ -220,6 +243,10 @@ const VpaidNonLinear = class {
       // Add CSS animation styles
       const styleEl = document.createElement('style');
       styleEl.textContent = `
+        * {
+          font-family: sans-serif;
+        }
+          
         @keyframes slideOutRight {
           from { transform: translateX(0); opacity: 1; }
           to { transform: translateX(100%); opacity: 0; }
@@ -230,12 +257,21 @@ const VpaidNonLinear = class {
           to { transform: translateY(0); opacity: 1; }
         }
         
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
         .slide-out-right {
           animation: slideOutRight 0.5s forwards;
         }
         
         .slide-in-from-top {
           animation: slideInFromTop 0.5s forwards;
+        }
+        
+        .fade-in {
+          animation: fadeIn 0.5s forwards;
         }
         
         .overlay-unit {
@@ -247,8 +283,9 @@ const VpaidNonLinear = class {
         }
         
         .overlay-text {
-          color: black;
-          font-size: 14px;
+          color: ${this.parameters_.productDetailsFontColor || 'black'};
+          font-size: ${this.parameters_.productDetailsFontSize ? this.parameters_.productDetailsFontSize + 'px' : '14px'};
+          font-family: ${this.parameters_.productDetailsFont || 'sans-serif'};
           margin-top: 10px;
           text-align: center;
           font-weight: bold;
@@ -259,8 +296,10 @@ const VpaidNonLinear = class {
         }
 
         .price {
-            color: red;
-            font-size: 28px;
+            color: ${this.parameters_.priceFontColor || 'black'};
+            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + 'px' : '28px'};
+            font-weight: ${this.parameters_.priceFontStyle || 'bold'};
+            font-family: ${this.parameters_.priceFont || 'sans-serif'};
         }
       `;
       document.head.appendChild(styleEl);
@@ -270,18 +309,22 @@ const VpaidNonLinear = class {
         // Create a container for the image and text as a unit
         const overlayUnit = document.createElement('div');
         overlayUnit.className = 'overlay-unit';
-        overlayUnit.style.display = index === 0 ? 'flex' : 'none';
+        overlayUnit.style.display = 'none'; // All start hidden
         
         // Create image element
         const img = document.createElement('img');
         img.src = overlay.imageUrl || overlay;
         img.style.width = '100%';
-        img.style.maxHeight = '70%';
+        img.style.maxHeight = '100%';
         img.style.objectFit = 'contain';
         
         // Create text element
-        const nameElement = document.createElement('h2');
-        nameElement.className = 'overlay-text';
+        const nameElement = document.createElement('h3');
+        nameElement.style.color = this.parameters_.productNameColor || 'black';
+        nameElement.style.font = this.parameters_.productNameFont || 'sans-serif';
+        //nameElement.style.fontSize = this.parameters_.productNameFontSize ? this.parameters_.productNameFontSize + 'px' : '24px';
+        nameElement.style.fontWeight = this.parameters_.productNameFontStyle || 'bold';
+        //nameElement.className = 'overlay-text';
         nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
         this.overlayTexts_.push(nameElement);
 
@@ -310,6 +353,7 @@ const VpaidNonLinear = class {
         overlayUnit.appendChild(img);
         overlayUnit.appendChild(productCodeElement);
         overlayUnit.appendChild(availabilityElement);
+        overlayUnit.appendChild(priceElement);
         
         // Add to container
         imageContainer.appendChild(overlayUnit);
@@ -338,17 +382,61 @@ const VpaidNonLinear = class {
       // Schedule the start of carousel after the delay
       this.carouselStartTimeout_ = setTimeout(() => {
         const overlayContainer = document.getElementById('overlayContainer');
-        if (overlayContainer) {
+        const bottomImage = document.getElementById('bottomImage');
+        const bottomStripContainer = document.getElementById('bottomStripContainer');
+        if (overlayContainer && bottomImage && bottomStripContainer) {
+          // Show containers first
           overlayContainer.style.display = 'block';
+          bottomImage.style.display = 'block';
+          bottomStripContainer.style.display = 'flex';
           
-          // Setup carousel interval if multiple images exist
-          if (this.overlayImages_.length > 1) {
-            this.carouselInterval_ = setInterval(() => {
-              this.updateOverlayImage_();
-            }, this.attributes_['carouselInterval']);
-          }
+          // Add animation class to the first overlay with a slight delay
+          setTimeout(() => {
+            if (this.overlayImages_.length > 0) {
+              const firstUnit = this.overlayImages_[0];
+              firstUnit.style.display = 'flex';
+              firstUnit.classList.add('slide-in-from-top');
+              
+              // Remove animation class after animation completes
+              setTimeout(() => {
+                firstUnit.classList.remove('slide-in-from-top');
+              }, 500);
+            }
+            
+            // Setup carousel interval if multiple images exist
+            if (this.overlayImages_.length > 1) {
+              this.carouselInterval_ = setInterval(() => {
+                this.updateOverlayImage_();
+              }, this.parameters_['carouselInterval'] * 1000);
+            }
+          }, 50); // Small delay to ensure container is visible first
         }
-      }, this.attributes_['carouselStartDelay']);
+      }, this.parameters_['carouselStartDelay'] * 1000 || this.attributes_['carouselStartDelay']);
+
+      // Create a Skip Ad button
+        const skipButton = document.createElement('button');
+        skipButton.textContent = 'Skip Ad';
+        skipButton.style.position = 'absolute';
+        skipButton.style.bottom = '21px';
+        skipButton.style.right = '10px';
+        skipButton.style.padding = '5px 10px';
+        skipButton.style.backgroundColor = '#cccccc';
+        skipButton.style.color = '#fff';
+        skipButton.style.border = '2px solid white';
+        skipButton.style.borderRadius = '5px';
+        skipButton.style.cursor = 'pointer';
+        skipButton.style.zIndex = '1000';
+
+        if (this.parameters_['isSkippable']) {
+            skipButton.addEventListener('click', () => {
+            this.log('Ad skipped by user');
+            clearInterval(this.countdownInterval_);
+            this.callEvent_('AdSkipped');
+            this.stopAd();
+            });
+            container.appendChild(skipButton);
+        }
+
     }
   
     /**
@@ -408,6 +496,10 @@ const VpaidNonLinear = class {
       // Then, update the player with the duration change.
       this.attributes_['duration'] = this.videoSlot_.duration;
       this.callEvent_('AdDurationChange');
+      if (this.parameters_['carouselEnd']) {
+        this.attributes_['carouselEndEarly'] = this.parameters_['carouselEnd'];
+      }
+
       
       // Schedule the end of carousel 5 seconds before the end of the video
       if (this.videoSlot_.duration > this.attributes_['carouselEndEarly']) {
@@ -419,8 +511,12 @@ const VpaidNonLinear = class {
           }
           
           const overlayContainer = document.getElementById('overlayContainer');
-          if (overlayContainer) {
+          const bottomImage = document.getElementById('bottomImage');
+          const bottomStripContainer = document.getElementById('bottomStripContainer');
+          if (overlayContainer && bottomImage && bottomStripContainer) {
             overlayContainer.style.display = 'none';
+            bottomImage.style.display = 'none';
+            bottomStripContainer.style.display = 'none';
           }
         }, endTime);
       }

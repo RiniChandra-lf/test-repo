@@ -14,15 +14,15 @@
               <Tracking event="start">http://www.example.com/start</Tracking>
               <Tracking event="complete">http://www.example.com/complete</Tracking>
             </TrackingEvents>
-            <NonLinear apiFramework="VPAID" width="60" height="300" id="overlay-1">
+            <NonLinear apiFramework="VPAID" width="300" height="60" id="overlay-1">
               <AdParameters>
                 <![CDATA[
                   {
-                    "targetTime": "2025-02-28T23:59:59Z",
+                    "isSkippable": true,
                     "overlays": [
                       {
                         "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_nsULGuoX.jpg",
-                        "clickThrough": "https://www.amazon.in/MARS-Lacquer-Pigmentation-Formula-Shade-46/dp/B0D1XJJRH1/?_encoding=UTF8&pd_rd_w=W3W6T&content-id=amzn1.sym.b5a625fa-e3eb-4301-a9e2-f9c8b3e7badf%3Aamzn1.symc.36bd837a-d66d-47d1-8457-ffe9a9f3ddab&pf_rd_p=b5a625fa-e3eb-4301-a9e2-f9c8b3e7badf&pf_rd_r=79HC0XB8NV845PKMHSHR&pd_rd_wg=gfVOZ&pd_rd_r=b1494874-222a-406b-8db3-83917e6ef9d3&ref_=pd_hp_d_btf_ci_mcx_mr_hp_atf_m",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/honda/accord/ray7/",
                         "productName": "2019 Toyota Corolla",
                         "productCode": "VIN: 1HGCM82633A001234",
                         "availability": "Available as of: 20/2/25",
@@ -30,7 +30,7 @@
                       },
                       {
                         "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_CAF8_KSO.jpg",
-                        "clickThrough": "https://www.amazon.in/dp/B0DPT5H7F9/ref=sspa_dk_detail_0?pd_rd_i=B0DPT5H7F9&pd_rd_w=sPAc6&content-id=amzn1.sym.9f1cb690-f0b7-44de-b6ff-1bad1e37d3f0&pf_rd_p=9f1cb690-f0b7-44de-b6ff-1bad1e37d3f0&pf_rd_r=CXVTVSH279CF6S1G1A5S&pd_rd_wg=cerOS&pd_rd_r=88e7b21e-5ac7-4521-943c-6ff16ae53a62&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWxfdGhlbWF0aWM&th=1",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/infiniti/m/20797r/",
                         "productName": "2002 Porsche Boxster",
                         "productCode": "VIN: 1EFGM82633A001234",
                         "availability": "Available as of: 20/2/25",
@@ -38,27 +38,47 @@
                       },
                       {
                         "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_OglwNMW3.jpg",
-                        "clickThrough": "https://www.amazon.in/dp/B0853LNFVV/ref=syn_sd_onsite_desktop_0?ie=UTF8&psc=1&pf_rd_p=fd82b077-06f6-479f-8fb9-11c7d326b43b&pf_rd_r=7N8BPS2HHTH4909TPZQ0&pd_rd_wg=TaRkN&pd_rd_w=NW78f&pd_rd_r=e102673e-3fb3-4fa0-80b5-da931d02279a&aref=KYJfPgqdBv",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/volkswagen/passat/%2320879/",
                         "productName": "2021 Kia Rio",
                         "productCode": "VIN: 3KPA24AB3LE234567",
                         "availability": "Available as of: 20/2/25",
                         "price": "$13,580"
                       }
                     ],     
-                    "website": "Myautoadvangate.com",               
+                    "productDetailsFont": "Arial",
+                    "productDetailsFontSize": "14",
+                    "productDetailsFontStyle": "normal",
+                    "productDetailsFontColor": "black",
+                    "productNameFont": "Arial",
+                    "productNameFontSize": "18",
+                    "productNameFontStyle": "bold",
+                    "productNameColor": "black",
+                    "priceFont": "Arial",
+                    "priceFontSize": "28",
+                    "priceFontStyle": "bold",
+                    "priceFontColor": "red",
+                    "website": "Myautoadvantage.com",   
+                    "websiteColor": "white",
+                    "websiteBackgroundColor": "#CC0000",
+                    "websiteFontSize": "14",
+                    "websiteFontStyle": "normal",            
+                    "websiteFont" : "Arial",
                     "bottomImageUrl": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/thumb_90dfs_frame_upload_Ez1XwwYP.png",
+                    "address": "Address: 5998 Ashevill Hwy, Hendersonville, NC 28791",
+                    "addressColor": "white",
+                    "addressBackgroundColor": "#FF0000",
+                    "addressFontSize": "14",
+                    "addressFontStyle": "normal",
+                    "addressFont" : "Arial",
                     "videos": [
                       {
                         "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/original_90dfs_frame_upload_E0EK3i7y.mp4",
                         "mimetype": "video/mp4"
                       }
                     ],
-                    "countdown": {
-                      "initialTime": 30,
-                      "fontSize": "48px",
-                      "color": "red",
-                      "backgroundColor": "rgba(0, 0, 0, 0.7)"
-                    }
+                    "carouselInterval": 5,
+                    "carouselStartDelay": 4,
+                    "carouselEnd": 4
                   }
                 ]]>
               </AdParameters>
@@ -67,6 +87,8 @@
                   https://rinichandra-lf.github.io/test-repo/autovantageOverlays.js
                 ]]>
               </StaticResource>
+
+
               <NonLinearClickThrough id="GDFP">
                 <![CDATA[ http://google.com ]]>
               </NonLinearClickThrough>
