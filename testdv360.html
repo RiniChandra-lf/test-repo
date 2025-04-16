@@ -1,0 +1,19 @@
+<script>
+    window.ndClickThru = "";    
+    window.ndTagId = "ntag-448294ba-26a8-40fc-a8e3-594d3eac8f52";
+    window.ndSize = [300,600];
+    window.metaData = "";
+    window.mediaFit = "";
+</script>
+<script src="https://d3timyynnbyx92.cloudfront.net/player.v5.4.5.js" async></script>
+<script>
+(function () {
+    var interval = window.setInterval(function() {
+        if (window.RenderStory) {
+            window.clearInterval(interval);
+            let renderStory = new window.RenderStory({ fetchedTagType: "landing", tagUuid: window.ndTagId });
+            renderStory.render();
+        }
+    });
+})();
+</script>
