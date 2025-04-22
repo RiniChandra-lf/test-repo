@@ -5,14 +5,25 @@
       <AdSystem/>
       <AdTitle>NonLinear VPAID Countdown</AdTitle>
       <Description>Vpaid NonLinear Countdown Ad</Description>
-      <Error>http://www.example.com/error</Error>
-      <Impression>http://www.example.com/impression</Impression>
+      <Impression>
+        <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=impression&ad_id=1234567 ]]>
+      </Impression>
       <Creatives>
         <Creative sequence="1">
           <NonLinearAds>
             <TrackingEvents>
-              <Tracking event="start">http://www.example.com/start</Tracking>
-              <Tracking event="complete">http://www.example.com/complete</Tracking>
+              <Tracking event="firstQuartile">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=firstQuartile&ad_id=1234567 ]]>
+              </Tracking>
+              <Tracking event="midpoint">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=midpoint&ad_id=1234567 ]]>
+              </Tracking>
+              <Tracking event="thirdQuartile">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=thirdQuartile&ad_id=1234567 ]]>
+              </Tracking>
+              <Tracking event="complete">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=complete&ad_id=1234567 ]]>
+              </Tracking>
             </TrackingEvents>
             <NonLinear apiFramework="VPAID" width="300" height="60" id="overlay-1">
               <AdParameters>
