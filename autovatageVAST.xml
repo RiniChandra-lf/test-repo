@@ -84,13 +84,13 @@
               </AdParameters>
               <StaticResource creativeType="application/javascript">
                 <![CDATA[
-                  https://rinichandra-lf.github.io/test-repo/autovantageOverlays.js
+                  https://cdn.90d.io/js/autovantageOverlays.js
                 ]]>
               </StaticResource>
 
 
               <NonLinearClickThrough id="GDFP">
-                <![CDATA[ http://google.com ]]>
+                <![CDATA[ https://google.com ]]>
               </NonLinearClickThrough>
             </NonLinear>
           </NonLinearAds>
