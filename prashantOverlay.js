@@ -177,6 +177,7 @@ const VpaidNonLinear = class {
     container.style.height = '100%';
     container.style.width = '100%';
     container.style.right = '0%';
+    container.style.backgroundColor = 'white';
     this.slot_.appendChild(container);
 
   // Create image container for carousel - positioned on the right side
@@ -194,7 +195,7 @@ const VpaidNonLinear = class {
   // Add the video element
 const video = document.createElement('video');
 video.id = 'adVideo';
-video.src = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'; // Replace with your video URL
+video.src = this.parameters_.videos[0]; // Replace with your video URL
 video.type = 'video/mp4';
 video.style.width = '100%';
 video.style.height = '100%';
