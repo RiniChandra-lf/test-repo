@@ -162,7 +162,7 @@ const VpaidNonLinear = class {
     /**
      * Called by the wrapper to start the ad.
      */
-    window.startAd =  function() {
+    startAd =  function() {
       this.log('Starting ad');
   
       const date = new Date();
