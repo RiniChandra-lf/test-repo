@@ -186,9 +186,10 @@ const VpaidNonLinear = class {
       imageContainer.style.position = 'absolute';
       imageContainer.style.right = '0';
       imageContainer.style.bottom = '0';
-      imageContainer.style.height = '85%'; // Reduced to make room for bottom banner
+      imageContainer.style.height = '80%'; // Reduced to make room for bottom banner
       imageContainer.style.width = '36%';
       imageContainer.style.overflow = 'hidden';
+        bottomImage.style.border = '1px solid #060';
       container.appendChild(imageContainer);
       
       // // Create bottom strip with two parts
