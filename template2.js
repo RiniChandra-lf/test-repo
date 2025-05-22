@@ -155,6 +155,8 @@ const VpaidNonLinear = class {
       } catch (e) {
         console.warn("Skip offset not parsed:", e);
       }
+
+      this.log('skip offset: ', this.skipOffsetSeconds_)
   
       this.log(
           'initAd ' + width + 'x' + height + ' ' + viewMode + ' ' +
