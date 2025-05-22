@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd" version="3.0">
+   <Ad id="5926628810">
+      <InLine>
+         <AdSystem>GDFP</AdSystem>
+         <AdTitle>External - Single Inline Linear Skippable</AdTitle>
+         <Description><![CDATA[External - Single Inline Linear Skippable ad]]></Description>
+         <Creatives>
+            <Creative id="138382063765" AdID="H0Hrk8zCNZI" sequence="1">
+               <CreativeExtensions>
+                  <CreativeExtension type="UniversalAdId">
+                     <UniversalAdId idRegistry="googlevideo">H0Hrk8zCNZI</UniversalAdId>
+                  </CreativeExtension>
+               </CreativeExtensions>
+               <Linear skipoffset="00:00:05">
+                  <Duration>00:00:10</Duration>
+                  <TrackingEvents>
+                     <Tracking event="firstQuartile">
+                           <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=firstQuartile&ad_id=1234567 ]]>
+                        </Tracking>
+                        <Tracking event="midpoint">
+                           <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=midpoint&ad_id=1234567 ]]>
+                        </Tracking>
+                        <Tracking event="thirdQuartile">
+                           <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=thirdQuartile&ad_id=1234567 ]]>
+                        </Tracking>
+                        <Tracking event="complete">
+                           <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=complete&ad_id=1234567 ]]>
+                        </Tracking>
+                  </TrackingEvents>
+                  <AdParameters>
+                <![CDATA[
+                  {
+                    "isSkippable": false,
+                    "totalAdDuration": 30,
+                    "overlays": [
+                      {
+                        "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_nsULGuoX.jpg",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/honda/accord/ray7/",
+                        "productName": "2019 Toyota Corolla",
+                        "productCode": "VIN: 1HGCM82633A001234",
+                        "availability": "Available as of: 20/2/25",
+                        "price": "$14,358"
+                      },
+                      {
+                        "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_CAF8_KSO.jpg",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/infiniti/m/20797r/",
+                        "productName": "2002 Porsche Boxster",
+                        "productCode": "VIN: 1EFGM82633A001234",
+                        "availability": "Available as of: 20/2/25",
+                        "price": "$12,306"
+                      },
+                      {
+                        "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_OglwNMW3.jpg",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/volkswagen/passat/%2320879/",
+                        "productName": "2021 Kia Rio",
+                        "productCode": "VIN: 3KPA24AB3LE234567",
+                        "availability": "Available as of: 20/2/25",
+                        "price": "$13,580"
+                      }
+                    ],     
+                    "productDetailsFont": "Arial",
+                    "productDetailsFontSize": "14",
+                    "productDetailsFontStyle": "normal",
+                    "productDetailsFontColor": "black",
+                    "productNameFont": "Arial",
+                    "productNameFontSize": "18",
+                    "productNameFontStyle": "bold",
+                    "productNameColor": "black",
+                    "priceFont": "Arial",
+                    "priceFontSize": "28",
+                    "priceFontStyle": "bold",
+                    "priceFontColor": "red",
+                    "website": "Myautoadvantage.com",   
+                    "websiteColor": "white",
+                    "websiteBackgroundColor": "#CC0000",
+                    "websiteFontSize": "14",
+                    "websiteFontStyle": "normal",            
+                    "websiteFont" : "Arial",
+                    "bottomImageUrl": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/thumb_90dfs_frame_upload_Ez1XwwYP.png",
+                    "address": "Address: 5998 Ashevill Hwy, Hendersonville, NC 28791",
+                    "addressColor": "white",
+                    "addressBackgroundColor": "#FF0000",
+                    "addressFontSize": "14",
+                    "addressFontStyle": "normal",
+                    "addressFont" : "Arial",
+                    "videos": [
+                      {
+                        "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/original_90dfs_frame_upload_E0EK3i7y.mp4",
+                        "mimetype": "video/mp4"
+                      }
+                    ],
+                    "carouselInterval": 5,
+                    "carouselStartDelay": 4,
+                    "carouselEnd": 4
+                  }
+                ]]>
+              </AdParameters>
+                  <VideoClicks>
+                     <ClickThrough id="GDFP"><![CDATA[https://www.google.com]]></ClickThrough>
+                  </VideoClicks>
+                  <Icons>
+                     <Icon program="GoogleWhyThisAd" width="18" height="18" xPosition="right" yPosition="bottom">
+                        <StaticResource creativeType="image/png"><![CDATA[https://imasdk.googleapis.com/formats/wta/help_outline_white_24dp_with_3px_trbl_padding.png?wp=ca-pub-9939518381636264]]></StaticResource>
+                        <IconClicks>
+                           <IconClickThrough><![CDATA[https://adssettings.google.com/whythisad?source=display&reasons=AZ-QMKHo9KVcp6xYVbo4tUdF5PR7DQhCOeH71CvCUIRsysjYR0ry8urKNn_FdG1IA7axDW-N3pA0lkjJklX7oy5i9gefg00TCfYfW67sfgvFPAShFzS0qgccstQrxOHNLBZk4H4g2t68m8lyzN1pQdEWx3-KSuSsMBN4XhmPr-a9jMx5dpiQM3Pyvw_57-0JiNsuUUp5Fwq_xPJTyuqPCm2U72sgUMUz0kvVAhpIW1g4TY7TWnfJKJB4xqC1Bl8Ydg7qKD5x66BOUUYJHJ_pXDAVxxaMffTQY8OvB6HAoOjFppCDHmik5wqNRxD21zlmu34UlxzBMClkBTf3pFscwhFoaT2ZWc0ROJ7-guM19_4taMKVbTykjE8RM2iN02_39UY7rQUX-9Pr0ts15Vs0u_icf2PZ-u6DjTz4CeJRBo51NVWmpPSfrhcSo1xFLDVxMJLT7oZBoqWtTuVNacqr0JIKK7C2gthgkJyvbl2YvE4W9nyAV27rlfdfoRbODx2vJ6E6zuqz3Yf1cywB23Byibg50-lum2wkY5h5EHa8isHweZXzQSh2Hi6Lq7P4XCTvrpe92nVOijEQ5qWF-Wgz9Q6NF3iPD29eebbt1bEt0VJq-H0Z16EVyuYZuufMN7jW-SkoRt8RV5fgobQ8JruGp4ozGziOeNW6gVK0jkBqxDg9jTdNhQcyIIGuu6ZXikrmr8iGU8qmzO6B9KOoSBXWb9qVztU-wUwJgkW0kw-pKdNT2yYnuBUFfhJ2xUdlUakCma2ehzJM995PD3dmCv3yk6z-MTGsMK8SuLfmxtsMCg1BvkN-23n0A7XHBX9e4tQ3QfB4TjWD2Zg9eXW91NIv4_TgoXlQMtxol4jORGPvefT9UxAaIobtIJ3EFwtD9KoeRftwWK55oJldA4NERdInMlXlqJ5XGtLEdaNK0co9qD9DMQFtgightfoC_49TyUEimGYvepDTjqA6DoGO6kPMCPsYHZI_vdI&opi=122715837]]></IconClickThrough>
+                        </IconClicks>
+                     </Icon>
+                  </Icons>
+                  <MediaFiles>
+                     <MediaFile delivery="progressive" type="application/javascript" apiFramework="VPAID" width="1280" height="720">https://rinichandra-lf.github.io/test-repo/template2.js</MediaFile>
+                  </MediaFiles>
+               </Linear>
+            </Creative>
+         </Creatives>
+      </InLine>
+   </Ad>
+</VAST>
