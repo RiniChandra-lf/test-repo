@@ -187,7 +187,7 @@ const VpaidNonLinear = class {
       imageContainer.style.right = '0';
       imageContainer.style.bottom = '0';
       imageContainer.style.height = '80%'; // Reduced to make room for bottom banner
-      imageContainer.style.width = '35%';
+      imageContainer.style.width = '38%';
       imageContainer.style.overflow = 'hidden';
       container.appendChild(imageContainer);
       
@@ -237,7 +237,7 @@ const VpaidNonLinear = class {
       bottomImage.style.position = 'absolute';
       bottomImage.style.top = '0'; // Position just above the red strip
       bottomImage.style.left = '0';
-      bottomImage.style.height = '60px';
+      bottomImage.style.height = '90px';
       bottomImage.style.objectFit = 'contain';
       container.appendChild(bottomImage);
       
@@ -298,7 +298,7 @@ const VpaidNonLinear = class {
 
         .price {
             color: ${this.parameters_.priceFontColor || 'black'};
-            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + 'px' : '28px'};
+            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + 'px' : '24px'};
             font-weight: ${this.parameters_.priceFontStyle || 'bold'};
             font-family: ${this.parameters_.priceFont || 'sans-serif'};
         }
