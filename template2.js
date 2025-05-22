@@ -146,15 +146,7 @@ const VpaidNonLinear = class {
       // Parse the incoming ad parameters.
       this.parameters_ = JSON.parse(creativeData['AdParameters']);
 
-      try {
-        const skipOffset = creativeData?.linear?.skipoffset;
-        if (skipOffset) {
-          const parts = skipOffset.split(':').map(Number);
-          this.skipOffsetSeconds_ = parts[0] * 3600 + parts[1] * 60 + parts[2];
-        }
-      } catch (e) {
-        console.warn("Skip offset not parsed:", e);
-      }
+      this.skipOffsetSeconds_ = this.parameters_.skipOffset
 
       this.log('skip offset: ', this.skipOffsetSeconds_)
   
