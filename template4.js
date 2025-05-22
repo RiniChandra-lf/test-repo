@@ -186,9 +186,10 @@ const VpaidNonLinear = class {
       imageContainer.style.position = 'absolute';
       imageContainer.style.right = '0';
       imageContainer.style.bottom = '0';
-      imageContainer.style.height = '85%'; // Reduced to make room for bottom banner
+      imageContainer.style.height = '80%'; // Reduced to make room for bottom banner
       imageContainer.style.width = '36%';
       imageContainer.style.overflow = 'hidden';
+      imageContainer.style.border = '1px solid #060';
       container.appendChild(imageContainer);
       
       // // Create bottom strip with two parts
@@ -237,7 +238,7 @@ const VpaidNonLinear = class {
       bottomImage.style.position = 'absolute';
       bottomImage.style.top = '0'; // Position just above the red strip
       bottomImage.style.left = '0';
-      bottomImage.style.height = '90px';
+      bottomImage.style.height = '80px';
       bottomImage.style.objectFit = 'contain';
       bottomImage.style.border = '1px solid #000';
       container.appendChild(bottomImage);
@@ -330,17 +331,17 @@ const VpaidNonLinear = class {
         nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
         this.overlayTexts_.push(nameElement);
 
-        const availabilityElement = document.createElement('div');
-        availabilityElement.className = 'overlay-text';
-        availabilityElement.style.marginTop = '2px';
-        availabilityElement.style.marginBottom = '12px';
-        availabilityElement.textContent = overlay.availability || `Overlay ${index + 1}`;
-        this.overlayTexts_.push(availabilityElement);
+        // const availabilityElement = document.createElement('div');
+        // availabilityElement.className = 'overlay-text';
+        // availabilityElement.style.marginTop = '2px';
+        // availabilityElement.style.marginBottom = '12px';
+        // availabilityElement.textContent = overlay.availability || `Overlay ${index + 1}`;
+        // this.overlayTexts_.push(availabilityElement);
 
-        const productCodeElement = document.createElement('div');
-        productCodeElement.className = 'overlay-text';
-        productCodeElement.textContent = overlay.productCode || `Overlay ${index + 1}`;
-        this.overlayTexts_.push(productCodeElement);       
+        // const productCodeElement = document.createElement('div');
+        // productCodeElement.className = 'overlay-text';
+        // productCodeElement.textContent = overlay.productCode || `Overlay ${index + 1}`;
+        // this.overlayTexts_.push(productCodeElement);       
         
         const priceElement = document.createElement('div');
         priceElement.className = 'price';
@@ -355,8 +356,8 @@ const VpaidNonLinear = class {
         // Append image and text to the unit
         overlayUnit.appendChild(nameElement);
         overlayUnit.appendChild(img);
-        overlayUnit.appendChild(productCodeElement);
-        overlayUnit.appendChild(availabilityElement);
+        // overlayUnit.appendChild(productCodeElement);
+        // overlayUnit.appendChild(availabilityElement);
         overlayUnit.appendChild(priceElement);
         
         // Add to container
