@@ -108,7 +108,7 @@
                      </Icon>
                   </Icons>
                   <MediaFiles>
-                     <MediaFile delivery="progressive" type="application/javascript" apiFramework="VPAID" width="1280" height="720">https://rinichandra-lf.github.io/test-repo/autovantageOverlays.js</MediaFile>
+                     <MediaFile delivery="progressive" type="application/javascript" apiFramework="VPAID" width="1280" height="720">https://rinichandra-lf.github.io/test-repo/template4.js</MediaFile>
                   </MediaFiles>
                </Linear>
             </Creative>
