@@ -186,8 +186,8 @@ const VpaidNonLinear = class {
       imageContainer.style.position = 'absolute';
       imageContainer.style.right = '0';
       imageContainer.style.bottom = '0';
-      imageContainer.style.height = '80%'; // Reduced to make room for bottom banner
-      imageContainer.style.width = '38%';
+      imageContainer.style.height = '85%'; // Reduced to make room for bottom banner
+      imageContainer.style.width = '36%';
       imageContainer.style.overflow = 'hidden';
       container.appendChild(imageContainer);
       
@@ -239,6 +239,7 @@ const VpaidNonLinear = class {
       bottomImage.style.left = '0';
       bottomImage.style.height = '90px';
       bottomImage.style.objectFit = 'contain';
+      bottomImage.style.border = '1px solid #000';
       container.appendChild(bottomImage);
       
       // Add CSS animation styles
