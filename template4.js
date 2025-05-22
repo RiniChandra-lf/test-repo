@@ -185,48 +185,49 @@ const VpaidNonLinear = class {
       imageContainer.style.display = 'none'; // Initially hidden until delay time
       imageContainer.style.position = 'absolute';
       imageContainer.style.right = '0';
-      imageContainer.style.height = '90%'; // Reduced to make room for bottom banner
+      imageContainer.style.bottom = '0';
+      imageContainer.style.height = '80%'; // Reduced to make room for bottom banner
       imageContainer.style.width = '35%';
       imageContainer.style.overflow = 'hidden';
       container.appendChild(imageContainer);
       
-      // Create bottom strip with two parts
-      const bottomStripContainer = document.createElement('div');
-      bottomStripContainer.id = 'bottomStripContainer';
-      bottomStripContainer.style.display = 'none';
-      bottomStripContainer.style.position = 'absolute';
-      bottomStripContainer.style.bottom = '0';
-      bottomStripContainer.style.width = '100%';
-      bottomStripContainer.style.height = '30px';
-      container.appendChild(bottomStripContainer);
+      // // Create bottom strip with two parts
+      // const bottomStripContainer = document.createElement('div');
+      // bottomStripContainer.id = 'bottomStripContainer';
+      // bottomStripContainer.style.display = 'none';
+      // bottomStripContainer.style.position = 'absolute';
+      // bottomStripContainer.style.bottom = '0';
+      // bottomStripContainer.style.width = '100%';
+      // bottomStripContainer.style.height = '30px';
+      // container.appendChild(bottomStripContainer);
       
-      // Left part - red with address
-      const leftStrip = document.createElement('div');
-      leftStrip.style.backgroundColor = this.parameters_.addressBackgroundColor || '#FF0000'; // Standard red
-      leftStrip.style.color = this.parameters_.addressColor || 'white';
-      leftStrip.style.textAlign = 'left';
-      leftStrip.style.lineHeight = '30px';
-      leftStrip.style.padding = '0 15px';
-      leftStrip.style.fontSize = (this.parameters_.addressFontSize + 'px') || '14px';
-      leftStrip.style.fontWeight = this.parameters_.addressFontStyle || 'bold';
-      leftStrip.style.fontFamily = this.parameters_.addressFont || 'sans-serif';
-      leftStrip.style.flex = '1'; 
-      leftStrip.textContent = this.parameters_.address || '123 Main St, Anytown';
-      bottomStripContainer.appendChild(leftStrip);
+      // // Left part - red with address
+      // const leftStrip = document.createElement('div');
+      // leftStrip.style.backgroundColor = this.parameters_.addressBackgroundColor || '#FF0000'; // Standard red
+      // leftStrip.style.color = this.parameters_.addressColor || 'white';
+      // leftStrip.style.textAlign = 'left';
+      // leftStrip.style.lineHeight = '30px';
+      // leftStrip.style.padding = '0 15px';
+      // leftStrip.style.fontSize = (this.parameters_.addressFontSize + 'px') || '14px';
+      // leftStrip.style.fontWeight = this.parameters_.addressFontStyle || 'bold';
+      // leftStrip.style.fontFamily = this.parameters_.addressFont || 'sans-serif';
+      // leftStrip.style.flex = '1'; 
+      // leftStrip.textContent = this.parameters_.address || '123 Main St, Anytown';
+      // bottomStripContainer.appendChild(leftStrip);
       
-      // Right part - deeper red with website
-      const rightStrip = document.createElement('div');
-      rightStrip.style.backgroundColor = this.parameters_.websiteBackgroundColor || '#CC0000'; // Deeper red
-      rightStrip.style.color = this.parameters_.websiteColor || 'white';
-      rightStrip.style.textAlign = 'center';
-      rightStrip.style.lineHeight = '30px';
-      rightStrip.style.padding = '0 15px';
-      rightStrip.style.fontSize = (this.parameters_.websiteFontSize + 'px') + '14px';
-      rightStrip.style.fontWeight = this.parameters_.websiteFontStyle || 'bold';
-      rightStrip.style.fontFamily = this.parameters_.websiteFont || 'sans-serif';
-      rightStrip.style.flex = '0 0 30%';
-      rightStrip.textContent = this.parameters_.website || 'www.example.com';
-      bottomStripContainer.appendChild(rightStrip);
+      // // Right part - deeper red with website
+      // const rightStrip = document.createElement('div');
+      // rightStrip.style.backgroundColor = this.parameters_.websiteBackgroundColor || '#CC0000'; // Deeper red
+      // rightStrip.style.color = this.parameters_.websiteColor || 'white';
+      // rightStrip.style.textAlign = 'center';
+      // rightStrip.style.lineHeight = '30px';
+      // rightStrip.style.padding = '0 15px';
+      // rightStrip.style.fontSize = (this.parameters_.websiteFontSize + 'px') + '14px';
+      // rightStrip.style.fontWeight = this.parameters_.websiteFontStyle || 'bold';
+      // rightStrip.style.fontFamily = this.parameters_.websiteFont || 'sans-serif';
+      // rightStrip.style.flex = '0 0 30%';
+      // rightStrip.textContent = this.parameters_.website || 'www.example.com';
+      // bottomStripContainer.appendChild(rightStrip);
       
       // Create bottom image (above red strip)
       const bottomImage = document.createElement('img');
@@ -385,12 +386,12 @@ const VpaidNonLinear = class {
       this.carouselStartTimeout_ = setTimeout(() => {
         const overlayContainer = document.getElementById('overlayContainer');
         const bottomImage = document.getElementById('bottomImage');
-        const bottomStripContainer = document.getElementById('bottomStripContainer');
-        if (overlayContainer && bottomImage && bottomStripContainer) {
+        // const bottomStripContainer = document.getElementById('bottomStripContainer');
+        if (overlayContainer && bottomImage) {
           // Show containers first
           overlayContainer.style.display = 'block';
           bottomImage.style.display = 'block';
-          bottomStripContainer.style.display = 'flex';
+          // bottomStripContainer.style.display = 'flex';
           
           // Add animation class to the first overlay with a slight delay
           setTimeout(() => {
@@ -514,11 +515,11 @@ const VpaidNonLinear = class {
           
           const overlayContainer = document.getElementById('overlayContainer');
           const bottomImage = document.getElementById('bottomImage');
-          const bottomStripContainer = document.getElementById('bottomStripContainer');
-          if (overlayContainer && bottomImage && bottomStripContainer) {
+          // const bottomStripContainer = document.getElementById('bottomStripContainer');
+          if (overlayContainer && bottomImage) {
             overlayContainer.style.display = 'none';
             bottomImage.style.display = 'none';
-            bottomStripContainer.style.display = 'none';
+            // bottomStripContainer.style.display = 'none';
           }
         }, endTime);
       }
