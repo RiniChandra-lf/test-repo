@@ -31,7 +31,7 @@
                   <AdParameters>
                 <![CDATA[
                   {
-                    "isSkippable": false,
+                    "isSkippable": true,
                     "totalAdDuration": 30,
                     "overlays": [
                       {
@@ -92,7 +92,8 @@
                     ],
                     "carouselInterval": 5,
                     "carouselStartDelay": 4,
-                    "carouselEnd": 4
+                    "carouselEnd": 4,
+                    "defaultClickThrough": "https://google.com"
                   }
                 ]]>
               </AdParameters>
