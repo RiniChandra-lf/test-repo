@@ -299,6 +299,7 @@ const VpaidNonLinear = class {
           padding: 5px;
           border-radius: 4px;
           width: 90%;
+          white-space: pre-line;
         }
 
         .price {
@@ -334,17 +335,17 @@ const VpaidNonLinear = class {
         nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
         this.overlayTexts_.push(nameElement);
 
-        const availabilityElement = document.createElement('div');
-        availabilityElement.className = 'overlay-text';
-        availabilityElement.style.marginTop = '2px';
-        availabilityElement.style.marginBottom = '12px';
-        availabilityElement.textContent = overlay.availability || `Overlay ${index + 1}`;
-        this.overlayTexts_.push(availabilityElement);
+        const productDescriptionElement = document.createElement('div');
+        productDescriptionElement.className = 'overlay-text';
+        productDescriptionElement.style.marginTop = '2px';
+        productDescriptionElement.style.marginBottom = '12px';
+        productDescriptionElement.textContent = overlay.productDescription || `Overlay ${index + 1}`;
+        this.overlayTexts_.push(productDescriptionElement);
 
-        const productCodeElement = document.createElement('div');
-        productCodeElement.className = 'overlay-text';
-        productCodeElement.textContent = overlay.productCode || `Overlay ${index + 1}`;
-        this.overlayTexts_.push(productCodeElement);       
+        // const productCodeElement = document.createElement('div');
+        // productCodeElement.className = 'overlay-text';
+        // productCodeElement.textContent = overlay.productCode || `Overlay ${index + 1}`;
+        // this.overlayTexts_.push(productCodeElement);       
         
         const priceElement = document.createElement('div');
         priceElement.className = 'price';
@@ -359,8 +360,8 @@ const VpaidNonLinear = class {
         // Append image and text to the unit
         overlayUnit.appendChild(nameElement);
         overlayUnit.appendChild(img);
-        overlayUnit.appendChild(productCodeElement);
-        overlayUnit.appendChild(availabilityElement);
+        // overlayUnit.appendChild(productCodeElement);
+        overlayUnit.appendChild(productDescriptionElement);
         overlayUnit.appendChild(priceElement);
         
         // Add to container
