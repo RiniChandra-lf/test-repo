@@ -58,15 +58,15 @@
                       }
                     ],     
                     "productDetailsFont": "Arial",
-                    "productDetailsFontSize": "14",
+                    "productDetailsFontSize": "12",
                     "productDetailsFontStyle": "normal",
                     "productDetailsFontColor": "black",
                     "productNameFont": "Arial",
-                    "productNameFontSize": "18",
-                    "productNameFontStyle": "bold",
+                    "productNameFontSize": "16",
+                    "productNameFontStyle": "normal",
                     "productNameColor": "black",
                     "priceFont": "Arial",
-                    "priceFontSize": "28",
+                    "priceFontSize": "44",
                     "priceFontStyle": "bold",
                     "priceFontColor": "red",
                     "website": "Myautoadvantage.com",   
@@ -84,19 +84,19 @@
                     "addressFont" : "Arial",
                     "topTitle": "The New Car Alternative",
                     "topTitleColor": "white",
-                    "topTitleBackgroundColor": "#FF0000",
+                    "topTitleBackgroundColor": "#CC0000",
                     "topTitleFontSize": "32",
                     "topTitleFontStyle": "normal",
                     "topTitleFont" : "Arial",
                     "videos": [
                       {
-                        "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-9b34dedc-60c2-4af8-8921-64570a58d7cc/original_90dfs_frame_upload_E0EK3i7y.mp4",
+                        "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-2f7acd0d-1cd9-41d1-9de7-4f1482c00515/original_90dfs_frame_upload_te7eW-pu.mp4",
                         "mimetype": "video/mp4"
                       }
                     ],
                     "carouselInterval": 5,
-                    "carouselStartDelay": 4,
-                    "carouselEnd": 4,
+                    "carouselStartDelay": 5,
+                    "carouselEnd": 5,
                     "defaultClickThrough": "https://google.com"
                   }
                 ]]>
