@@ -111,6 +111,32 @@ const VpaidNonLinear = class {
     this.parameters_ = {};
 
     this.skipOffsetSeconds_ = 0;
+
+    this.defaults_ = {
+      addressBackgroundColor: "#FF0000",
+      addressColor: "white",
+      addressFontSize: 14,
+      addressFontStyle: "normal",
+      addressFont: "sans-serif",
+      address: "123 Main St, Anytown",
+      websiteBackgroundColor: "#CC0000",
+      websiteColor: "white",
+      websiteFontSize: 14,
+      websiteFontStyle: "bold",
+      websiteFont: "sans-serif",
+      website: "www.example.com",
+      productDetailsFontColor: "black",
+      productDetailsFontSize: 14,
+      productDetailsFont: "sans-serif",
+      productNameColor: "black",
+      productNameFontSize: 16,
+      productNameFontStyle: "bold",
+      productNameFont: "sans-serif",
+      priceFontColor: "black",
+      priceFontSize: 28,
+      priceFontStyle: "bold",
+      priceFont: "sans-serif",
+    };
   }
 
   /**
@@ -207,7 +233,7 @@ const VpaidNonLinear = class {
 
     // Left part - address container
     const leftStrip = document.createElement("div");
-    leftStrip.style.backgroundColor = this.parameters_.addressBackgroundColor || "#FF0000"; // Standard red
+    leftStrip.style.backgroundColor = this.parameters_.addressBackgroundColor || this.defaults_.addressBackgroundColor; // Standard red
     leftStrip.style.flex = "1";
     leftStrip.style.display = "flex";
     leftStrip.style.justifyContent = "center";
@@ -216,18 +242,18 @@ const VpaidNonLinear = class {
 
     // address text
     const address = document.createElement("div");
-    address.style.color = this.parameters_.addressColor || "white";
+    address.style.color = this.parameters_.addressColor || this.defaults_.addressColor;
     address.style.padding = "0 8px";
-    address.style.fontSize = this.parameters_.addressFontSize + "px" || "14px";
-    address.style.fontWeight = this.parameters_.addressFontStyle || "normal";
+    address.style.fontSize = this.parameters_.addressFontSize + "px" || this.defaults_.addressFontSize + "px";
+    address.style.fontWeight = this.parameters_.addressFontStyle || this.defaults_.addressFontStyle;
     address.style.letterSpacing = "1px";
-    address.style.fontFamily = this.parameters_.addressFont || "sans-serif";
-    address.textContent = this.parameters_.address || "123 Main St, Anytown";
+    address.style.fontFamily = this.parameters_.addressFont || this.defaults_.addressFont;
+    address.textContent = this.parameters_.address || this.defaults_.address;
     leftStrip.appendChild(address);
 
     // Right part - website URL container
     const rightStrip = document.createElement("div");
-    rightStrip.style.backgroundColor = this.parameters_.websiteBackgroundColor || "#CC0000"; // Standard red
+    rightStrip.style.backgroundColor = this.parameters_.websiteBackgroundColor || this.defaults_.websiteBackgroundColor; // Standard red
     rightStrip.style.flex = "0 0 34%";
     rightStrip.style.display = "flex";
     rightStrip.style.justifyContent = "center";
@@ -236,13 +262,13 @@ const VpaidNonLinear = class {
 
     // website URL text
     const websiteURL = document.createElement("div");
-    websiteURL.style.color = this.parameters_.websiteColor || "white";
+    websiteURL.style.color = this.parameters_.websiteColor || this.defaults_.websiteColor;
     websiteURL.style.padding = "0 8px";
-    websiteURL.style.fontSize = this.parameters_.websiteFontSize + "px" || "14px";
-    websiteURL.style.fontWeight = this.parameters_.websiteFontStyle || "bold";
+    websiteURL.style.fontSize = this.parameters_.websiteFontSize + "px" || this.defaults_.websiteFontSize + "px";
+    websiteURL.style.fontWeight = this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle;
     websiteURL.style.letterSpacing = "1px";
-    websiteURL.style.fontFamily = this.parameters_.websiteFont || "sans-serif";
-    websiteURL.textContent = this.parameters_.website || "www.example.com";
+    websiteURL.style.fontFamily = this.parameters_.websiteFont || this.defaults_.websiteFont;
+    websiteURL.textContent = this.parameters_.website || this.defaults_.website;
     rightStrip.appendChild(websiteURL);
 
     // Logo image container (above red strip)
@@ -310,11 +336,11 @@ const VpaidNonLinear = class {
         }
         
         .overlay-text {
-          color: ${this.parameters_.productDetailsFontColor || "black"};
+          color: ${this.parameters_.productDetailsFontColor || this.defaults_.productDetailsFontColor};
           font-size: ${
-            this.parameters_.productDetailsFontSize ? this.parameters_.productDetailsFontSize + "px" : "14px"
+            this.parameters_.productDetailsFontSize ? this.parameters_.productDetailsFontSize + "px" : this.defaults_.productDetailsFontSize + "px"
           };
-          font-family: ${this.parameters_.productDetailsFont || "sans-serif"};
+          font-family: ${this.parameters_.productDetailsFont || this.defaults_.productDetailsFont};
           text-align: center;
           font-weight: bold;
           width: 100%;
@@ -322,10 +348,10 @@ const VpaidNonLinear = class {
         }
 
         .price {
-            color: ${this.parameters_.priceFontColor || "black"};
-            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + "px" : "28px"};
-            font-weight: ${this.parameters_.priceFontStyle || "bold"};
-            font-family: ${this.parameters_.priceFont || "sans-serif"};
+            color: ${this.parameters_.priceFontColor || this.defaults_.priceFontColor};
+            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + "px" : this.defaults_.priceFontSize + "px"};
+            font-weight: ${this.parameters_.priceFontStyle || this.defaults_.priceFontStyle};
+            font-family: ${this.parameters_.priceFont || this.defaults_.priceFont};
         }
       `;
     document.head.appendChild(styleEl);
@@ -348,12 +374,12 @@ const VpaidNonLinear = class {
       const nameElement = document.createElement("h3");
       nameElement.style.margin = "0";
       nameElement.style.textAlign = "center";
-      nameElement.style.color = this.parameters_.productNameColor || "black";
-      nameElement.style.font = this.parameters_.productNameFont || "sans-serif";
+      nameElement.style.color = this.parameters_.productNameColor || this.defaults_.productNameColor;
+      nameElement.style.font = this.parameters_.productNameFont || this.defaults_.productNameFont;
       nameElement.style.fontSize = this.parameters_.productNameFontSize
         ? this.parameters_.productNameFontSize + "px"
-        : "16px";
-      nameElement.style.fontWeight = this.parameters_.productNameFontStyle || "bold";
+        : this.defaults_.productNameFontSize + "px";
+      nameElement.style.fontWeight = this.parameters_.productNameFontStyle || this.defaults_.productNameFontStyle;
       nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
       this.overlayTexts_.push(nameElement);
 
@@ -455,8 +481,8 @@ const VpaidNonLinear = class {
         skipButton.id = "skipButton";
         skipButton.textContent = "Skip Ad";
         skipButton.style.position = "absolute";
-        skipButton.style.bottom = "21px";
-        skipButton.style.right = "10px";
+        skipButton.style.bottom = "8.83%";
+        skipButton.style.right = "1.38%";
         skipButton.style.padding = "5px 10px";
         skipButton.style.backgroundColor = "#cccccc";
         skipButton.style.color = "#fff";
@@ -624,18 +650,28 @@ const VpaidNonLinear = class {
    * Pauses the ad.
    */
   pauseAd() {
-    this.log("pauseAd");
+    this.log('pauseAd');
     this.videoSlot_.pause();
-    this.callEvent_("AdPaused");
+    // Pause the carousel
+    if (this.carouselInterval_) {
+      clearInterval(this.carouselInterval_);
+      this.carouselInterval_ = null;
+    }
+    this.callEvent_('AdPaused');
   }
-
   /**
    * Resumes the ad.
    */
   resumeAd() {
-    this.log("resumeAd");
+    this.log('resumeAd');
     this.videoSlot_.play();
-    this.callEvent_("AdPlaying");
+    // Resume the carousel
+    if (!this.carouselInterval_ && this.overlayImages_.length > 1) {
+      this.carouselInterval_ = setInterval(() => {
+        this.updateOverlayImage_();
+      }, this.parameters_['carouselInterval'] * 1000);
+    }
+    this.callEvent_('AdPlaying');
   }
 
   /**

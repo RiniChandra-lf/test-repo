@@ -111,6 +111,32 @@ const VpaidNonLinear = class {
     this.parameters_ = {};
 
     this.skipOffsetSeconds_ = 0;
+
+    this.defaults_ = {
+      websiteBackgroundColor: "#CC0000",
+      websiteColor: "white",
+      websiteFontSize: 14,
+      websiteFontStyle: "bold",
+      websiteFont: "sans-serif",
+      website: "www.example.com",
+      productDetailsFontColor: "black",
+      productDetailsFontSize: 14,
+      productDetailsFont: "sans-serif",
+      productNameColor: "black",
+      productNameFontSize: 16,
+      productNameFontStyle: "bold",
+      productNameFont: "sans-serif",
+      priceFontColor: "black",
+      priceFontSize: 28,
+      priceFontStyle: "bold",
+      priceFont: "sans-serif",
+      topTitleBackgroundColor: "#CC0000",
+      topTitleColor: "white",
+      topTitleFontSize: 32,
+      topTitleFontStyle: "normal",
+      topTitleFont: "sans-serif",
+      topTitle: "www.example.com",
+    };
   }
 
   /**
@@ -211,13 +237,13 @@ const VpaidNonLinear = class {
 
     // website URL
     const websiteURL = document.createElement("div");
-    websiteURL.style.color = this.parameters_.websiteColor || "white";
+    websiteURL.style.color = this.parameters_.websiteColor || this.defaults_.websiteColor;
     websiteURL.style.padding = "0 8px";
-    websiteURL.style.fontSize = this.parameters_.websiteFontSize + "px" || "14px";
-    websiteURL.style.fontWeight = this.parameters_.websiteFontStyle || "bold";
+    websiteURL.style.fontSize = this.parameters_.websiteFontSize + "px" || this.defaults_.websiteFontSize + "px";
+    websiteURL.style.fontWeight = this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle;
     websiteURL.style.letterSpacing = "1px";
-    websiteURL.style.fontFamily = this.parameters_.websiteFont || "sans-serif";
-    websiteURL.textContent = this.parameters_.website || "www.example.com";
+    websiteURL.style.fontFamily = this.parameters_.websiteFont || this.defaults_.websiteFont;
+    websiteURL.textContent = this.parameters_.website || this.defaults_.website;
     bottomStripContainer.appendChild(websiteURL);
 
     // Create top logo/title container
@@ -251,17 +277,17 @@ const VpaidNonLinear = class {
     titleContainer.style.justifyContent = "center";
     titleContainer.style.alignItems = "center";
     titleContainer.style.overflow = "hidden";
-    titleContainer.style.backgroundColor = this.parameters_.topTitleBackgroundColor || "#CC0000"; // Deeper red
+    titleContainer.style.backgroundColor = this.parameters_.topTitleBackgroundColor || this.defaults_.topTitleBackgroundColor; // Deeper red
     topLogoTitleContainer.appendChild(titleContainer);
 
     // Top title text
     const topTitle = document.createElement("div");
     topTitle.style.textAlign = "center";
-    topTitle.style.color = this.parameters_.topTitleColor || "white";
-    topTitle.style.fontSize = this.parameters_.topTitleFontSize + "px" || "32px";
-    topTitle.style.fontWeight = this.parameters_.topTitleFontStyle || "normal";
-    topTitle.style.fontFamily = this.parameters_.topTitleFont || "sans-serif";
-    topTitle.textContent = this.parameters_.topTitle || "www.example.com";
+    topTitle.style.color = this.parameters_.topTitleColor || this.defaults_.topTitleColor;
+    topTitle.style.fontSize = this.parameters_.topTitleFontSize + "px" || this.defaults_.topTitleFontSize + "px";
+    topTitle.style.fontWeight = this.parameters_.topTitleFontStyle || this.defaults_.topTitleFontStyle;
+    topTitle.style.fontFamily = this.parameters_.topTitleFont || this.defaults_.topTitleFont;
+    topTitle.textContent = this.parameters_.topTitle || this.defaults_.topTitle;
     titleContainer.appendChild(topTitle);
 
     // Add CSS animation styles
@@ -309,11 +335,11 @@ const VpaidNonLinear = class {
         }
         
         .overlay-text {
-          color: ${this.parameters_.productDetailsFontColor || "black"};
+          color: ${this.parameters_.productDetailsFontColor || this.defaults_.productDetailsFontColor};
           font-size: ${
-            this.parameters_.productDetailsFontSize ? this.parameters_.productDetailsFontSize + "px" : "12px"
+            this.parameters_.productDetailsFontSize ? this.parameters_.productDetailsFontSize + "px" : this.defaults_.productDetailsFontSize + "px"
           };
-          font-family: ${this.parameters_.productDetailsFont || "sans-serif"};
+          font-family: ${this.parameters_.productDetailsFont || this.defaults_.productDetailsFont};
           text-align: center;
           font-weight: bold;
           width: 100%;
@@ -321,10 +347,10 @@ const VpaidNonLinear = class {
         }
 
         .price {
-            color: ${this.parameters_.priceFontColor || "black"};
-            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + "px" : "44px"};
-            font-weight: ${this.parameters_.priceFontStyle || "bold"};
-            font-family: ${this.parameters_.priceFont || "sans-serif"};
+            color: ${this.parameters_.priceFontColor || this.defaults_.priceFontColor};
+            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + "px" : this.defaults_.priceFontSize + "px"};
+            font-weight: ${this.parameters_.priceFontStyle || this.defaults_.priceFontStyle};
+            font-family: ${this.parameters_.priceFont || this.defaults_.priceFont};
         }
       `;
     document.head.appendChild(styleEl);
@@ -347,12 +373,12 @@ const VpaidNonLinear = class {
       const nameElement = document.createElement("h3");
       nameElement.style.margin = "0";
       nameElement.style.textAlign = "center";
-      nameElement.style.color = this.parameters_.productNameColor || "black";
-      nameElement.style.font = this.parameters_.productNameFont || "sans-serif";
+      nameElement.style.color = this.parameters_.productNameColor || this.defaults_.productNameColor;
+      nameElement.style.font = this.parameters_.productNameFont || this.defaults_.productNameFont;
       nameElement.style.fontSize = this.parameters_.productNameFontSize
         ? this.parameters_.productNameFontSize + "px"
-        : "16px";
-      nameElement.style.fontWeight = this.parameters_.productNameFontStyle || "bold";
+        : this.defaults_.productNameFontSize + "px";
+      nameElement.style.fontWeight = this.parameters_.productNameFontStyle || this.defaults_.productNameFontStyle;
       nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
       this.overlayTexts_.push(nameElement);
 
@@ -454,7 +480,7 @@ const VpaidNonLinear = class {
         skipButton.id = "skipButton";
         skipButton.textContent = "Skip Ad";
         skipButton.style.position = "absolute";
-        skipButton.style.bottom = "21px";
+        skipButton.style.bottom = "1px";
         skipButton.style.right = "10px";
         skipButton.style.padding = "5px 10px";
         skipButton.style.backgroundColor = "#cccccc";
