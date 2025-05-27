@@ -1,0 +1,119 @@
+<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd" version="3.0">
+  <script/>
+  <Ad id="1234567">
+    <InLine>
+      <AdSystem/>
+      <AdTitle>NonLinear VPAID Countdown</AdTitle>
+      <Description>Vpaid NonLinear Countdown Ad</Description>
+      <Impression>
+        <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=impression&ad_id=1234567 ]]>
+      </Impression>
+      <Creatives>
+        <Creative sequence="1">
+          <NonLinearAds>
+            <TrackingEvents>
+              <Tracking event="firstQuartile">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=firstQuartile&ad_id=1234567 ]]>
+              </Tracking>
+              <Tracking event="midpoint">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=midpoint&ad_id=1234567 ]]>
+              </Tracking>
+              <Tracking event="thirdQuartile">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=thirdQuartile&ad_id=1234567 ]]>
+              </Tracking>
+              <Tracking event="complete">
+                <![CDATA[ https://stories-api.90d.io/api/v2/tracks?event=complete&ad_id=1234567 ]]>
+              </Tracking>
+            </TrackingEvents>
+            <NonLinear apiFramework="VPAID" width="300" height="60" id="overlay-1">
+              <AdParameters>
+                <![CDATA[
+                  {
+                    "isSkippable": true,
+                    "skipOffset": 5,
+                    "totalAdDuration": 30,
+                    "overlays": [
+                      {
+                        "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_nsULGuoX.jpg",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/honda/accord/ray7/",
+                        "productName": "2019 Toyota Corolla",
+                        "productDescription": "VIN: 1HGCM82633A001234\nAvailable as of: 20/2/25",
+                        "price": "$14,358"
+                      },
+                      {
+                        "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_CAF8_KSO.jpg",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/infiniti/m/20797r/",
+                        "productName": "2002 Porsche Boxster",
+                        "productDescription": "VIN: 1HGCM82633A001234\nAvailable as of: 20/2/25",
+                        "price": "$12,306"
+                      },
+                      {
+                        "imageUrl": "https://cdn.90d.io/nd/nbrand-19148356-e16b-4b0a-932e-6fd1c3e01c3e/thumb_90dfs_frame_upload_OglwNMW3.jpg",
+                        "clickThrough": "https://www.autoadvantage.net/inventory/volkswagen/passat/%2320879/",
+                        "productName": "2021 Kia Rio",
+                        "productDescription": "VIN: 1HGCM82633A001234\nAvailable as of: 20/2/25",
+                        "price": "$13,580"
+                      }
+                    ],     
+                    "productDetailsFont": "Arial",
+                    "productDetailsFontSize": "12",
+                    "productDetailsFontStyle": "normal",
+                    "productDetailsFontColor": "black",
+                    "productNameFont": "Arial",
+                    "productNameFontSize": "16",
+                    "productNameFontStyle": "normal",
+                    "productNameColor": "black",
+                    "priceFont": "Arial",
+                    "priceFontSize": "44",
+                    "priceFontStyle": "bold",
+                    "priceFontColor": "red",
+                    "website": "Myautoadvantage.com",   
+                    "websiteColor": "white",
+                    "websiteBackgroundColor": "#CC0000",
+                    "websiteFontSize": "14",
+                    "websiteFontStyle": "normal",            
+                    "websiteFont" : "Arial",
+                    "bottomImageUrl": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-2f7acd0d-1cd9-41d1-9de7-4f1482c00515/original_90dfs_brand_logo_ZFrhcxld.jpg",
+                    "address": "Address: 5998 Ashevill Hwy, Hendersonville, NC 28791",
+                    "addressColor": "white",
+                    "addressBackgroundColor": "#FF0000",
+                    "addressFontSize": "14",
+                    "addressFontStyle": "normal",
+                    "addressFont" : "Arial",
+                    "topTitle": "The New Car Alternative",
+                    "topTitleColor": "white",
+                    "topTitleBackgroundColor": "#CC0000",
+                    "topTitleFontSize": "32",
+                    "topTitleFontStyle": "normal",
+                    "topTitleFont" : "Arial",
+                    "videos": [
+                      {
+                        "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-2f7acd0d-1cd9-41d1-9de7-4f1482c00515/original_90dfs_frame_upload_13vwtE_3.mp4",
+                        "mimetype": "video/mp4"
+                      }
+                    ],
+                    "carouselInterval": 5,
+                    "carouselStartDelay": 5,
+                    "carouselEnd": 5,
+                    "defaultClickThrough": "https://google.com"
+                  }
+                ]]>
+              </AdParameters>
+              <StaticResource creativeType="application/javascript">
+                <![CDATA[
+                  data:application/javascript;base64,
+                  Put your base64 encoded JavaScript here
+                ]]>
+              </StaticResource>
+
+
+              <NonLinearClickThrough id="GDFP">
+                <![CDATA[ https://google.com ]]>
+              </NonLinearClickThrough>
+            </NonLinear>
+          </NonLinearAds>
+        </Creative>
+      </Creatives>
+    </InLine>
+  </Ad>
+</VAST>
