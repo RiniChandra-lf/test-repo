@@ -261,7 +261,7 @@ const VpaidNonLinear = class {
     const logoImg = document.createElement("img");
     logoImg.src = this.parameters_.bottomImageUrl || overlays[0]?.imageUrl || overlays[0];
     logoImg.style.height = "100%";
-    logoImg.style.width = "100%";
+    logoImg.style.maxWidth = "100%";
     logoImg.style.objectFit = "contain";
     logoContainer.appendChild(logoImg);
 
