@@ -114,6 +114,10 @@ const VpaidNonLinear = class {
 
     this.scale_ = 1;
 
+    //frontend preview sizing
+    this.baseWidth_ = 800;
+    this.baseHeight_ = 450;
+
     this.defaults_ = {
       addressBackgroundColor: "#FF0000",
       addressColor: "white",
@@ -176,8 +180,6 @@ const VpaidNonLinear = class {
 
     this.skipOffsetSeconds_ = this.parameters_.skipOffset;
 
-    this.baseWidth_ = 640;
-    this.baseHeight_ = 360;
     this.scaleX_ = width / this.baseWidth_;
     this.scaleY_ = height / this.baseHeight_;
     this.scale_ = Math.min(this.scaleX_, this.scaleY_);
