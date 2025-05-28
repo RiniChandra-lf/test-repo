@@ -495,6 +495,7 @@ const VpaidNonLinear = class {
         const skipButton = document.createElement("button");
         skipButton.id = "skipButton";
         skipButton.textContent = "Skip Ad";
+        skipButton.style.fontSize = this.scalePx(12);
         skipButton.style.position = "absolute";
         skipButton.style.bottom = "8.83%";
         skipButton.style.right = "1.38%";
