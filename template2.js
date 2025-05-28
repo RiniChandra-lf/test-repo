@@ -112,6 +112,8 @@ const VpaidNonLinear = class {
 
     this.skipOffsetSeconds_ = 0;
 
+    this.scale_ = 1;
+
     this.defaults_ = {
       addressBackgroundColor: "#FF0000",
       addressColor: "white",
@@ -174,6 +176,13 @@ const VpaidNonLinear = class {
 
     this.skipOffsetSeconds_ = this.parameters_.skipOffset;
 
+    this.baseWidth_ = 640;
+    this.baseHeight_ = 360;
+    this.scaleX_ = width / this.baseWidth_;
+    this.scaleY_ = height / this.baseHeight_;
+    this.scale_ = Math.min(this.scaleX_, this.scaleY_);
+    console.log("scaling factor: ", this.scale_);
+
     this.log("skip offset: ", this.skipOffsetSeconds_);
 
     this.log("initAd " + width + "x" + height + " " + viewMode + " " + desiredBitrate);
@@ -187,6 +196,10 @@ const VpaidNonLinear = class {
   updateVideoPlayerSize_() {
     this.videoSlot_.setAttribute("width", this.attributes_["width"]);
     this.videoSlot_.setAttribute("height", this.attributes_["height"]);
+  }
+
+  scalePx(val) {
+    return (val * this.scale_).toFixed(2) + 'px';
   }
 
   /**
@@ -243,10 +256,10 @@ const VpaidNonLinear = class {
     // address text
     const address = document.createElement("div");
     address.style.color = this.parameters_.addressColor || this.defaults_.addressColor;
-    address.style.padding = "0 8px";
-    address.style.fontSize = this.parameters_.addressFontSize + "px" || this.defaults_.addressFontSize + "px";
+    address.style.padding = `0 ${this.scalePx(8)}`;
+    address.style.fontSize = this.scalePx(this.parameters_.addressFontSize) || this.scalePx(this.defaults_.addressFontSize);
     address.style.fontWeight = this.parameters_.addressFontStyle || this.defaults_.addressFontStyle;
-    address.style.letterSpacing = "1px";
+    address.style.letterSpacing = this.scalePx(1);
     address.style.fontFamily = this.parameters_.addressFont || this.defaults_.addressFont;
     address.textContent = this.parameters_.address || this.defaults_.address;
     leftStrip.appendChild(address);
@@ -263,10 +276,10 @@ const VpaidNonLinear = class {
     // website URL text
     const websiteURL = document.createElement("div");
     websiteURL.style.color = this.parameters_.websiteColor || this.defaults_.websiteColor;
-    websiteURL.style.padding = "0 8px";
-    websiteURL.style.fontSize = this.parameters_.websiteFontSize + "px" || this.defaults_.websiteFontSize + "px";
+    websiteURL.style.padding = `0 ${this.scalePx(8)}`;
+    websiteURL.style.fontSize = this.scalePx(this.parameters_.websiteFontSize) || this.scalePx(this.defaults_.websiteFontSize);
     websiteURL.style.fontWeight = this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle;
-    websiteURL.style.letterSpacing = "1px";
+    websiteURL.style.letterSpacing = this.scalePx(1);
     websiteURL.style.fontFamily = this.parameters_.websiteFont || this.defaults_.websiteFont;
     websiteURL.textContent = this.parameters_.website || this.defaults_.website;
     rightStrip.appendChild(websiteURL);
@@ -338,7 +351,7 @@ const VpaidNonLinear = class {
         .overlay-text {
           color: ${this.parameters_.productDetailsFontColor || this.defaults_.productDetailsFontColor};
           font-size: ${
-            this.parameters_.productDetailsFontSize ? this.parameters_.productDetailsFontSize + "px" : this.defaults_.productDetailsFontSize + "px"
+            this.parameters_.productDetailsFontSize ? this.scalePx(this.parameters_.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize)
           };
           font-family: ${this.parameters_.productDetailsFont || this.defaults_.productDetailsFont};
           text-align: center;
@@ -349,7 +362,7 @@ const VpaidNonLinear = class {
 
         .price {
             color: ${this.parameters_.priceFontColor || this.defaults_.priceFontColor};
-            font-size: ${this.parameters_.priceFontSize ? this.parameters_.priceFontSize + "px" : this.defaults_.priceFontSize + "px"};
+            font-size: ${this.parameters_.priceFontSize ? this.scalePx(this.parameters_.priceFontSize) : this.scalePx(this.defaults_.priceFontSize)};
             font-weight: ${this.parameters_.priceFontStyle || this.defaults_.priceFontStyle};
             font-family: ${this.parameters_.priceFont || this.defaults_.priceFont};
         }
@@ -377,8 +390,8 @@ const VpaidNonLinear = class {
       nameElement.style.color = this.parameters_.productNameColor || this.defaults_.productNameColor;
       nameElement.style.font = this.parameters_.productNameFont || this.defaults_.productNameFont;
       nameElement.style.fontSize = this.parameters_.productNameFontSize
-        ? this.parameters_.productNameFontSize + "px"
-        : this.defaults_.productNameFontSize + "px";
+        ? this.scalePx(this.parameters_.productNameFontSize)
+        : this.scalePx(this.defaults_.productNameFontSize);
       nameElement.style.fontWeight = this.parameters_.productNameFontStyle || this.defaults_.productNameFontStyle;
       nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
       this.overlayTexts_.push(nameElement);
@@ -483,11 +496,11 @@ const VpaidNonLinear = class {
         skipButton.style.position = "absolute";
         skipButton.style.bottom = "8.83%";
         skipButton.style.right = "1.38%";
-        skipButton.style.padding = "5px 10px";
+        skipButton.style.padding = `${this.scalePx(5)} ${this.scalePx(10)}`;
         skipButton.style.backgroundColor = "#cccccc";
         skipButton.style.color = "#fff";
-        skipButton.style.border = "2px solid white";
-        skipButton.style.borderRadius = "5px";
+        skipButton.style.border = `${this.scalePx(2)} solid white`;
+        skipButton.style.borderRadius = `${this.scalePx(5)}`;
         skipButton.style.cursor = "pointer";
         skipButton.style.zIndex = "1000";
 
