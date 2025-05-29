@@ -128,6 +128,7 @@ const VpaidNonLinear = class {
       productDetailsFontColor: "black",
       productDetailsFontSize: 14,
       productDetailsFont: "sans-serif",
+      productDetailsFontStyle: "bold",
       productNameColor: "black",
       productNameFontSize: 16,
       productNameFontStyle: "bold",
@@ -350,13 +351,7 @@ const VpaidNonLinear = class {
         }
         
         .overlay-text {
-          color: ${this.parameters_.productDetailsFontColor || this.defaults_.productDetailsFontColor};
-          font-size: ${
-            this.parameters_.productDetailsFontSize ? this.scalePx(this.parameters_.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize)
-          };
-          font-family: ${this.parameters_.productDetailsFont || this.defaults_.productDetailsFont};
           text-align: center;
-          font-weight: bold;
           width: 100%;
           white-space: pre-line;
         }
@@ -388,22 +383,29 @@ const VpaidNonLinear = class {
       const nameElement = document.createElement("h3");
       nameElement.style.margin = "0";
       nameElement.style.textAlign = "center";
-      nameElement.style.color = this.parameters_.productNameColor || this.defaults_.productNameColor;
-      nameElement.style.font = this.parameters_.productNameFont || this.defaults_.productNameFont;
-      nameElement.style.fontSize = this.parameters_.productNameFontSize
-        ? this.scalePx(this.parameters_.productNameFontSize)
+      nameElement.style.color = overlay.productNameColor || this.defaults_.productNameColor;
+      nameElement.style.font = overlay.productNameFont || this.defaults_.productNameFont;
+      nameElement.style.fontSize = overlay.productNameFontSize
+        ? this.scalePx(overlay.productNameFontSize)
         : this.scalePx(this.defaults_.productNameFontSize);
-      nameElement.style.fontWeight = this.parameters_.productNameFontStyle || this.defaults_.productNameFontStyle;
+      nameElement.style.fontWeight = overlay.productNameFontStyle || this.defaults_.productNameFontStyle;
       nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
       this.overlayTexts_.push(nameElement);
 
       const productDescriptionElement = document.createElement("div");
       productDescriptionElement.className = "overlay-text";
+      productDescriptionElement.style.color = overlay.productDetailsFontColor || this.defaults_.productDetailsFontColor;
+      productDescriptionElement.style.font = overlay.productDetailsFont;
+      productDescriptionElement.style.fontSize = overlay.productDetailsFontSize ? this.scalePx(overlay.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize);
+      productDescriptionElement.style.fontWeight = overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle
       productDescriptionElement.textContent = overlay.productDescription || `Overlay ${index + 1}`;
       this.overlayTexts_.push(productDescriptionElement);
 
       const priceElement = document.createElement("div");
-      priceElement.className = "price";
+      priceElement.style.color = overlay.priceFontColor || this.defaults_.priceFontColor;
+      priceElement.style.font = overlay.priceFont || this.defaults_.priceFont;
+      priceElement.style.fontSize = overlay.priceFontSize || this.defaults_.priceFontSize;
+      priceElement.style.fontWeight = overlay.priceFontStyle || this.defaults_.priceFontStyle;
       priceElement.textContent = overlay.price || `Overlay ${index + 1}`;
       this.overlayTexts_.push(priceElement);
 
