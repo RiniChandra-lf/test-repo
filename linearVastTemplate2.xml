@@ -12,7 +12,7 @@
                      <UniversalAdId idRegistry="googlevideo">H0Hrk8zCNZI</UniversalAdId>
                   </CreativeExtension>
                </CreativeExtensions>
-               <Linear skipoffset="00:00:05">
+               <Linear>
                   <Duration>00:00:10</Duration>
                   <TrackingEvents>
                      <Tracking event="firstQuartile">
@@ -113,7 +113,12 @@
                      </Icon>
                   </Icons>
                   <MediaFiles>
-                     <MediaFile delivery="progressive" type="application/javascript" apiFramework="VPAID" width="1280" height="720">https://rinichandra-lf.github.io/test-repo/template2.js</MediaFile>
+                     <MediaFile delivery="progressive" type="application/javascript" apiFramework="VPAID" width="1280" height="720">
+                        https://rinichandra-lf.github.io/test-repo/template2.js
+                     </MediaFile>
+                     <MediaFile delivery="progressive" type="video/mp4" width="1280" height="720">
+                        https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-2f7acd0d-1cd9-41d1-9de7-4f1482c00515/original_90dfs_frame_upload_s_CVLKmg.mp4
+                     </MediaFile>
                   </MediaFiles>
                </Linear>
             </Creative>
