@@ -376,7 +376,7 @@ const VpaidNonLinear = class {
       const img = document.createElement("img");
       img.src = overlay.imageUrl || overlay;
       img.style.width = "100%";
-      img.style.maxHeight = "100%";
+      img.style.maxHeight = "60%";
       img.style.objectFit = "contain";
 
       // Create text element
