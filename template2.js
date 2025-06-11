@@ -124,13 +124,13 @@ const VpaidNonLinear = class {
       addressFontSize: 14,
       addressFontStyle: "normal",
       addressFont: "sans-serif",
-      address: "123 Main St, Anytown",
+      address: " ",
       websiteBackgroundColor: "#CC0000",
       websiteColor: "white",
       websiteFontSize: 14,
       websiteFontStyle: "bold",
       websiteFont: "sans-serif",
-      website: "www.example.com",
+      website: " ",
       productDetailsFontColor: "black",
       productDetailsFontSize: 14,
       productDetailsFont: "sans-serif",
@@ -383,7 +383,7 @@ const VpaidNonLinear = class {
         ? this.scalePx(overlay.productNameFontSize)
         : this.scalePx(this.defaults_.productNameFontSize);
       nameElement.style.fontWeight = overlay.productNameFontStyle || this.defaults_.productNameFontStyle;
-      nameElement.textContent = overlay.productName || `Overlay ${index + 1}`;
+      nameElement.textContent = overlay.productName || " ";
       this.overlayTexts_.push(nameElement);
 
       const productDescriptionElement = document.createElement("div");
@@ -392,7 +392,7 @@ const VpaidNonLinear = class {
       productDescriptionElement.style.font = overlay.productDetailsFont;
       productDescriptionElement.style.fontSize = overlay.productDetailsFontSize ? this.scalePx(overlay.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize);
       productDescriptionElement.style.fontWeight = overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle
-      productDescriptionElement.textContent = overlay.productDescription || `Overlay ${index + 1}`;
+      productDescriptionElement.textContent = overlay.productDescription || " ";
       this.overlayTexts_.push(productDescriptionElement);
 
       const priceElement = document.createElement("div");
@@ -400,7 +400,7 @@ const VpaidNonLinear = class {
       priceElement.style.font = overlay.priceFont || this.defaults_.priceFont;
       priceElement.style.fontSize = overlay.priceFontSize || this.defaults_.priceFontSize;
       priceElement.style.fontWeight = overlay.priceFontStyle || this.defaults_.priceFontStyle;
-      priceElement.textContent = overlay.price || `Overlay ${index + 1}`;
+      priceElement.textContent = overlay.price || " ";
       this.overlayTexts_.push(priceElement);
 
       // Add click handler to the unit
