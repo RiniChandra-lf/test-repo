@@ -398,7 +398,7 @@ const VpaidNonLinear = class {
       const priceElement = document.createElement("div");
       priceElement.style.color = overlay.priceFontColor || this.defaults_.priceFontColor;
       priceElement.style.font = overlay.priceFont || this.defaults_.priceFont;
-      priceElement.style.fontSize = overlay.priceFontSize || this.defaults_.priceFontSize;
+      priceElement.style.fontSize = overlay.priceFontSize ? this.scalePx(overlay.priceFontSize) : this.scalePx(this.defaults_.priceFontSize);
       priceElement.style.fontWeight = overlay.priceFontStyle || this.defaults_.priceFontStyle;
       priceElement.textContent = overlay.price || " ";
       this.overlayTexts_.push(priceElement);
