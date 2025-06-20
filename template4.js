@@ -484,7 +484,7 @@ const VpaidNonLinear = class {
           if (this.overlayImages_.length > 1) {
             this.carouselInterval_ = setInterval(() => {
               this.updateOverlayImage_();
-            }, this.parameters_["carouselInterval"] * 1000);
+            }, (this.parameters_["carouselInterval"] + (4.5 / this.overlayImages_.length)) * 1000);
           }
         }, 50); // Small delay to ensure container is visible first
       }
@@ -583,7 +583,7 @@ const VpaidNonLinear = class {
 
     // Schedule the end of carousel 5 seconds before the end of the video
     if (this.videoSlot_.duration > this.attributes_["carouselEndEarly"]) {
-      const endTime = (this.videoSlot_.duration - this.attributes_["carouselEndEarly"] + 3.5) * 1000;
+      const endTime = (this.videoSlot_.duration - this.attributes_["carouselEndEarly"] + 4.5) * 1000;
       this.carouselEndTimeout_ = setTimeout(() => {
         if (this.carouselInterval_) {
           clearInterval(this.carouselInterval_);
