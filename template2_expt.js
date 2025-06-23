@@ -964,7 +964,7 @@ loadFonts_() {
     address.style.padding = `0 ${this.scalePx(8)}`;
     address.style.fontSize = this.scalePx(this.parameters_.addressFontSize) || this.scalePx(this.defaults_.addressFontSize);
     address.style.fontWeight = this.getFontWeight_(this.parameters_.addressFontStyle || this.defaults_.addressFontStyle);    address.style.letterSpacing = this.scalePx(1);
-    address.style.fontFamily = this.parameters_.addressFont || this.defaults_.addressFont;
+    address.style.fontFamily = this.getFallbackFont_(this.parameters_.addressFont || this.defaults_.addressFont);
     address.textContent = this.parameters_.address || this.defaults_.address;
     leftStrip.appendChild(address);
 
@@ -984,7 +984,7 @@ loadFonts_() {
     websiteURL.style.fontSize = this.scalePx(this.parameters_.websiteFontSize) || this.scalePx(this.defaults_.websiteFontSize);
     websiteURL.style.fontWeight = this.getFontWeight_(this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle);
     websiteURL.style.letterSpacing = this.scalePx(1);
-    websiteURL.style.fontFamily = this.parameters_.websiteFont || this.defaults_.websiteFont;
+    websiteURL.style.fontFamily = this.getFallbackFont_(this.parameters_.websiteFont || this.defaults_.websiteFont);
     websiteURL.textContent = this.parameters_.website || this.defaults_.website;
     rightStrip.appendChild(websiteURL);
 
@@ -1076,7 +1076,7 @@ loadFonts_() {
       nameElement.style.margin = "0";
       nameElement.style.textAlign = "center";
       nameElement.style.color = overlay.productNameColor || this.defaults_.productNameColor;
-      nameElement.style.fontFamily = overlay.productNameFont || this.defaults_.productNameFont;
+      nameElement.style.fontFamily = this.getFallbackFont_(overlay.productNameFont || this.defaults_.productNameFont);
       nameElement.style.fontSize = overlay.productNameFontSize
         ? this.scalePx(overlay.productNameFontSize)
         : this.scalePx(this.defaults_.productNameFontSize);
@@ -1087,7 +1087,7 @@ loadFonts_() {
       const productDescriptionElement = document.createElement("div");
       productDescriptionElement.className = "overlay-text";
       productDescriptionElement.style.color = overlay.productDetailsFontColor || this.defaults_.productDetailsFontColor;
-      productDescriptionElement.style.fontFamily = overlay.productDetailsFont;
+      productDescriptionElement.style.fontFamily = this.getFallbackFont_(overlay.productDetailsFont);
       productDescriptionElement.style.fontSize = overlay.productDetailsFontSize ? this.scalePx(overlay.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize);
       productDescriptionElement.style.fontWeight = this.getFontWeight_(overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle)
       productDescriptionElement.textContent = overlay.productDescription || " ";
@@ -1095,7 +1095,7 @@ loadFonts_() {
 
       const priceElement = document.createElement("div");
       priceElement.style.color = overlay.priceFontColor || this.defaults_.priceFontColor;
-      priceElement.style.fontFamily = overlay.priceFont || this.defaults_.priceFont;
+      priceElement.style.fontFamily = this.getFallbackFont_(overlay.priceFont || this.defaults_.priceFont);
       priceElement.style.fontSize = overlay.priceFontSize ? this.scalePx(overlay.priceFontSize) : this.scalePx(this.defaults_.priceFontSize);
       priceElement.style.fontWeight = this.getFontWeight_(overlay.priceFontStyle || this.defaults_.priceFontStyle);
       priceElement.textContent = overlay.price || " ";
