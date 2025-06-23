@@ -186,6 +186,7 @@ loadFonts_() {
     const sansFonts = ['Arial', 'Helvetica', 'Inter', 'Lato', 'Montserrat', 'Open Sans', 'Poppins', 'Raleway', 'Roboto', 'Rubik', 'Tahoma', 'Verdana', 'Noto Sans Georgian'];
     const displayFonts = ['Bebas Neue', 'Impact', 'Oswald'];
     if (font === 'Futura') return 'Montserrat, Helvetica, sans-serif';
+    if (font === 'Garamond') return 'EB Garamond, serif';
     if (serifFonts.includes(font)) return `${font}, Times New Roman, Georgia, serif`;
     if (displayFonts.includes(font)) return `${font}, Impact, sans-serif`;
     if (font === 'Courier New') return `${font}, monospace`;
