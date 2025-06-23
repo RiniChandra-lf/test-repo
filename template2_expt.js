@@ -8,7 +8,659 @@
 const VpaidNonLinear = class {
   constructor() {
     this.API_URL = 'https://rinichandra-lf.github.io/test-repo/fonts.json';// Replace with your API endpoint
-    this.fonts_ = [];
+    this.fonts_ = [
+  {
+    "format": "truetype",
+    "id": 78,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 77,
+        "text": "Bold",
+        "uid": "nfont-9e177326-97d1-4f4a-99f8-08b4e95ef94d",
+        "url": "https://dhi-api.staging.90d.io/fonts/Verdana/verdana-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 78,
+        "text": "Regular",
+        "uid": "nfont-58997e3e-76b3-42d3-bf47-2d092960a7d5",
+        "url": "https://dhi-api.staging.90d.io/fonts/Verdana/verdana.ttf"
+      }
+    ],
+    "text": "Verdana",
+    "uid": "nfont-58997e3e-76b3-42d3-bf47-2d092960a7d5",
+    "url": "https://dhi-api.staging.90d.io/fonts/Verdana/verdana.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 81,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 81,
+        "text": "Regular",
+        "uid": "nfont-d00b8a4c-99b7-4781-b36a-018adcbc826c",
+        "url": "https://dhi-api.staging.90d.io/fonts/Times New Roman/times.ttf"
+      }
+    ],
+    "text": "Times New Roman",
+    "uid": "nfont-d00b8a4c-99b7-4781-b36a-018adcbc826c",
+    "url": "https://dhi-api.staging.90d.io/fonts/Times New Roman/times.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 1,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 1,
+        "text": "Regular",
+        "uid": "nfont-1837e5de-3d3c-4e2c-8c5c-779a56954855",
+        "url": "https://dhi-api.staging.90d.io/fonts/Tahoma/tahoma.ttf"
+      }
+    ],
+    "text": "Tahoma",
+    "uid": "nfont-1837e5de-3d3c-4e2c-8c5c-779a56954855",
+    "url": "https://dhi-api.staging.90d.io/fonts/Tahoma/tahoma.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 13,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 11,
+        "text": "Bold",
+        "uid": "nfont-2941ba13-d8bd-48a7-8c60-0a0412653e25",
+        "url": "https://dhi-api.staging.90d.io/fonts/Rubik/rubik-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 12,
+        "text": "Medium",
+        "uid": "nfont-1ca655e0-d2cf-4223-81ea-fb0dafd85735",
+        "url": "https://dhi-api.staging.90d.io/fonts/Rubik/rubik-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 13,
+        "text": "Regular",
+        "uid": "nfont-45ac30a6-f561-471a-8a69-2293037d612a",
+        "url": "https://dhi-api.staging.90d.io/fonts/Rubik/rubik.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 14,
+        "text": "Semi-Bold",
+        "uid": "nfont-ae6dd8d4-2a15-4d97-877d-cb5fd7b94002",
+        "url": "https://dhi-api.staging.90d.io/fonts/Rubik/rubik-semi_bold.ttf"
+      }
+    ],
+    "text": "Rubik",
+    "uid": "nfont-45ac30a6-f561-471a-8a69-2293037d612a",
+    "url": "https://dhi-api.staging.90d.io/fonts/Rubik/rubik.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 45,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 43,
+        "text": "Bold",
+        "uid": "nfont-4a27cc0c-8b7f-4059-b52b-273c8366f3f2",
+        "url": "https://dhi-api.staging.90d.io/fonts/Roboto/roboto-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 44,
+        "text": "Thin",
+        "uid": "nfont-b3b1d7bc-6f0e-4ed4-acea-22fdeb5c69d0",
+        "url": "https://dhi-api.staging.90d.io/fonts/Roboto/roboto-thin.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 45,
+        "text": "Regular",
+        "uid": "nfont-d593efd4-4a19-4e1b-95dd-d5ade7573bec",
+        "url": "https://dhi-api.staging.90d.io/fonts/Roboto/roboto.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 46,
+        "text": "Medium",
+        "uid": "nfont-4991c9e8-a00c-4157-b3b3-99a3cc302874",
+        "url": "https://dhi-api.staging.90d.io/fonts/Roboto/roboto-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 47,
+        "text": "Semi-Bold",
+        "uid": "nfont-4d8fa7e2-0dfd-44c0-86a5-7f12175c9f39",
+        "url": "https://dhi-api.staging.90d.io/fonts/Roboto/roboto-semi_bold.ttf"
+      }
+    ],
+    "text": "Roboto",
+    "uid": "nfont-d593efd4-4a19-4e1b-95dd-d5ade7573bec",
+    "url": "https://dhi-api.staging.90d.io/fonts/Roboto/roboto.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 23,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 21,
+        "text": "Bold",
+        "uid": "nfont-9f5bc28e-b0bc-409d-91e4-f33d2eba860f",
+        "url": "https://dhi-api.staging.90d.io/fonts/Raleway/raleway-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 22,
+        "text": "Medium",
+        "uid": "nfont-6ac8dbd0-73f7-48ef-85ae-fccaebf0b3a6",
+        "url": "https://dhi-api.staging.90d.io/fonts/Raleway/raleway-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 23,
+        "text": "Regular",
+        "uid": "nfont-2419f16a-a55b-48f2-a009-2a252bafd1bd",
+        "url": "https://dhi-api.staging.90d.io/fonts/Raleway/raleway.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 24,
+        "text": "Thin",
+        "uid": "nfont-9343ae69-c4db-4c4f-aef5-cfb8cdc3f359",
+        "url": "https://dhi-api.staging.90d.io/fonts/Raleway/raleway-thin.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 25,
+        "text": "Semi-Bold",
+        "uid": "nfont-88bf2ec4-bfcd-4b5e-ad8f-e5f7efff27ac",
+        "url": "https://dhi-api.staging.90d.io/fonts/Raleway/raleway-semi_bold.ttf"
+      }
+    ],
+    "text": "Raleway",
+    "uid": "nfont-2419f16a-a55b-48f2-a009-2a252bafd1bd",
+    "url": "https://dhi-api.staging.90d.io/fonts/Raleway/raleway.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 34,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 31,
+        "text": "Bold",
+        "uid": "nfont-329fb137-3110-445e-acfa-bd32f043c857",
+        "url": "https://dhi-api.staging.90d.io/fonts/Poppins/poppins-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 32,
+        "text": "Medium",
+        "uid": "nfont-27d9fd14-80f0-4091-9b51-270582f2b547",
+        "url": "https://dhi-api.staging.90d.io/fonts/Poppins/poppins-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 33,
+        "text": "Semi-Bold",
+        "uid": "nfont-991274e2-0b4e-4ac9-9225-1787c004413e",
+        "url": "https://dhi-api.staging.90d.io/fonts/Poppins/poppins-semi_bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 34,
+        "text": "Regular",
+        "uid": "nfont-bebffce1-4050-44c8-b33d-2813a23ba61a",
+        "url": "https://dhi-api.staging.90d.io/fonts/Poppins/poppins.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 35,
+        "text": "Thin",
+        "uid": "nfont-6c925d6a-2004-48a9-a9f1-cc364b305c1e",
+        "url": "https://dhi-api.staging.90d.io/fonts/Poppins/poppins-thin.ttf"
+      }
+    ],
+    "text": "Poppins",
+    "uid": "nfont-bebffce1-4050-44c8-b33d-2813a23ba61a",
+    "url": "https://dhi-api.staging.90d.io/fonts/Poppins/poppins.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 111,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 112,
+        "text": "Medium",
+        "uid": "nfont-b6d961f9-c483-422a-b308-b2d8b2f2d6a6",
+        "url": "https://dhi-api.staging.90d.io/fonts/Oswald/oswald-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 109,
+        "text": "Thin",
+        "uid": "nfont-f44a0dd3-28bc-49fe-bf67-ea30efa42f29",
+        "url": "https://dhi-api.staging.90d.io/fonts/Oswald/oswald-thin.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 110,
+        "text": "Semi-Bold",
+        "uid": "nfont-0c749b2d-0863-46b1-bfb3-01c951e8c835",
+        "url": "https://dhi-api.staging.90d.io/fonts/Oswald/oswald-semi_bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 111,
+        "text": "Regular",
+        "uid": "nfont-e650ed4c-8908-4333-8364-0fefacb5ca98",
+        "url": "https://dhi-api.staging.90d.io/fonts/Oswald/oswald.ttf"
+      }
+    ],
+    "text": "Oswald",
+    "uid": "nfont-e650ed4c-8908-4333-8364-0fefacb5ca98",
+    "url": "https://dhi-api.staging.90d.io/fonts/Oswald/oswald.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 84,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 83,
+        "text": "Bold",
+        "uid": "nfont-5e10d86b-d1d8-42ec-9da4-7ce47c6d20b3",
+        "url": "https://dhi-api.staging.90d.io/fonts/Open Sans/open-sans-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 84,
+        "text": "Regular",
+        "uid": "nfont-ef950e4f-bc8b-49c4-9e90-cbb1bf560295",
+        "url": "https://dhi-api.staging.90d.io/fonts/Open Sans/open-sans.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 85,
+        "text": "Medium",
+        "uid": "nfont-d89949fe-56a6-4239-bb72-4fca7bbeb103",
+        "url": "https://dhi-api.staging.90d.io/fonts/Open Sans/open-sans-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 86,
+        "text": "Semi-Bold",
+        "uid": "nfont-c9f45379-3ca2-4ef1-a5f3-e4ae46ede517",
+        "url": "https://dhi-api.staging.90d.io/fonts/Open Sans/open-sans-semi_bold.ttf"
+      }
+    ],
+    "text": "Open Sans",
+    "uid": "nfont-ef950e4f-bc8b-49c4-9e90-cbb1bf560295",
+    "url": "https://dhi-api.staging.90d.io/fonts/Open Sans/open-sans.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 68,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 65,
+        "text": "Bold",
+        "uid": "nfont-a36f8a59-8a95-4aad-a920-b48af352fc33",
+        "url": "https://dhi-api.staging.90d.io/fonts/Montserrat/montserrat-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 66,
+        "text": "Medium",
+        "uid": "nfont-6aeda2c4-06e0-43db-88ed-6465f5ee8f26",
+        "url": "https://dhi-api.staging.90d.io/fonts/Montserrat/montserrat-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 67,
+        "text": "Thin",
+        "uid": "nfont-cdc9c1b7-f6ca-4bd5-8345-8935f92f1c1d",
+        "url": "https://dhi-api.staging.90d.io/fonts/Montserrat/montserrat-thin.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 68,
+        "text": "Regular",
+        "uid": "nfont-e5fe258c-9dfa-401a-bd56-784cee4ddd2b",
+        "url": "https://dhi-api.staging.90d.io/fonts/Montserrat/montserrat.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 69,
+        "text": "Semi-Bold",
+        "uid": "nfont-eedda9bd-4460-43c7-b9f7-ee63ed8469ec",
+        "url": "https://dhi-api.staging.90d.io/fonts/Montserrat/montserrat-semi_bold.ttf"
+      }
+    ],
+    "text": "Montserrat",
+    "uid": "nfont-e5fe258c-9dfa-401a-bd56-784cee4ddd2b",
+    "url": "https://dhi-api.staging.90d.io/fonts/Montserrat/montserrat.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 55,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 53,
+        "text": "Semi-Bold",
+        "uid": "nfont-b38bb98b-28c3-44a2-b4b0-6cc14ad31319",
+        "url": "https://dhi-api.staging.90d.io/fonts/Merriweather/merriweather-semi_bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 54,
+        "text": "Bold",
+        "uid": "nfont-4d0945b8-5680-4468-90cc-d4655a9f71e3",
+        "url": "https://dhi-api.staging.90d.io/fonts/Merriweather/merriweather-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 55,
+        "text": "Regular",
+        "uid": "nfont-72c32191-150e-4e1c-bc76-28cb330c704b",
+        "url": "https://dhi-api.staging.90d.io/fonts/Merriweather/merriweather.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 56,
+        "text": "Medium",
+        "uid": "nfont-bf61aa64-9b1d-4055-a9a1-4455e259ca4b",
+        "url": "https://dhi-api.staging.90d.io/fonts/Merriweather/merriweather-medium.ttf"
+      }
+    ],
+    "text": "Merriweather",
+    "uid": "nfont-72c32191-150e-4e1c-bc76-28cb330c704b",
+    "url": "https://dhi-api.staging.90d.io/fonts/Merriweather/merriweather.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 5,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 3,
+        "text": "Thin",
+        "uid": "nfont-367d9321-fe28-4e2a-bd6e-4b7a05a8741b",
+        "url": "https://dhi-api.staging.90d.io/fonts/Lato/lato-thin.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 4,
+        "text": "Bold",
+        "uid": "nfont-713b943e-0a9c-4f9c-b980-618a0642c6c1",
+        "url": "https://dhi-api.staging.90d.io/fonts/Lato/lato-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 5,
+        "text": "Regular",
+        "uid": "nfont-28ec51f7-362d-4350-b6c2-bd05dc0c3225",
+        "url": "https://dhi-api.staging.90d.io/fonts/Lato/lato.ttf"
+      }
+    ],
+    "text": "Lato",
+    "uid": "nfont-28ec51f7-362d-4350-b6c2-bd05dc0c3225",
+    "url": "https://dhi-api.staging.90d.io/fonts/Lato/lato.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 102,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 102,
+        "text": "Regular",
+        "uid": "nfont-22e9b11b-85db-43db-a636-243148e4d64b",
+        "url": "https://dhi-api.staging.90d.io/fonts/Inter/inter.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 103,
+        "text": "Medium",
+        "uid": "nfont-5c134007-da22-4e58-b717-a5f440a4c1ec",
+        "url": "https://dhi-api.staging.90d.io/fonts/Inter/inter-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 99,
+        "text": "Thin",
+        "uid": "nfont-434d7ca3-836a-431b-98d3-e90c3596ad89",
+        "url": "https://dhi-api.staging.90d.io/fonts/Inter/inter-thin.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 100,
+        "text": "Bold",
+        "uid": "nfont-7107a5fe-11a6-4b1b-a6cb-b706ee984058",
+        "url": "https://dhi-api.staging.90d.io/fonts/Inter/inter-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 101,
+        "text": "Semi-Bold",
+        "uid": "nfont-038727f3-acd5-4c1f-ab77-291300da0269",
+        "url": "https://dhi-api.staging.90d.io/fonts/Inter/inter-semi_bold.ttf"
+      }
+    ],
+    "text": "Inter",
+    "uid": "nfont-22e9b11b-85db-43db-a636-243148e4d64b",
+    "url": "https://dhi-api.staging.90d.io/fonts/Inter/inter.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 9,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 9,
+        "text": "Regular",
+        "uid": "nfont-8eb7c6fb-9fe2-4b8b-b0a8-ea3b740d6598",
+        "url": "https://dhi-api.staging.90d.io/fonts/Impact/Impact.ttf"
+      }
+    ],
+    "text": "Impact",
+    "uid": "nfont-8eb7c6fb-9fe2-4b8b-b0a8-ea3b740d6598",
+    "url": "https://dhi-api.staging.90d.io/fonts/Impact/Impact.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 75,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 75,
+        "text": "Regular",
+        "uid": "nfont-b5386fd5-7c4f-442e-8904-02b7a2cdb8a0",
+        "url": "https://dhi-api.staging.90d.io/fonts/Helvetica/Helvetica.ttf"
+      }
+    ],
+    "text": "Helvetica",
+    "uid": "nfont-b5386fd5-7c4f-442e-8904-02b7a2cdb8a0",
+    "url": "https://dhi-api.staging.90d.io/fonts/Helvetica/Helvetica.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 127,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 124,
+        "text": "Semi-Bold",
+        "uid": "nfont-e0764731-5343-4c44-9f7a-ca286a3944a2",
+        "url": "https://dhi-api.staging.90d.io/fonts/Georgian/georgian-semi_bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 127,
+        "text": "Regular",
+        "uid": "nfont-11698c17-f1be-43db-ab69-cd98d4241b67",
+        "url": "https://dhi-api.staging.90d.io/fonts/Georgian/georgian.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 125,
+        "text": "Medium",
+        "uid": "nfont-39978368-5d63-4bb2-be1d-7f858fe3e5a7",
+        "url": "https://dhi-api.staging.90d.io/fonts/Georgian/georgian-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 126,
+        "text": "Thin",
+        "uid": "nfont-529e2bf3-ce7b-4d43-a423-552ba675737b",
+        "url": "https://dhi-api.staging.90d.io/fonts/Georgian/georgian-thin.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 123,
+        "text": "Bold",
+        "uid": "nfont-404d04e1-a852-4854-9a2d-8624ff0ae990",
+        "url": "https://dhi-api.staging.90d.io/fonts/Georgian/georgian-bold.ttf"
+      }
+    ],
+    "text": "Georgian",
+    "uid": "nfont-11698c17-f1be-43db-ab69-cd98d4241b67",
+    "url": "https://dhi-api.staging.90d.io/fonts/Georgian/georgian.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 92,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 91,
+        "text": "Semi-Bold",
+        "uid": "nfont-e00212e2-1214-4e17-920e-539876abd42d",
+        "url": "https://dhi-api.staging.90d.io/fonts/Garamond/garamond-semi_bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 92,
+        "text": "Regular",
+        "uid": "nfont-837e7691-ebc9-4c3f-aa83-e9378e00c1f4",
+        "url": "https://dhi-api.staging.90d.io/fonts/Garamond/garamond.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 93,
+        "text": "Bold",
+        "uid": "nfont-2b1ce0ca-6e8e-4ca3-91ce-463720881143",
+        "url": "https://dhi-api.staging.90d.io/fonts/Garamond/garamond-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 94,
+        "text": "Medium",
+        "uid": "nfont-33fb5342-b8ca-4483-b8aa-6b5c4ebfc648",
+        "url": "https://dhi-api.staging.90d.io/fonts/Garamond/garamond-medium.ttf"
+      }
+    ],
+    "text": "Garamond",
+    "uid": "nfont-837e7691-ebc9-4c3f-aa83-e9378e00c1f4",
+    "url": "https://dhi-api.staging.90d.io/fonts/Garamond/garamond.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 19,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 19,
+        "text": "Regular",
+        "uid": "nfont-7947701b-a002-4e70-ab6c-950ab53a553c",
+        "url": "https://dhi-api.staging.90d.io/fonts/Futura/Futura.ttf"
+      }
+    ],
+    "text": "Futura",
+    "uid": "nfont-7947701b-a002-4e70-ab6c-950ab53a553c",
+    "url": "https://dhi-api.staging.90d.io/fonts/Futura/Futura.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 62,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 61,
+        "text": "Bold",
+        "uid": "nfont-a5512b8a-11e6-4266-a9c6-9eea07121b3f",
+        "url": "https://dhi-api.staging.90d.io/fonts/Courier New/Courier_New -bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 62,
+        "text": "Regular",
+        "uid": "nfont-738fd492-3e94-4c27-a7b9-7253e668d252",
+        "url": "https://dhi-api.staging.90d.io/fonts/Courier New/Courier_New.ttf"
+      }
+    ],
+    "text": "Courier New",
+    "uid": "nfont-738fd492-3e94-4c27-a7b9-7253e668d252",
+    "url": "https://dhi-api.staging.90d.io/fonts/Courier New/Courier_New.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 41,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 41,
+        "text": "Regular",
+        "uid": "nfont-6242d7b7-1c60-4959-b887-5e69d4a805f9",
+        "url": "https://dhi-api.staging.90d.io/fonts/Bebas Neue/BebasNeue.ttf"
+      }
+    ],
+    "text": "Bebas Neue",
+    "uid": "nfont-6242d7b7-1c60-4959-b887-5e69d4a805f9",
+    "url": "https://dhi-api.staging.90d.io/fonts/Bebas Neue/BebasNeue.ttf"
+  },
+  {
+    "format": "truetype",
+    "id": 117,
+    "styles": [
+      {
+        "format": "truetype",
+        "id": 118,
+        "text": "Bold",
+        "uid": "nfont-36e274a3-aedd-4340-9464-6fddfb18c02e",
+        "url": "https://dhi-api.staging.90d.io/fonts/Arial/ARIAL-bold.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 119,
+        "text": "Medium",
+        "uid": "nfont-445b61eb-23f5-4fdb-a85d-ef9793f1541d",
+        "url": "https://dhi-api.staging.90d.io/fonts/Arial/Arial-medium.ttf"
+      },
+      {
+        "format": "truetype",
+        "id": 117,
+        "text": "Regular",
+        "uid": "nfont-91a43525-d825-40aa-bd81-51f705a993d9",
+        "url": "https://dhi-api.staging.90d.io/fonts/Arial/ARIAL.ttf"
+      }
+    ],
+    "text": "Arial",
+    "uid": "nfont-91a43525-d825-40aa-bd81-51f705a993d9",
+    "url": "https://dhi-api.staging.90d.io/fonts/Arial/ARIAL.ttf"
+  }
+];
     /**
      * The slot is the div element on the main page that the ad is supposed to
      * occupy.
@@ -148,88 +800,48 @@ const VpaidNonLinear = class {
     };
   }
 
-// NEW: Enhanced fetchFonts_ with detailed logging
-  async fetchFonts_() {
-    const scriptUrl = document.currentScript?.src || window.location.href;
-    const basePath = scriptUrl.substring(0, scriptUrl.lastIndexOf('/') + 1);
-    const fontsUrl = `${basePath}fonts.json`;
-    this.log('Attempting to fetch fonts from: ' + fontsUrl);
-    try {
-      const response = await fetch(fontsUrl, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'cors', // Explicitly set CORS mode
-      });
-      if (!response.ok) {
-        throw new Error(`Font API request failed: ${response.status} ${response.statusText}`);
-      }
-      this.fonts_ = await response.json();
-      this.log(`Fonts fetched successfully: ${this.fonts_.length} fonts received`);
-      this.log('Font names: ' + this.fonts_.map(f => f.text).join(', '));
-    } catch (error) {
-      this.log('Failed to fetch fonts: ' + error.message);
-      this.fonts_ = [];
-    }
-  }
-
-  // NEW: Enhanced loadFonts_ with FontFace API
-  loadFonts_() {
-    console.log('Loading fonts into ad context');
+loadFonts_() {
+    this.log('Loading Google Fonts via CDN');
     const styleEl = document.createElement('style');
-    let fontFaceRules = '';
-    this.fonts_.forEach(font => {
-      fontFaceRules += `
-        @font-face {
-          font-family: '${font.text}';
-          src: url('${font.url}') format('${font.format}');
-          font-weight: normal;
-          font-style: normal;
-        }
-      `;
-      font.styles.forEach(style => {
-        const weight = {
-          'Thin': '100',
-          'Regular': '400',
-          'Medium': '500',
-          'Semi-Bold': '600',
-          'Bold': '700'
-        }[style.text] || '400';
-        fontFaceRules += `
-          @font-face {
-            font-family: '${font.text}';
-            src: url('${style.url}') format('${style.format}');
-            font-weight: ${weight};
-            font-style: normal;
-          }
-        `;
-      });
-      // NEW: Add FontFace for loading detection
-      const fontFace = new FontFace(font.text, `url(${font.url})`, { weight: '400' });
-      document.fonts.add(fontFace);
-      fontFace.load().catch(e => this.log(`Font ${font.text} failed to load: ${e}`));
-      font.styles.forEach(style => {
-        const weight = { 'Thin': '100', 'Regular': '400', 'Medium': '500', 'Semi-Bold': '600', 'Bold': '700' }[style.text] || '400';
-        const styleFace = new FontFace(font.text, `url(${style.url})`, { weight });
-        document.fonts.add(styleFace);
-        styleFace.load().catch(e => this.log(`Font ${font.text} ${style.text} failed to load: ${e}`));
-      });
-    });
-    styleEl.textContent = fontFaceRules;
+    styleEl.textContent = `
+      @import url('https://fonts.googleapis.com/css2?family=Arial:wght@400;500;700&family=Bebas+Neue&family=Courier+New:wght@400;700&family=Montserrat:wght@100;400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@100;400;500;600;700&family=Helvetica&family=Impact&family=Inter:wght@100;400;500;600;700&family=Lato:wght@100;400;700&family=Merriweather:wght@400;500;600;700&family=Montserrat:wght@100;400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Oswald:wght@100;400;500;600&family=Poppins:wght@100;400;500;600;700&family=Raleway:wght@100;400;500;600;700&family=Roboto:wght@100;400;500;600;700&family=Rubik:wght@400;500;600;700&family=Tahoma&family=Times+New+Roman&family=Verdana:wght@400;700&display=swap');
+    `;
     if (this.slot_) {
       this.slot_.appendChild(styleEl);
       this.log('Font styles appended to slot');
     } else {
       document.head.appendChild(styleEl);
-      this.log('Font styles appended to document.head (slot unavailable)');
+      this.log('Font styles appended to document.head');
     }
-    // NEW: Trigger reflow when fonts are ready
     document.fonts.ready.then(() => {
-      this.log('All fonts loaded, triggering reflow');
+      this.log('Fonts loaded, triggering reflow');
       this.overlayTexts_.forEach(text => {
-        text.style.opacity = '1'; // Ensure visibility
-        text.style.fontFamily = text.style.fontFamily; // Force reflow
+        text.style.opacity = '1';
+        text.style.fontFamily = text.style.fontFamily;
       });
     });
+  }
+
+  getFontWeight_(style) {
+    const weights = {
+      'Thin': '100',
+      'Regular': '400',
+      'Medium': '500',
+      'Semi-Bold': '600',
+      'Bold': '700'
+    };
+    return weights[style] || '400';
+  }
+
+  getFallbackFont_(font) {
+    const serifFonts = ['EB Garamond', 'Merriweather', 'Times New Roman'];
+    const sansFonts = ['Arial', 'Helvetica', 'Inter', 'Lato', 'Montserrat', 'Open Sans', 'Poppins', 'Raleway', 'Roboto', 'Rubik', 'Tahoma', 'Verdana', 'Noto Sans Georgian'];
+    const displayFonts = ['Bebas Neue', 'Impact', 'Oswald'];
+    if (font === 'Futura') return 'Montserrat, Helvetica, sans-serif';
+    if (serifFonts.includes(font)) return `${font}, Times New Roman, Georgia, serif`;
+    if (displayFonts.includes(font)) return `${font}, Impact, sans-serif`;
+    if (font === 'Courier New') return `${font}, monospace`;
+    return `${font}, Arial, Helvetica, sans-serif`;
   }
 
   /**
@@ -252,7 +864,7 @@ const VpaidNonLinear = class {
    * @param {Object} environmentVars Runtime variables associated with the
    *     creative like the slot and video slot.
    */
-  async initAd(width, height, viewMode, desiredBitrate, creativeData, environmentVars) {
+  initAd(width, height, viewMode, desiredBitrate, creativeData, environmentVars) {
     this.attributes_["width"] = width;
     this.attributes_["height"] = height;
     this.attributes_["viewMode"] = viewMode;
@@ -268,7 +880,7 @@ const VpaidNonLinear = class {
     this.skipOffsetSeconds_ = this.parameters_.skipOffset;
 
     // NEW: Fetch and load fonts
-    await this.fetchFonts_();
+    //await this.fetchFonts_();
     this.loadFonts_();
 
     this.scaleX_ = width / this.baseWidth_;
@@ -351,8 +963,7 @@ const VpaidNonLinear = class {
     address.style.color = this.parameters_.addressColor || this.defaults_.addressColor;
     address.style.padding = `0 ${this.scalePx(8)}`;
     address.style.fontSize = this.scalePx(this.parameters_.addressFontSize) || this.scalePx(this.defaults_.addressFontSize);
-    address.style.fontWeight = this.parameters_.addressFontStyle || this.defaults_.addressFontStyle;
-    address.style.letterSpacing = this.scalePx(1);
+    address.style.fontWeight = this.getFontWeight_(this.parameters_.addressFontStyle || this.defaults_.addressFontStyle);    address.style.letterSpacing = this.scalePx(1);
     address.style.fontFamily = this.parameters_.addressFont || this.defaults_.addressFont;
     address.textContent = this.parameters_.address || this.defaults_.address;
     leftStrip.appendChild(address);
@@ -371,7 +982,7 @@ const VpaidNonLinear = class {
     websiteURL.style.color = this.parameters_.websiteColor || this.defaults_.websiteColor;
     websiteURL.style.padding = `0 ${this.scalePx(8)}`;
     websiteURL.style.fontSize = this.scalePx(this.parameters_.websiteFontSize) || this.scalePx(this.defaults_.websiteFontSize);
-    websiteURL.style.fontWeight = this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle;
+    websiteURL.style.fontWeight = this.getFontWeight_(this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle);
     websiteURL.style.letterSpacing = this.scalePx(1);
     websiteURL.style.fontFamily = this.parameters_.websiteFont || this.defaults_.websiteFont;
     websiteURL.textContent = this.parameters_.website || this.defaults_.website;
@@ -469,7 +1080,7 @@ const VpaidNonLinear = class {
       nameElement.style.fontSize = overlay.productNameFontSize
         ? this.scalePx(overlay.productNameFontSize)
         : this.scalePx(this.defaults_.productNameFontSize);
-      nameElement.style.fontWeight = overlay.productNameFontStyle || this.defaults_.productNameFontStyle;
+      nameElement.style.fontWeight = this.getFontWeight_(overlay.productNameFontStyle || this.defaults_.productNameFontStyle);
       nameElement.textContent = overlay.productName || " ";
       this.overlayTexts_.push(nameElement);
 
@@ -478,7 +1089,7 @@ const VpaidNonLinear = class {
       productDescriptionElement.style.color = overlay.productDetailsFontColor || this.defaults_.productDetailsFontColor;
       productDescriptionElement.style.fontFamily = overlay.productDetailsFont;
       productDescriptionElement.style.fontSize = overlay.productDetailsFontSize ? this.scalePx(overlay.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize);
-      productDescriptionElement.style.fontWeight = overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle
+      productDescriptionElement.style.fontWeight = this.getFontWeight_(overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle)
       productDescriptionElement.textContent = overlay.productDescription || " ";
       this.overlayTexts_.push(productDescriptionElement);
 
@@ -486,7 +1097,7 @@ const VpaidNonLinear = class {
       priceElement.style.color = overlay.priceFontColor || this.defaults_.priceFontColor;
       priceElement.style.fontFamily = overlay.priceFont || this.defaults_.priceFont;
       priceElement.style.fontSize = overlay.priceFontSize ? this.scalePx(overlay.priceFontSize) : this.scalePx(this.defaults_.priceFontSize);
-      priceElement.style.fontWeight = overlay.priceFontStyle || this.defaults_.priceFontStyle;
+      priceElement.style.fontWeight = this.getFontWeight_(overlay.priceFontStyle || this.defaults_.priceFontStyle);
       priceElement.textContent = overlay.price || " ";
       this.overlayTexts_.push(priceElement);
 
