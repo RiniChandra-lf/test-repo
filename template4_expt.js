@@ -475,7 +475,9 @@ const VpaidNonLinear = class {
     container.addEventListener("click", (e) => {
       const isProductClick = e.target.closest(".overlay-unit");
       const isSkipButton = e.target.closest("#skipButton");
+      
       if (!isProductClick && !isSkipButton && this.parameters_.defaultClickThrough) {
+        this.adClick_(this.parameters_.defaultClickThrough);
         window.open(this.parameters_.defaultClickThrough, "_blank");
       }
     });
@@ -605,7 +607,7 @@ const VpaidNonLinear = class {
   adClick_(clickThrough) {
     if ("AdClickThru" in this.eventsCallbacks_) {
       // If specific URL provided, use it, otherwise use default
-      const url = clickThrough || "";
+      const url = clickThrough || this.parameters_.defaultClickThrough ||"";
       this.eventsCallbacks_["AdClickThru"](url, "0", true);
     }
   }
