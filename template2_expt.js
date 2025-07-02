@@ -7,7 +7,6 @@
 /** @unrestricted */
 const VpaidNonLinear = class {
   constructor() {
-    this.API_URL = 'https://rinichandra-lf.github.io/test-repo/fonts.json';// Replace with your API endpoint
     this.fonts_ = [];
     /**
      * The slot is the div element on the main page that the ad is supposed to
@@ -92,7 +91,7 @@ const VpaidNonLinear = class {
      * @private {Object}
      */
     this.quartileEvents_ = [
-      { event: "AdImpression", value: 0 },
+      //{ event: "AdImpression", value: 0 },
       { event: "AdVideoStart", value: 0 },
       { event: "AdVideoFirstQuartile", value: 25 },
       { event: "AdVideoMidpoint", value: 50 },
@@ -228,8 +227,6 @@ loadFonts_() {
 
     this.skipOffsetSeconds_ = this.parameters_.skipOffset;
 
-    // NEW: Fetch and load fonts
-    //await this.fetchFonts_();
     this.loadFonts_();
 
     this.scaleX_ = width / this.baseWidth_;
@@ -474,7 +471,9 @@ loadFonts_() {
     container.addEventListener("click", (e) => {
       const isProductClick = e.target.closest(".overlay-unit");
       const isSkipButton = e.target.closest("#skipButton");
+
       if (!isProductClick && !isSkipButton && this.parameters_.defaultClickThrough) {
+        this.adClick_(this.parameters_.defaultClickThrough);
         window.open(this.parameters_.defaultClickThrough, "_blank");
       }
     });
@@ -604,7 +603,7 @@ loadFonts_() {
   adClick_(clickThrough) {
     if ("AdClickThru" in this.eventsCallbacks_) {
       // If specific URL provided, use it, otherwise use default
-      const url = clickThrough || "";
+      const url = clickThrough || this.parameters_.defaultClickThrough || "";
       this.eventsCallbacks_["AdClickThru"](url, "0", true);
     }
   }
