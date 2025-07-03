@@ -7,6 +7,7 @@
 /** @unrestricted */
 const VpaidNonLinear = class {
   constructor() {
+    this.fonts_ = [];
     /**
      * The slot is the div element on the main page that the ad is supposed to
      * occupy.
@@ -90,7 +91,7 @@ const VpaidNonLinear = class {
      * @private {Object}
      */
     this.quartileEvents_ = [
-      { event: "AdImpression", value: 0 },
+      //{ event: "AdImpression", value: 0 },
       { event: "AdVideoStart", value: 0 },
       { event: "AdVideoFirstQuartile", value: 25 },
       { event: "AdVideoMidpoint", value: 50 },
@@ -146,6 +147,51 @@ const VpaidNonLinear = class {
     };
   }
 
+loadFonts_() {
+    this.log('Loading Google Fonts via CDN');
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+      @import url('https://fonts.googleapis.com/css2?family=Arial:wght@400;500;700&family=Bebas+Neue&family=Courier+New:wght@400;700&family=Montserrat:wght@100;400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@100;400;500;600;700&family=Helvetica&family=Impact&family=Inter:wght@100;400;500;600;700&family=Lato:wght@100;400;700&family=Merriweather:wght@400;500;600;700&family=Montserrat:wght@100;400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Oswald:wght@100;400;500;600&family=Poppins:wght@100;400;500;600;700&family=Raleway:wght@100;400;500;600;700&family=Roboto:wght@100;400;500;600;700&family=Rubik:wght@400;500;600;700&family=Tahoma&family=Times+New+Roman&family=Verdana:wght@400;700&display=swap');
+    `;
+    if (this.slot_) {
+      this.slot_.appendChild(styleEl);
+      this.log('Font styles appended to slot');
+    } else {
+      document.head.appendChild(styleEl);
+      this.log('Font styles appended to document.head');
+    }
+    document.fonts.ready.then(() => {
+      this.log('Fonts loaded, triggering reflow');
+      this.overlayTexts_.forEach(text => {
+        text.style.opacity = '1';
+        text.style.fontFamily = text.style.fontFamily;
+      });
+    });
+  }
+
+  getFontWeight_(style) {
+    const weights = {
+      'Thin': '100',
+      'Regular': '400',
+      'Medium': '500',
+      'Semi-Bold': '600',
+      'Bold': '700'
+    };
+    return weights[style] || '400';
+  }
+
+  getFallbackFont_(font) {
+    const serifFonts = ['EB Garamond', 'Merriweather', 'Times New Roman'];
+    const sansFonts = ['Arial', 'Helvetica', 'Inter', 'Lato', 'Montserrat', 'Open Sans', 'Poppins', 'Raleway', 'Roboto', 'Rubik', 'Tahoma', 'Verdana', 'Noto Sans Georgian'];
+    const displayFonts = ['Bebas Neue', 'Impact', 'Oswald'];
+    if (font === 'Futura') return 'Montserrat, Helvetica, sans-serif';
+    if (font === 'Garamond') return 'Times New Roman, Georgia, serif';
+    if (serifFonts.includes(font)) return `${font}, Times New Roman, Georgia, serif`;
+    if (displayFonts.includes(font)) return `${font}, Impact, sans-serif`;
+    if (font === 'Courier New') return `${font}, monospace`;
+    return `${font}, Arial, Helvetica, sans-serif`;
+  }
+
   /**
    * Returns the supported VPAID verion.
    * @param {string} version
@@ -180,6 +226,8 @@ const VpaidNonLinear = class {
     this.parameters_ = JSON.parse(creativeData["AdParameters"]);
 
     this.skipOffsetSeconds_ = this.parameters_.skipOffset;
+
+    this.loadFonts_();
 
     this.scaleX_ = width / this.baseWidth_;
     this.scaleY_ = height / this.baseHeight_;
@@ -261,9 +309,9 @@ const VpaidNonLinear = class {
     address.style.color = this.parameters_.addressColor || this.defaults_.addressColor;
     address.style.padding = `0 ${this.scalePx(8)}`;
     address.style.fontSize = this.scalePx(this.parameters_.addressFontSize) || this.scalePx(this.defaults_.addressFontSize);
-    address.style.fontWeight = this.parameters_.addressFontStyle || this.defaults_.addressFontStyle;
+    address.style.fontWeight = this.getFontWeight_(this.parameters_.addressFontStyle || this.defaults_.addressFontStyle);    
     address.style.letterSpacing = this.scalePx(1);
-    address.style.fontFamily = this.parameters_.addressFont || this.defaults_.addressFont;
+    address.style.fontFamily = this.getFallbackFont_(this.parameters_.addressFont || this.defaults_.addressFont);
     address.textContent = this.parameters_.address || this.defaults_.address;
     leftStrip.appendChild(address);
 
@@ -281,9 +329,9 @@ const VpaidNonLinear = class {
     websiteURL.style.color = this.parameters_.websiteColor || this.defaults_.websiteColor;
     websiteURL.style.padding = `0 ${this.scalePx(8)}`;
     websiteURL.style.fontSize = this.scalePx(this.parameters_.websiteFontSize) || this.scalePx(this.defaults_.websiteFontSize);
-    websiteURL.style.fontWeight = this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle;
+    websiteURL.style.fontWeight = this.getFontWeight_(this.parameters_.websiteFontStyle || this.defaults_.websiteFontStyle);
     websiteURL.style.letterSpacing = this.scalePx(1);
-    websiteURL.style.fontFamily = this.parameters_.websiteFont || this.defaults_.websiteFont;
+    websiteURL.style.fontFamily = this.getFallbackFont_(this.parameters_.websiteFont || this.defaults_.websiteFont);
     websiteURL.textContent = this.parameters_.website || this.defaults_.website;
     rightStrip.appendChild(websiteURL);
 
@@ -310,9 +358,6 @@ const VpaidNonLinear = class {
     // Add CSS animation styles
     const styleEl = document.createElement("style");
     styleEl.textContent = `
-        * {
-          font-family: sans-serif;
-        }
           
         @keyframes slideOutRight {
           from { transform: translateX(0); opacity: 1; }
@@ -378,28 +423,28 @@ const VpaidNonLinear = class {
       nameElement.style.margin = "0";
       nameElement.style.textAlign = "center";
       nameElement.style.color = overlay.productNameColor || this.defaults_.productNameColor;
-      nameElement.style.font = overlay.productNameFont || this.defaults_.productNameFont;
+      nameElement.style.fontFamily = this.getFallbackFont_(overlay.productNameFont || this.defaults_.productNameFont);
       nameElement.style.fontSize = overlay.productNameFontSize
         ? this.scalePx(overlay.productNameFontSize)
         : this.scalePx(this.defaults_.productNameFontSize);
-      nameElement.style.fontWeight = overlay.productNameFontStyle || this.defaults_.productNameFontStyle;
+      nameElement.style.fontWeight = this.getFontWeight_(overlay.productNameFontStyle || this.defaults_.productNameFontStyle);
       nameElement.textContent = overlay.productName || " ";
       this.overlayTexts_.push(nameElement);
 
       const productDescriptionElement = document.createElement("div");
       productDescriptionElement.className = "overlay-text";
       productDescriptionElement.style.color = overlay.productDetailsFontColor || this.defaults_.productDetailsFontColor;
-      productDescriptionElement.style.font = overlay.productDetailsFont;
+      productDescriptionElement.style.fontFamily = this.getFallbackFont_(overlay.productDetailsFont);
       productDescriptionElement.style.fontSize = overlay.productDetailsFontSize ? this.scalePx(overlay.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize);
-      productDescriptionElement.style.fontWeight = overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle
+      productDescriptionElement.style.fontWeight = this.getFontWeight_(overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle)
       productDescriptionElement.textContent = overlay.productDescription || " ";
       this.overlayTexts_.push(productDescriptionElement);
 
       const priceElement = document.createElement("div");
       priceElement.style.color = overlay.priceFontColor || this.defaults_.priceFontColor;
-      priceElement.style.font = overlay.priceFont || this.defaults_.priceFont;
+      priceElement.style.fontFamily = this.getFallbackFont_(overlay.priceFont || this.defaults_.priceFont);
       priceElement.style.fontSize = overlay.priceFontSize ? this.scalePx(overlay.priceFontSize) : this.scalePx(this.defaults_.priceFontSize);
-      priceElement.style.fontWeight = overlay.priceFontStyle || this.defaults_.priceFontStyle;
+      priceElement.style.fontWeight = this.getFontWeight_(overlay.priceFontStyle || this.defaults_.priceFontStyle);
       priceElement.textContent = overlay.price || " ";
       this.overlayTexts_.push(priceElement);
 
@@ -427,7 +472,9 @@ const VpaidNonLinear = class {
     container.addEventListener("click", (e) => {
       const isProductClick = e.target.closest(".overlay-unit");
       const isSkipButton = e.target.closest("#skipButton");
+
       if (!isProductClick && !isSkipButton && this.parameters_.defaultClickThrough) {
+        this.adClick_(this.parameters_.defaultClickThrough);
         window.open(this.parameters_.defaultClickThrough, "_blank");
       }
     });
@@ -557,7 +604,7 @@ const VpaidNonLinear = class {
   adClick_(clickThrough) {
     if ("AdClickThru" in this.eventsCallbacks_) {
       // If specific URL provided, use it, otherwise use default
-      const url = clickThrough || "";
+      const url = clickThrough || this.parameters_.defaultClickThrough || "";
       this.eventsCallbacks_["AdClickThru"](url, "0", true);
     }
   }
