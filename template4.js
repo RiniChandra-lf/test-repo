@@ -615,7 +615,7 @@ const VpaidNonLinear = class {
     // The ad duration is not known until the media metadata is loaded.
     // Then, update the player with the duration change.
     this.attributes_["duration"] = this.videoSlot_.duration;
-    //this.callEvent_("AdDurationChange");
+    this.callEvent_("AdDurationChange");
     if (this.parameters_["carouselEnd"]) {
       this.attributes_["carouselEndEarly"] = this.parameters_["carouselEnd"];
     }
