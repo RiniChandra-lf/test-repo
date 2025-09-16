@@ -121,9 +121,24 @@
                         "carouselInterval": 5,
                         "carouselStartDelay": 5,
                         "carouselEnd": 5,
-                        "defaultClickThrough": "https://google.com"
+                        "defaultClickThrough": "https://google.com",
+                        "isCountdownEnabled": true,
+                        "countdownSettings": {
+                           "description": {
+                              "text": "sample",
+                              "font_family": "Arial",
+                              "font_size": "24",
+                              "font_style": "Regular",
+                              "font_color": "white"
+                           },
+                           "dateTime": "2025-11-17T17:00:59Z",
+                           "gradient": {
+                              "startColor": "blue",
+                              "endColor": "red"
+                           }
                         }
-                     ]]>
+                     }
+                  ]]>
                   </AdParameters>
                   <VideoClicks>
                      <ClickThrough id="GDFP"><![CDATA[https://www.google.com]]></ClickThrough>
