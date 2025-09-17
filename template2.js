@@ -120,12 +120,6 @@ const VpaidNonLinear = class {
     this.baseHeight_ = 450;
 
     this.defaults_ = {
-      addressBackgroundColor: "#FF0000",
-      addressColor: "white",
-      addressFontSize: 14,
-      addressFontStyle: "normal",
-      addressFont: "sans-serif",
-      address: " ",
       websiteBackgroundColor: "#CC0000",
       websiteColor: "white",
       websiteFontSize: 14,
@@ -144,10 +138,35 @@ const VpaidNonLinear = class {
       priceFontSize: 28,
       priceFontStyle: "bold",
       priceFont: "sans-serif",
+      topTitleBackgroundColor: "#CC0000",
+      topTitleColor: "white",
+      topTitleFontSize: 32,
+      topTitleFontStyle: "normal",
+      topTitleFont: "sans-serif",
+      topTitle: " ",
+      isCountdownEnabled: false,
+      countdownSettings: {
+        description: {
+          text: '',
+          font_family: 'Arial',
+          font_size: '24',
+          font_style: 'Regular',
+          font_color: '#000000',
+        },
+        dateTime: "2025-12-31T23:59:59Z",
+        gradient: {
+            startColor: '#000000',
+            endColor: '#FFFFFF',
+        }
+      }
     };
+
+    this.numSpans = [];
+    this.labelSpans = [];
+    this.countdownInterval_ = null;
   }
 
-loadFonts_() {
+  loadFonts_() {
     this.log('Loading Google Fonts via CDN');
     const styleEl = document.createElement('style');
     styleEl.textContent = `
@@ -278,53 +297,103 @@ loadFonts_() {
     imageContainer.id = "overlayContainer";
     imageContainer.style.display = "none"; // Initially hidden until delay time
     imageContainer.style.position = "absolute";
-    imageContainer.style.right = "4%";
-    imageContainer.style.top = "5.5%";
-    imageContainer.style.height = "76%"; // Reduced to make room for bottom banner
+    imageContainer.style.right = "2%";
+    imageContainer.style.bottom = "5.5%";
+    imageContainer.style.height = "72%"; // Reduced to make room for bottom banner
     imageContainer.style.width = "28%";
     imageContainer.style.overflow = "hidden";
     container.appendChild(imageContainer);
 
-    // Create bottom strip with two parts
+    // Create bottom strip with for websiteURL
     const bottomStripContainer = document.createElement("div");
     bottomStripContainer.id = "bottomStripContainer";
     bottomStripContainer.style.display = "none";
     bottomStripContainer.style.position = "absolute";
-    bottomStripContainer.style.bottom = "0";
-    bottomStripContainer.style.width = "100%";
-    bottomStripContainer.style.height = "9%";
+    bottomStripContainer.style.bottom = "5.5%";
+    bottomStripContainer.style.left = "0";
+    bottomStripContainer.style.width = "68%";
+    
+    bottomStripContainer.style.height = "auto"; // Adjusted to accommodate content
+    bottomStripContainer.style.minHeight = this.scalePx(40); // Minimum height to ensure visibility
+    bottomStripContainer.style.padding = this.scalePx(5) + " 0"; // Padding to adjust content
+    bottomStripContainer.style.alignItems = "center";
+    bottomStripContainer.style.justifyContent = "end";
+    bottomStripContainer.style.opacity = "0.8";
+
+    if (this.parameters_.isCountdownEnabled) {
+      bottomStripContainer.style.background = `linear-gradient(to right, ${this.parameters_.countdownSettings.gradient.startColor || this.defaults_.countdownSettings.gradient.startColor}, ${this.parameters_.countdownSettings.gradient.endColor || this.defaults_.countdownSettings.gradient.endColor})`;
+      bottomStripContainer.style.color = this.parameters_.countdownSettings.description.font_color || this.defaults_.countdownSettings.description.font_color;
+      bottomStripContainer.style.fontFamily = this.getFallbackFont_(this.parameters_.countdownSettings.description.font_family || this.defaults_.countdownSettings.description.font_family);
+      bottomStripContainer.style.fontSize = this.scalePx(this.parameters_.countdownSettings.description.font_size) || this.scalePx(this.defaults_.countdownSettings.description.font_size);
+      bottomStripContainer.style.fontWeight = this.getFontWeight_(this.parameters_.countdownSettings.description.font_style || this.defaults_.countdownSettings.description.font_style);
+      //bottomStripContainer.style.display = "flex";
+      bottomStripContainer.style.justifyContent = "space-between";
+      
+    }
+    else {
+      bottomStripContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+    }
     container.appendChild(bottomStripContainer);
 
-    // Left part - address container
-    const leftStrip = document.createElement("div");
-    leftStrip.style.backgroundColor = this.parameters_.addressBackgroundColor || this.defaults_.addressBackgroundColor; // Standard red
-    leftStrip.style.flex = "1";
-    leftStrip.style.display = "flex";
-    leftStrip.style.justifyContent = "center";
-    leftStrip.style.alignItems = "center";
-    bottomStripContainer.appendChild(leftStrip);
+    if (this.parameters_.isCountdownEnabled) {
+      const leftCountdownDiv = document.createElement("div");
+      leftCountdownDiv.style.paddingLeft = this.scalePx(20);
+      leftCountdownDiv.style.display = "flex";
+      leftCountdownDiv.style.flexDirection = "column";
+      leftCountdownDiv.style.justifyContent = "center";
 
-    // address text
-    const address = document.createElement("div");
-    address.style.color = this.parameters_.addressColor || this.defaults_.addressColor;
-    address.style.padding = `0 ${this.scalePx(8)}`;
-    address.style.fontSize = this.scalePx(this.parameters_.addressFontSize) || this.scalePx(this.defaults_.addressFontSize);
-    address.style.fontWeight = this.getFontWeight_(this.parameters_.addressFontStyle || this.defaults_.addressFontStyle);    
-    address.style.letterSpacing = this.scalePx(1);
-    address.style.fontFamily = this.getFallbackFont_(this.parameters_.addressFont || this.defaults_.addressFont);
-    address.textContent = this.parameters_.address || this.defaults_.address;
-    leftStrip.appendChild(address);
+      const descriptionText = document.createElement("div");
+      descriptionText.textContent = this.parameters_.countdownSettings.description.text || this.defaults_.countdownSettings.description.text;
+      leftCountdownDiv.appendChild(descriptionText);
 
-    // Right part - website URL container
-    const rightStrip = document.createElement("div");
-    rightStrip.style.backgroundColor = this.parameters_.websiteBackgroundColor || this.defaults_.websiteBackgroundColor; // Standard red
-    rightStrip.style.flex = "0 0 34%";
-    rightStrip.style.display = "flex";
-    rightStrip.style.justifyContent = "center";
-    rightStrip.style.alignItems = "center";
-    bottomStripContainer.appendChild(rightStrip);
+      const countdownDisplay = document.createElement("div");
+      countdownDisplay.style.display = "flex";
+      countdownDisplay.style.alignItems = "center";
+      countdownDisplay.style.gap = this.scalePx(5);
+      leftCountdownDiv.appendChild(countdownDisplay);
 
-    // website URL text
+      const descFontSize = parseInt(this.parameters_.countdownSettings.description.font_size || this.defaults_.countdownSettings.description.font_size);
+      const numFontSize = this.scalePx(Math.round(descFontSize * 1.333));
+      const labelFontSize = this.scalePx(Math.round(descFontSize * 0.5));
+
+      this.numSpans = [];
+      this.labelSpans = [];
+
+      for (let i = 0; i < 3; i++) {
+        const unitDiv = document.createElement("div");
+        unitDiv.style.display = "flex";
+        unitDiv.style.flexDirection = "column";
+        unitDiv.style.alignItems = "center";
+
+        const numSpan = document.createElement("span");
+        numSpan.style.fontSize = numFontSize;
+        numSpan.style.fontWeight = "bold";
+        numSpan.textContent = "00";
+        unitDiv.appendChild(numSpan);
+        this.numSpans.push(numSpan);
+
+        const labelSpan = document.createElement("span");
+        labelSpan.style.fontSize = labelFontSize;
+        labelSpan.textContent = "Hours";
+        unitDiv.appendChild(labelSpan);
+        this.labelSpans.push(labelSpan);
+
+        countdownDisplay.appendChild(unitDiv);
+
+        if (i < 2) {
+          const colonSpan = document.createElement("span");
+          colonSpan.textContent = ":";
+          colonSpan.style.fontSize = numFontSize;
+          colonSpan.style.fontWeight = "bold";
+          colonSpan.style.paddingBottom = this.scalePx(12); // Align with numbers considering labels
+          countdownDisplay.appendChild(colonSpan);
+        }
+      }
+
+      bottomStripContainer.appendChild(leftCountdownDiv);
+    }
+
+    // website URL
     const websiteURL = document.createElement("div");
     websiteURL.style.color = this.parameters_.websiteColor || this.defaults_.websiteColor;
     websiteURL.style.padding = `0 ${this.scalePx(8)}`;
@@ -333,32 +402,56 @@ loadFonts_() {
     websiteURL.style.letterSpacing = this.scalePx(1);
     websiteURL.style.fontFamily = this.getFallbackFont_(this.parameters_.websiteFont || this.defaults_.websiteFont);
     websiteURL.textContent = this.parameters_.website || this.defaults_.website;
-    rightStrip.appendChild(websiteURL);
+    websiteURL.style.paddingRight = this.scalePx(20);
+    bottomStripContainer.appendChild(websiteURL);
 
-    // Logo image container (above red strip)
+    // Create top logo/title container
+    const topLogoTitleContainer = document.createElement("div");
+    topLogoTitleContainer.id = "topLogoTitleContainer";
+    topLogoTitleContainer.style.display = "none";
+    topLogoTitleContainer.style.position = "absolute";
+    topLogoTitleContainer.style.top = "0";
+    topLogoTitleContainer.style.left = "0";
+    topLogoTitleContainer.style.width = "100%";
+    topLogoTitleContainer.style.height = "18%";
+    container.appendChild(topLogoTitleContainer);
+
+    // Left part - LOGO container
     const logoContainer = document.createElement("div");
-    logoContainer.id = "logoContainer";
-    logoContainer.style.display = "none";
-    logoContainer.style.position = "absolute";
-    logoContainer.style.bottom = "15.5%";
-    logoContainer.style.left = "1.875%"; //24px for 1280px width, 12px for 640px width
-    logoContainer.style.width = "60%";
-    logoContainer.style.height = "14%";
-    logoContainer.style.justifyContent = "start";
-    container.appendChild(logoContainer);
+    logoContainer.style.flex = "0 0 26.5%";
+    topLogoTitleContainer.appendChild(logoContainer);
 
     // Logo image
     const logoImg = document.createElement("img");
     logoImg.src = this.parameters_.bottomImageUrl || overlays[0]?.imageUrl || overlays[0];
     logoImg.style.height = "100%";
-    logoImg.style.maxWidth = "100%";
+    logoImg.style.width = "100%";
     logoImg.style.objectFit = "contain";
     logoContainer.appendChild(logoImg);
 
+    // Right part - Top-Title
+    const titleContainer = document.createElement("div");
+    titleContainer.style.flex = "1";
+    titleContainer.style.display = "flex";
+    titleContainer.style.justifyContent = "center";
+    titleContainer.style.alignItems = "center";
+    titleContainer.style.overflow = "hidden";
+    titleContainer.style.backgroundColor = this.parameters_.topTitleBackgroundColor || this.defaults_.topTitleBackgroundColor; // Deeper red
+    topLogoTitleContainer.appendChild(titleContainer);
+
+    // Top title text
+    const topTitle = document.createElement("div");
+    topTitle.style.textAlign = "center";
+    topTitle.style.color = this.parameters_.topTitleColor || this.defaults_.topTitleColor;
+    topTitle.style.fontSize = this.scalePx(this.parameters_.topTitleFontSize) || this.scalePx(this.defaults_.topTitleFontSize);
+    topTitle.style.fontWeight = this.getFontWeight_(this.parameters_.topTitleFontStyle || this.defaults_.topTitleFontStyle);
+    topTitle.style.fontFamily = this.getFallbackFont_(this.parameters_.topTitleFont || this.defaults_.topTitleFont);
+    topTitle.textContent = this.parameters_.topTitle || this.defaults_.topTitle;
+    titleContainer.appendChild(topTitle);
+
     // Add CSS animation styles
     const styleEl = document.createElement("style");
-    styleEl.textContent = `
-          
+    styleEl.textContent = ` 
         @keyframes slideOutRight {
           from { transform: translateX(0); opacity: 1; }
           to { transform: translateX(100%); opacity: 0; }
@@ -436,7 +529,7 @@ loadFonts_() {
       productDescriptionElement.style.color = overlay.productDetailsFontColor || this.defaults_.productDetailsFontColor;
       productDescriptionElement.style.fontFamily = this.getFallbackFont_(overlay.productDetailsFont);
       productDescriptionElement.style.fontSize = overlay.productDetailsFontSize ? this.scalePx(overlay.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize);
-      productDescriptionElement.style.fontWeight = this.getFontWeight_(overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle)
+      productDescriptionElement.style.fontWeight = this.getFontWeight_(overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle);
       productDescriptionElement.textContent = overlay.productDescription || " ";
       this.overlayTexts_.push(productDescriptionElement);
 
@@ -458,8 +551,8 @@ loadFonts_() {
       );
 
       // Append image and text to the unit
-      overlayUnit.appendChild(nameElement);
       overlayUnit.appendChild(img);
+      overlayUnit.appendChild(nameElement);
       overlayUnit.appendChild(productDescriptionElement);
       overlayUnit.appendChild(priceElement);
 
@@ -472,7 +565,7 @@ loadFonts_() {
     container.addEventListener("click", (e) => {
       const isProductClick = e.target.closest(".overlay-unit");
       const isSkipButton = e.target.closest("#skipButton");
-
+      
       if (!isProductClick && !isSkipButton && this.parameters_.defaultClickThrough) {
         this.adClick_(this.parameters_.defaultClickThrough);
         window.open(this.parameters_.defaultClickThrough, "_blank");
@@ -500,12 +593,12 @@ loadFonts_() {
     // Schedule the start of carousel after the delay
     this.carouselStartTimeout_ = setTimeout(() => {
       const overlayContainer = document.getElementById("overlayContainer");
-      const logoContainer = document.getElementById("logoContainer");
+      const topLogoTitleContainer = document.getElementById("topLogoTitleContainer");
       const bottomStripContainer = document.getElementById("bottomStripContainer");
-      if (overlayContainer && logoContainer && bottomStripContainer) {
+      if (overlayContainer && topLogoTitleContainer && bottomStripContainer) {
         // Show containers first
         overlayContainer.style.display = "block";
-        logoContainer.style.display = "flex";
+        topLogoTitleContainer.style.display = "flex";
         bottomStripContainer.style.display = "flex";
 
         // Add animation class to the first overlay with a slight delay
@@ -525,7 +618,7 @@ loadFonts_() {
           if (this.overlayImages_.length > 1) {
             this.carouselInterval_ = setInterval(() => {
               this.updateOverlayImage_();
-            }, this.parameters_["carouselInterval"] * 1000);
+            }, (this.parameters_["carouselInterval"] + (4.5 / this.overlayImages_.length)) * 1000);
           }
         }, 50); // Small delay to ensure container is visible first
       }
@@ -539,8 +632,8 @@ loadFonts_() {
         skipButton.textContent = "Skip Ad";
         skipButton.style.fontSize = this.scalePx(12);
         skipButton.style.position = "absolute";
-        skipButton.style.bottom = "8.83%";
-        skipButton.style.right = "1.38%";
+        skipButton.style.bottom = `${this.scalePx(1)}`;
+        skipButton.style.right = `${this.scalePx(10)}`;
         skipButton.style.padding = `${this.scalePx(5)} ${this.scalePx(10)}`;
         skipButton.style.backgroundColor = "#cccccc";
         skipButton.style.color = "#fff";
@@ -559,7 +652,82 @@ loadFonts_() {
         container.appendChild(skipButton);
       }, this.skipOffsetSeconds_ * 1000); // Respect skipOffset
     }
+
+    if (this.parameters_.isCountdownEnabled) {
+      this.updateCountdown();
+      this.countdownInterval_ = setInterval(this.updateCountdown.bind(this), 1000);
+    }
   };
+
+  calculateCountdown(targetDate) {
+    const now = new Date();
+    const target = new Date(targetDate);
+    if (target < now) {
+      return { months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    let years = target.getFullYear() - now.getFullYear();
+    let months = target.getMonth() - now.getMonth();
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+    let days = target.getDate() - now.getDate();
+    if (days < 0) {
+      months--;
+      days += new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    }
+    let hours = target.getHours() - now.getHours();
+    if (hours < 0) {
+      days--;
+      hours += 24;
+    }
+    let minutes = target.getMinutes() - now.getMinutes();
+    if (minutes < 0) {
+      hours--;
+      minutes += 60;
+    }
+    let seconds = target.getSeconds() - now.getSeconds();
+    if (seconds < 0) {
+      minutes--;
+      seconds += 60;
+    }
+    months += years * 12;
+    return { months, days, hours, minutes, seconds };
+  }
+
+  updateCountdown() {
+    const remaining = this.calculateCountdown(this.parameters_.countdownSettings.dateTime);
+    let unit1, unit2, unit3, label1, label2, label3;
+    if (remaining.months > 0) {
+      unit1 = remaining.months;
+      unit2 = remaining.days;
+      unit3 = remaining.hours;
+      label1 = "Months";
+      label2 = "Days";
+      label3 = "Hours";
+    } else if (remaining.days > 0) {
+      unit1 = remaining.days;
+      unit2 = remaining.hours;
+      unit3 = remaining.minutes;
+      label1 = "Days";
+      label2 = "Hours";
+      label3 = "Minutes";
+    } else {
+      unit1 = remaining.hours;
+      unit2 = remaining.minutes;
+      unit3 = remaining.seconds;
+      label1 = "Hours";
+      label2 = "Minutes";
+      label3 = "Seconds";
+    }
+    this.numSpans[0].textContent = String(unit1).padStart(2, "0");
+    this.numSpans[1].textContent = String(unit2).padStart(2, "0");
+    this.numSpans[2].textContent = String(unit3).padStart(2, "0");
+    this.labelSpans[0].textContent = label1;
+    this.labelSpans[1].textContent = label2;
+    this.labelSpans[2].textContent = label3;
+  }
 
   /**
    * Updates the currently displayed overlay image with slide animations
@@ -624,7 +792,7 @@ loadFonts_() {
 
     // Schedule the end of carousel 5 seconds before the end of the video
     if (this.videoSlot_.duration > this.attributes_["carouselEndEarly"]) {
-      const endTime = (this.videoSlot_.duration - this.attributes_["carouselEndEarly"]) * 1000;
+      const endTime = (this.videoSlot_.duration - this.attributes_["carouselEndEarly"] + 4) * 1000;
       this.carouselEndTimeout_ = setTimeout(() => {
         if (this.carouselInterval_) {
           clearInterval(this.carouselInterval_);
@@ -632,11 +800,11 @@ loadFonts_() {
         }
 
         const overlayContainer = document.getElementById("overlayContainer");
-        const logoContainer = document.getElementById("logoContainer");
+        const topLogoTitleContainer = document.getElementById("topLogoTitleContainer");
         const bottomStripContainer = document.getElementById("bottomStripContainer");
-        if (overlayContainer && logoContainer && bottomStripContainer) {
+        if (overlayContainer && topLogoTitleContainer && bottomStripContainer) {
           overlayContainer.style.display = "none";
-          logoContainer.style.display = "none";
+          topLogoTitleContainer.style.display = "none";
           bottomStripContainer.style.display = "none";
         }
       }, endTime);
@@ -682,6 +850,10 @@ loadFonts_() {
       clearTimeout(this.carouselEndTimeout_);
     }
 
+    if (this.countdownInterval_) {
+      clearInterval(this.countdownInterval_);
+    }
+
     this.callEvent_("AdStopped");
     // Calling AdStopped immediately terminates the ad. Setting a timeout allows
     // events to go through.
@@ -708,20 +880,21 @@ loadFonts_() {
    * Pauses the ad.
    */
   pauseAd() {
-    this.log('pauseAd');
+    this.log("pauseAd");
     this.videoSlot_.pause();
     // Pause the carousel
     if (this.carouselInterval_) {
       clearInterval(this.carouselInterval_);
       this.carouselInterval_ = null;
     }
-    this.callEvent_('AdPaused');
+    this.callEvent_("AdPaused");
   }
+
   /**
    * Resumes the ad.
    */
   resumeAd() {
-    this.log('resumeAd');
+    this.log("resumeAd");
     this.videoSlot_.play();
     // Resume the carousel
     if (!this.carouselInterval_ && this.overlayImages_.length > 1) {
@@ -729,7 +902,7 @@ loadFonts_() {
         this.updateOverlayImage_();
       }, this.parameters_['carouselInterval'] * 1000);
     }
-    this.callEvent_('AdPlaying');
+    this.callEvent_("AdPlaying");
   }
 
   /**

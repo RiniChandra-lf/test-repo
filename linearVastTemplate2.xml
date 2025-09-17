@@ -114,7 +114,7 @@
                         "topTitleFont" : "Arial",
                         "videos": [
                            {
-                              "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-2f7acd0d-1cd9-41d1-9de7-4f1482c00515/original_90dfs_frame_upload_te7eW-pu.mp4",
+                              "url": "https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-2f7acd0d-1cd9-41d1-9de7-4f1482c00515/original_90dfs_frame_upload_13vwtE_3.mp4",
                               "mimetype": "video/mp4"
                            }
                         ],
@@ -137,8 +137,7 @@
                               "endColor": "red"
                            }
                         }
-                     }
-                  ]]>
+                        }]]>
                   </AdParameters>
                   <VideoClicks>
                      <ClickThrough id="GDFP"><![CDATA[https://www.google.com]]></ClickThrough>
@@ -153,7 +152,7 @@
                   </Icons>
                   <MediaFiles>
                      <MediaFile delivery="progressive" type="application/javascript" apiFramework="VPAID" width="1280" height="720">
-                        https://rinichandra-lf.github.io/test-repo/template2.js
+                        https://rinichandra-lf.github.io/test-repo/template4.js
                      </MediaFile>
                      <MediaFile delivery="progressive" type="video/mp4" width="1280" height="720">
                         https://d2x7d5ww1bo448.cloudfront.net/nd/nbrand-2f7acd0d-1cd9-41d1-9de7-4f1482c00515/original_90dfs_frame_upload_s_CVLKmg.mp4
