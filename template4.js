@@ -583,7 +583,7 @@ const VpaidNonLinear = class {
     this.attributes_["duration"] = this.videoSlot_.duration;
     this.callEvent_("AdDurationChange");
 
-    if (this.videoSlot_.duration > this.attributes_["countdownEndEarly"]) {
+    /*if (this.videoSlot_.duration > this.attributes_["countdownEndEarly"]) {
       const endTime = (this.videoSlot_.duration - this.attributes_["countdownEndEarly"]) * 1000;
       this.carouselEndTimeout_ = setTimeout(() => {
         if (this.countdownInterval_) {
@@ -600,7 +600,7 @@ const VpaidNonLinear = class {
           bottomStripContainer.style.display = "none";
         }
       }, endTime);
-    }
+    }*/
   }
 
   timeUpdateHandler_() {
