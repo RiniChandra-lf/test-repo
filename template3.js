@@ -30,32 +30,6 @@ const VpaidNonLinear = class {
     this.eventsCallbacks_ = {};
 
     /**
-     * Current index of the displayed overlay image
-     * @private {number}
-     */
-    this.currentOverlayIndex_ = 0;
-
-    /**
-     * Interval ID for the image carousel
-     * @private {number}
-     */
-    this.carouselInterval_ = null;
-    this.overlayImages_ = [];
-    this.overlayTexts_ = [];
-
-    /**
-     * Timeout for starting the carousel
-     * @private {number}
-     */
-    this.carouselStartTimeout_ = null;
-
-    /**
-     * Timeout for ending the carousel
-     * @private {number}
-     */
-    this.carouselEndTimeout_ = null;
-
-    /**
      * A list of getable and setable attributes.
      * @private {Object}
      */
@@ -119,8 +93,8 @@ const VpaidNonLinear = class {
     this.baseWidth_ = 800;
     this.baseHeight_ = 450;
 
-    this.unitDigits_ = [];
-    this.unitLabelElements_ = [];
+    this.numSpans = [];
+    this.labelSpans = [];
     this.countdownInterval_ = null;
 
     this.defaults_ = {
@@ -148,6 +122,12 @@ const VpaidNonLinear = class {
       priceFontSize: 28,
       priceFontStyle: "bold",
       priceFont: "sans-serif",
+      topTitleBackgroundColor: "#CC0000",
+      topTitleColor: "white",
+      topTitleFontSize: 32,
+      topTitleFontStyle: "normal",
+      topTitleFont: "sans-serif",
+      topTitle: " ",
       isCountdownEnabled: false,
       countdownSettings: {
         description: {
@@ -181,10 +161,6 @@ loadFonts_() {
     }
     document.fonts.ready.then(() => {
       this.log('Fonts loaded, triggering reflow');
-      this.overlayTexts_.forEach(text => {
-        text.style.opacity = '1';
-        text.style.fontFamily = text.style.fontFamily;
-      });
     });
   }
 
@@ -292,22 +268,10 @@ loadFonts_() {
     container.style.right = "0%";
     this.slot_.appendChild(container);
 
-    // Create image container for carousel - positioned on the right side
-    const imageContainer = document.createElement("div");
-    imageContainer.id = "overlayContainer";
-    imageContainer.style.display = "none"; // Initially hidden until delay time
-    imageContainer.style.position = "absolute";
-    imageContainer.style.right = "4%";
-    imageContainer.style.top = "5.5%";
-    imageContainer.style.height = "76%"; // Reduced to make room for bottom banner
-    imageContainer.style.width = "28%";
-    imageContainer.style.overflow = "hidden";
-    container.appendChild(imageContainer);
-
     // Create bottom strip with two parts
     const bottomStripContainer = document.createElement("div");
     bottomStripContainer.id = "bottomStripContainer";
-    bottomStripContainer.style.display = "none";
+    bottomStripContainer.style.display = "flex";
     bottomStripContainer.style.position = "absolute";
     bottomStripContainer.style.bottom = "0";
     bottomStripContainer.style.width = "100%";
@@ -319,7 +283,7 @@ loadFonts_() {
     leftStrip.style.backgroundColor = this.parameters_.addressBackgroundColor || this.defaults_.addressBackgroundColor; // Standard red
     leftStrip.style.flex = "1";
     leftStrip.style.display = "flex";
-    leftStrip.style.justifyContent = "center";
+    leftStrip.style.justifyContent = "left";
     leftStrip.style.alignItems = "center";
     bottomStripContainer.appendChild(leftStrip);
 
@@ -354,258 +318,121 @@ loadFonts_() {
     websiteURL.textContent = this.parameters_.website || this.defaults_.website;
     rightStrip.appendChild(websiteURL);
 
-    const logoCountdownContainer = document.createElement("div");
-    logoCountdownContainer.id = "logoContainer";
-    logoCountdownContainer.style.display = "none";
-    logoCountdownContainer.style.position = "absolute";
-    //logoCountdownContainer.style.display = "flex";
-    logoCountdownContainer.style.justifyContent = "space-between";
-    logoCountdownContainer.style.alignItems = "center";
-    logoCountdownContainer.style.width = "64%";
-    logoCountdownContainer.style.height = "27%";
-    logoCountdownContainer.style.top = "64%";
-    logoCountdownContainer.style.left = "0%";
-    container.appendChild(logoCountdownContainer);
-
-    // Logo inner container
-    const logoInnerContainer = document.createElement("div");
-    logoInnerContainer.style.marginLeft = "4.5%";
-    logoInnerContainer.style.flexShrink = "initial";
-    logoInnerContainer.style.height = "92%";
-    logoInnerContainer.style.display = "flex";
-    logoInnerContainer.style.justifyContent = "start";
-    logoInnerContainer.style.alignItems = "center";
-    logoCountdownContainer.appendChild(logoInnerContainer);
-
-    // Logo image container (above red strip)
-    /*const logoContainer = document.createElement("div");
-    logoContainer.id = "logoContainer";
-    logoContainer.style.display = "none";
-    logoContainer.style.position = "absolute";
-    logoContainer.style.bottom = "15.5%";
-    logoContainer.style.left = "1.875%"; //24px for 1280px width, 12px for 640px width
-    logoContainer.style.width = "60%";
-    logoContainer.style.height = "14%";
-    logoContainer.style.justifyContent = "start";
-    container.appendChild(logoContainer);*/
+    // Left logo and title container
+    const leftLogoTitleContainer = document.createElement("div");
+    leftLogoTitleContainer.id = "leftLogoTitleContainer";
+    leftLogoTitleContainer.style.display = "none";
+    leftLogoTitleContainer.style.position = "absolute";
+    leftLogoTitleContainer.style.top = "30%";
+    leftLogoTitleContainer.style.left = "0%";
+    leftLogoTitleContainer.style.width = "32%";
+    leftLogoTitleContainer.style.height = "27%";
+    leftLogoTitleContainer.style.display = "flex";
+    leftLogoTitleContainer.style.flexDirection = "column";
+    leftLogoTitleContainer.style.justifyContent = "center";
+    leftLogoTitleContainer.style.alignItems = "center";
+    container.appendChild(leftLogoTitleContainer);
 
     // Logo image
     const logoImg = document.createElement("img");
     logoImg.src = this.parameters_.bottomImageUrl || overlays[0]?.imageUrl || overlays[0];
-    logoImg.style.height = "100%";
-    logoImg.style.maxWidth = "100%";
+    logoImg.style.height = "60%";
+    logoImg.style.width = "100%";
     logoImg.style.objectFit = "contain";
-    logoInnerContainer.appendChild(logoImg);
+    leftLogoTitleContainer.appendChild(logoImg);
 
-    // Countdown container
-    const countdownContainer = document.createElement("div");
-    countdownContainer.style.width = "38.4%";
-    countdownContainer.style.height = "92%";
-    countdownContainer.style.fontFamily = this.getFallbackFont_('Arial');
-    logoCountdownContainer.appendChild(countdownContainer);
+    // Top title text below logo
+    const topTitle = document.createElement("div");
+    topTitle.style.textAlign = "center";
+    topTitle.style.color = this.parameters_.topTitleColor || this.defaults_.topTitleColor;
+    topTitle.style.fontSize = this.scalePx(this.parameters_.topTitleFontSize) || this.scalePx(this.defaults_.topTitleFontSize);
+    topTitle.style.fontWeight = this.getFontWeight_(this.parameters_.topTitleFontStyle || this.defaults_.topTitleFontStyle);
+    topTitle.style.fontFamily = this.getFallbackFont_(this.parameters_.topTitleFont || this.defaults_.topTitleFont);
+    topTitle.textContent = this.parameters_.topTitle || this.defaults_.topTitle;
+    leftLogoTitleContainer.appendChild(topTitle);
+
+    // Right countdown container
+    const rightCountdownContainer = document.createElement("div");
+    rightCountdownContainer.id = "rightCountdownContainer";
+    rightCountdownContainer.style.display = "none";
+    rightCountdownContainer.style.position = "absolute";
+    rightCountdownContainer.style.top = "72%";
+    rightCountdownContainer.style.right = "0%";
+    rightCountdownContainer.style.width = "66%";
+    rightCountdownContainer.style.height = "14.5%";
+    rightCountdownContainer.style.display = "flex";
+    rightCountdownContainer.style.justifyContent = "space-between";
+    rightCountdownContainer.style.alignItems = "center";
+    rightCountdownContainer.style.padding = this.scalePx(10);
+    container.appendChild(rightCountdownContainer);
 
     if (this.parameters_.isCountdownEnabled) {
-      const countdown = document.createElement("div");
-      countdown.style.width = "100%";
-      countdown.style.height = "100%";
-      countdown.style.borderRadius = this.scalePx(12);
-      countdown.style.background = `linear-gradient(90deg, ${this.parameters_.countdownSettings.gradient.startColor || this.defaults_.countdownSettings.gradient.startColor}, ${this.parameters_.countdownSettings.gradient.endColor || this.defaults_.countdownSettings.gradient.endColor})`;
-      countdownContainer.appendChild(countdown);
+      rightCountdownContainer.style.background = `linear-gradient(to bottom right, ${this.parameters_.countdownSettings.gradient.startColor || this.defaults_.countdownSettings.gradient.startColor}, ${this.parameters_.countdownSettings.gradient.endColor || this.defaults_.countdownSettings.gradient.endColor})`;
 
-      // Title
-      const title = document.createElement("div");
-      title.style.paddingTop = this.scalePx(8);
-      title.style.textAlign = "center";
-      title.style.fontSize = this.scalePx(this.parameters_.countdownSettings.description.font_size || this.defaults_.countdownSettings.description.font_size);
-      title.style.fontFamily = this.getFallbackFont_(this.parameters_.countdownSettings.description.font_family || this.defaults_.countdownSettings.description.font_family);
-      title.style.fontWeight = this.getFontWeight_(this.parameters_.countdownSettings.description.font_style || this.defaults_.countdownSettings.description.font_style);
-      title.style.color = this.parameters_.countdownSettings.description.font_color || this.defaults_.countdownSettings.description.font_color;
-      title.textContent = this.parameters_.countdownSettings.description.text || 'Countdown Title Here';
-      countdown.appendChild(title);
+      const leftDescriptionDiv = document.createElement("div");
+      leftDescriptionDiv.style.flex = "1";
+      leftDescriptionDiv.style.textAlign = "left";
+      leftDescriptionDiv.style.color = this.parameters_.countdownSettings.description.font_color || this.defaults_.countdownSettings.description.font_color;
+      leftDescriptionDiv.style.fontSize = this.scalePx(this.parameters_.countdownSettings.description.font_size) || this.scalePx(this.defaults_.countdownSettings.description.font_size);
+      leftDescriptionDiv.style.fontWeight = this.getFontWeight_(this.parameters_.countdownSettings.description.font_style || this.defaults_.countdownSettings.description.font_style);
+      leftDescriptionDiv.style.fontFamily = this.getFallbackFont_(this.parameters_.countdownSettings.description.font_family || this.defaults_.countdownSettings.description.font_family);
+      leftDescriptionDiv.textContent = this.parameters_.countdownSettings.description.text || this.defaults_.countdownSettings.description.text;
+      rightCountdownContainer.appendChild(leftDescriptionDiv);
 
-      // Timer container
-      const timerContainer = document.createElement("div");
-      timerContainer.style.display = "flex";
-      timerContainer.style.alignItems = "flex-start";
-      timerContainer.style.justifyContent = "space-evenly";
-      timerContainer.style.width = "100%";
-      timerContainer.style.marginTop = this.scalePx(12);
-      countdown.appendChild(timerContainer);
+      const countdownDisplay = document.createElement("div");
+      countdownDisplay.style.display = "flex";
+      countdownDisplay.style.alignItems = "center";
+      countdownDisplay.style.gap = this.scalePx(5);
+      rightCountdownContainer.appendChild(countdownDisplay);
 
-      this.unitDigits_ = [];
-      this.unitLabelElements_ = [];
+      const descFontSize = parseInt(this.parameters_.countdownSettings.description.font_size || this.defaults_.countdownSettings.description.font_size);
+      const numFontSize = this.scalePx(Math.round(descFontSize * 1.333));
+      const labelFontSize = this.scalePx(Math.round(descFontSize * 0.5));
+
+      this.numSpans = [];
+      this.labelSpans = [];
 
       for (let i = 0; i < 3; i++) {
         const unitDiv = document.createElement("div");
         unitDiv.style.display = "flex";
         unitDiv.style.flexDirection = "column";
-        unitDiv.style.gap = this.scalePx(4);
-        timerContainer.appendChild(unitDiv);
+        unitDiv.style.alignItems = "center";
 
-        const digitsDiv = document.createElement("div");
-        digitsDiv.style.display = "flex";
-        digitsDiv.style.alignItems = "center";
-        digitsDiv.style.justifyContent = "center";
-        digitsDiv.style.gap = this.scalePx(4);
-        unitDiv.appendChild(digitsDiv);
+        const numSpan = document.createElement("span");
+        numSpan.style.fontSize = numFontSize;
+        numSpan.style.fontWeight = this.getFontWeight_("bold");
+        numSpan.style.fontFamily = this.getFallbackFont_("Inter");
+        numSpan.style.color = this.parameters_.countdownSettings.description.font_color || this.defaults_.countdownSettings.description.font_color;
+        numSpan.textContent = "00";
+        unitDiv.appendChild(numSpan);
+        this.numSpans.push(numSpan);
 
-        const digit1 = document.createElement("span");
-        digit1.style.padding = this.scalePx(4);
-        digit1.style.background = "rgba(255, 255, 255, 0.8)";
-        digit1.style.borderRadius = this.scalePx(6);
-        digit1.textContent = "0";
-        digitsDiv.appendChild(digit1);
+        const labelSpan = document.createElement("span");
+        labelSpan.style.fontSize = labelFontSize;
+        labelSpan.style.fontFamily = this.getFallbackFont_("Arial");
+        labelSpan.style.color = this.parameters_.countdownSettings.description.font_color || this.defaults_.countdownSettings.description.font_color;
+        labelSpan.textContent = "Hours";
+        unitDiv.appendChild(labelSpan);
+        this.labelSpans.push(labelSpan);
 
-        const digit2 = document.createElement("span");
-        digit2.style.padding = this.scalePx(4);
-        digit2.style.background = "rgba(255, 255, 255, 0.8)";
-        digit2.style.borderRadius = this.scalePx(6);
-        digit2.textContent = "0";
-        digitsDiv.appendChild(digit2);
-
-        this.unitDigits_.push([digit1, digit2]);
-
-        const label = document.createElement("div");
-        label.style.color = "white";
-        label.style.fontSize = this.scalePx(12);
-        label.style.textTransform = "uppercase";
-        label.textContent = "HOURS";
-        unitDiv.appendChild(label);
-
-        this.unitLabelElements_.push(label);
+        countdownDisplay.appendChild(unitDiv);
 
         if (i < 2) {
-          const colon = document.createElement("span");
-          colon.style.color = "white";
-          colon.style.fontSize = this.scalePx(20);
-          colon.style.fontWeight = "500";
-          colon.textContent = ":";
-          timerContainer.appendChild(colon);
+          const colonSpan = document.createElement("span");
+          colonSpan.textContent = ":";
+          colonSpan.style.fontSize = numFontSize;
+          colonSpan.style.fontWeight = this.getFontWeight_("Bold");
+          colonSpan.style.color = this.parameters_.countdownSettings.description.font_color || this.defaults_.countdownSettings.description.font_color;
+          colonSpan.style.paddingBottom = this.scalePx(12); // Align with numbers considering labels
+          countdownDisplay.appendChild(colonSpan);
         }
       }
-
-      this.startCountdown_();
     }
 
-    // Add CSS animation styles
-    const styleEl = document.createElement("style");
-    styleEl.textContent = `
-
-        @keyframes slideOutRight {
-              from { transform: translateX(0); opacity: 1; }
-              to { transform: translateX(100%); opacity: 0; }
-            }
-            
-            @keyframes slideInFromTop {
-              from { transform: translateY(-100%); opacity: 0; }
-              to { transform: translateY(0); opacity: 1; }
-            }
-            
-            @keyframes fadeIn {
-              from { opacity: 0; }
-              to { opacity: 1; }
-            }
-            
-            .slide-out-right {
-              animation: slideOutRight 0.5s forwards;
-            }
-            
-            .slide-in-from-top {
-              animation: slideInFromTop 0.5s forwards;
-            }
-            
-            .fade-in {
-              animation: fadeIn 0.5s forwards;
-            }
-            
-            .overlay-unit {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: space-between;
-              margin: auto;
-              width: 100%;
-              height: 100%;
-            }
-            
-            .overlay-text {
-              text-align: center;
-              width: 100%;
-              white-space: pre-line;
-            }
-      `;
-    document.head.appendChild(styleEl);
-
-    // Create and setup overlay units (image + text)
-    this.overlayImages_ = overlays.map((overlay, index) => {
-      // Create a container for the image and text as a unit
-      const overlayUnit = document.createElement("div");
-      overlayUnit.className = "overlay-unit";
-      overlayUnit.style.display = "none"; // All start hidden
-
-      // Create image element
-      const img = document.createElement("img");
-      img.src = overlay.imageUrl || overlay;
-      img.style.width = "100%";
-      img.style.maxHeight = "60%";
-      img.style.objectFit = "contain";
-
-      // Create text element
-      const nameElement = document.createElement("h3");
-      nameElement.style.margin = "0";
-      nameElement.style.textAlign = "center";
-      nameElement.style.color = overlay.productNameColor || this.defaults_.productNameColor;
-      nameElement.style.fontFamily = this.getFallbackFont_(overlay.productNameFont || this.defaults_.productNameFont);
-      nameElement.style.fontSize = overlay.productNameFontSize
-        ? this.scalePx(overlay.productNameFontSize)
-        : this.scalePx(this.defaults_.productNameFontSize);
-      nameElement.style.fontWeight = this.getFontWeight_(overlay.productNameFontStyle || this.defaults_.productNameFontStyle);
-      nameElement.textContent = overlay.productName || " ";
-      this.overlayTexts_.push(nameElement);
-
-      const productDescriptionElement = document.createElement("div");
-      productDescriptionElement.className = "overlay-text";
-      productDescriptionElement.style.color = overlay.productDetailsFontColor || this.defaults_.productDetailsFontColor;
-      productDescriptionElement.style.fontFamily = this.getFallbackFont_(overlay.productDetailsFont);
-      productDescriptionElement.style.fontSize = overlay.productDetailsFontSize ? this.scalePx(overlay.productDetailsFontSize) : this.scalePx(this.defaults_.productDetailsFontSize);
-      productDescriptionElement.style.fontWeight = this.getFontWeight_(overlay.productDetailsFontStyle || this.defaults_.productDetailsFontStyle)
-      productDescriptionElement.textContent = overlay.productDescription || " ";
-      this.overlayTexts_.push(productDescriptionElement);
-
-      const priceElement = document.createElement("div");
-      priceElement.style.color = overlay.priceFontColor || this.defaults_.priceFontColor;
-      priceElement.style.fontFamily = this.getFallbackFont_(overlay.priceFont || this.defaults_.priceFont);
-      priceElement.style.fontSize = overlay.priceFontSize ? this.scalePx(overlay.priceFontSize) : this.scalePx(this.defaults_.priceFontSize);
-      priceElement.style.fontWeight = this.getFontWeight_(overlay.priceFontStyle || this.defaults_.priceFontStyle);
-      priceElement.textContent = overlay.price || " ";
-      this.overlayTexts_.push(priceElement);
-
-      // Add click handler to the unit
-      overlayUnit.addEventListener(
-        "click",
-        () => {
-          this.adClick_(overlay.clickThrough);
-        },
-        false
-      );
-
-      // Append image and text to the unit
-      overlayUnit.appendChild(nameElement);
-      overlayUnit.appendChild(img);
-      overlayUnit.appendChild(productDescriptionElement);
-      overlayUnit.appendChild(priceElement);
-
-      // Add to container
-      imageContainer.appendChild(overlayUnit);
-
-      return overlayUnit;
-    });
-
     container.addEventListener("click", (e) => {
-      const isProductClick = e.target.closest(".overlay-unit");
       const isSkipButton = e.target.closest("#skipButton");
 
-      if (!isProductClick && !isSkipButton && this.parameters_.defaultClickThrough) {
+      if (!isSkipButton && this.parameters_.defaultClickThrough) {
         this.adClick_(this.parameters_.defaultClickThrough);
         window.open(this.parameters_.defaultClickThrough, "_blank");
       }
@@ -629,39 +456,18 @@ loadFonts_() {
     this.callEvent_("AdStarted");
     this.callEvent_("AdImpression");
 
-    // Schedule the start of carousel after the delay
-    this.carouselStartTimeout_ = setTimeout(() => {
-      const overlayContainer = document.getElementById("overlayContainer");
-      const logoContainer = document.getElementById("logoContainer");
+    // Schedule the start of overlays after the delay
+    /*this.carouselStartTimeout_ = setTimeout(() => {
+      const leftLogoTitleContainer = document.getElementById("leftLogoTitleContainer");
+      const rightCountdownContainer = document.getElementById("rightCountdownContainer");
       const bottomStripContainer = document.getElementById("bottomStripContainer");
-      if (overlayContainer && logoContainer && bottomStripContainer) {
-        // Show containers first
-        overlayContainer.style.display = "block";
-        logoContainer.style.display = "flex";
+      if (leftLogoTitleContainer && rightCountdownContainer && bottomStripContainer) {
+        leftLogoTitleContainer.style.display = "flex";
+        rightCountdownContainer.style.display = "flex";
         bottomStripContainer.style.display = "flex";
-
-        // Add animation class to the first overlay with a slight delay
-        setTimeout(() => {
-          if (this.overlayImages_.length > 0) {
-            const firstUnit = this.overlayImages_[0];
-            firstUnit.style.display = "flex";
-            firstUnit.classList.add("slide-in-from-top");
-
-            // Remove animation class after animation completes
-            setTimeout(() => {
-              firstUnit.classList.remove("slide-in-from-top");
-            }, 500);
-          }
-
-          // Setup carousel interval if multiple images exist
-          if (this.overlayImages_.length > 1) {
-            this.carouselInterval_ = setInterval(() => {
-              this.updateOverlayImage_();
-            }, this.parameters_["carouselInterval"] * 1000);
-          }
-        }, 50); // Small delay to ensure container is visible first
       }
     }, this.parameters_["carouselStartDelay"] * 1000 || this.attributes_["carouselStartDelay"]);
+    */
 
     // Create a Skip Ad button
     if (this.parameters_["isSkippable"]) {
@@ -671,7 +477,7 @@ loadFonts_() {
         skipButton.textContent = "Skip Ad";
         skipButton.style.fontSize = this.scalePx(12);
         skipButton.style.position = "absolute";
-        skipButton.style.bottom = "8.83%";
+        skipButton.style.bottom = "5.83%";
         skipButton.style.right = "1.38%";
         skipButton.style.padding = `${this.scalePx(5)} ${this.scalePx(10)}`;
         skipButton.style.backgroundColor = "#cccccc";
@@ -691,102 +497,81 @@ loadFonts_() {
         container.appendChild(skipButton);
       }, this.skipOffsetSeconds_ * 1000); // Respect skipOffset
     }
+
+    if (this.parameters_.isCountdownEnabled) {
+      this.updateCountdown();
+      this.countdownInterval_ = setInterval(this.updateCountdown.bind(this), 1000);
+    }
   };
 
-  /**
-   * Updates the currently displayed overlay image with slide animations
-   * @private
-   */
-  updateOverlayImage_() {
-    if (!this.overlayImages_ || this.overlayImages_.length <= 1) return;
-
-    // Get current and next image unit
-    const currentUnit = this.overlayImages_[this.currentOverlayIndex_];
-    const nextIndex = (this.currentOverlayIndex_ + 1) % this.overlayImages_.length;
-    const nextUnit = this.overlayImages_[nextIndex];
-
-    // Add slide-out animation class to current unit
-    currentUnit.classList.add("slide-out-right");
-
-    // After animation completes, hide current and show next with animation
-    setTimeout(() => {
-      // Hide current unit and remove animation class
-      currentUnit.style.display = "none";
-      currentUnit.classList.remove("slide-out-right");
-
-      // Show next unit with slide-in animation
-      nextUnit.style.display = "flex";
-      nextUnit.classList.add("slide-in-from-top");
-
-      // Update index
-      this.currentOverlayIndex_ = nextIndex;
-
-      // Remove animation class after animation completes
-      setTimeout(() => {
-        nextUnit.classList.remove("slide-in-from-top");
-      }, 500);
-    }, 500);
-  }
-
-  startCountdown_() {
-    if (!this.parameters_.isCountdownEnabled || !this.parameters_.countdownSettings.dateTime) {
-      this.setCountdownDisplay_("00", "00", "00", ["hours", "minutes", "seconds"]);
-      return;
+  calculateCountdown(targetDate) {
+    const now = new Date();
+    const target = new Date(targetDate);
+    if (target < now) {
+      return { months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
 
-    const updateCountdown = () => {
-      const now = new Date();
-      const target = new Date(this.parameters_.countdownSettings.dateTime || this.defaults_.countdownSettings.dateTime);
-      const diff = target.getTime() - now.getTime();
-
-      if (diff <= 0) {
-        this.setCountdownDisplay_("00", "00", "00", ["hours", "minutes", "seconds"]);
-        clearInterval(this.countdownInterval_);
-        return;
-      }
-
-      const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
-      const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      let unit1, unit2, unit3, labels;
-      if (months > 0) {
-        unit1 = months.toString().padStart(2, "0");
-        unit2 = days.toString().padStart(2, "0");
-        unit3 = hours.toString().padStart(2, "0");
-        labels = ["months", "days", "hours"];
-      } else if (days > 0) {
-        unit1 = days.toString().padStart(2, "0");
-        unit2 = hours.toString().padStart(2, "0");
-        unit3 = minutes.toString().padStart(2, "0");
-        labels = ["days", "hours", "minutes"];
-      } else {
-        unit1 = hours.toString().padStart(2, "0");
-        unit2 = minutes.toString().padStart(2, "0");
-        unit3 = seconds.toString().padStart(2, "0");
-        labels = ["hours", "minutes", "seconds"];
-      }
-
-      this.setCountdownDisplay_(unit1, unit2, unit3, labels);
-    };
-
-    updateCountdown();
-    this.countdownInterval_ = setInterval(updateCountdown, 1000);
+    let years = target.getFullYear() - now.getFullYear();
+    let months = target.getMonth() - now.getMonth();
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+    let days = target.getDate() - now.getDate();
+    if (days < 0) {
+      months--;
+      days += new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    }
+    let hours = target.getHours() - now.getHours();
+    if (hours < 0) {
+      days--;
+      hours += 24;
+    }
+    let minutes = target.getMinutes() - now.getMinutes();
+    if (minutes < 0) {
+      hours--;
+      minutes += 60;
+    }
+    let seconds = target.getSeconds() - now.getSeconds();
+    if (seconds < 0) {
+      minutes--;
+      seconds += 60;
+    }
+    months += years * 12;
+    return { months, days, hours, minutes, seconds };
   }
 
-  setCountdownDisplay_(unit1, unit2, unit3, labels) {
-    this.unitDigits_[0][0].textContent = unit1[0];
-    this.unitDigits_[0][1].textContent = unit1[1];
-    this.unitDigits_[1][0].textContent = unit2[0];
-    this.unitDigits_[1][1].textContent = unit2[1];
-    this.unitDigits_[2][0].textContent = unit3[0];
-    this.unitDigits_[2][1].textContent = unit3[1];
-
-    this.unitLabelElements_[0].textContent = labels[0].toUpperCase();
-    this.unitLabelElements_[1].textContent = labels[1].toUpperCase();
-    this.unitLabelElements_[2].textContent = labels[2].toUpperCase();
+  updateCountdown() {
+    const remaining = this.calculateCountdown(this.parameters_.countdownSettings.dateTime || this.defaults_.countdownSettings.dateTime);
+    let unit1, unit2, unit3, label1, label2, label3;
+    if (remaining.months > 0) {
+      unit1 = remaining.months;
+      unit2 = remaining.days;
+      unit3 = remaining.hours;
+      label1 = "Months";
+      label2 = "Days";
+      label3 = "Hours";
+    } else if (remaining.days > 0) {
+      unit1 = remaining.days;
+      unit2 = remaining.hours;
+      unit3 = remaining.minutes;
+      label1 = "Days";
+      label2 = "Hours";
+      label3 = "Minutes";
+    } else {
+      unit1 = remaining.hours;
+      unit2 = remaining.minutes;
+      unit3 = remaining.seconds;
+      label1 = "Hours";
+      label2 = "Minutes";
+      label3 = "Seconds";
+    }
+    this.numSpans[0].textContent = String(unit1).padStart(2, "0");
+    this.numSpans[1].textContent = String(unit2).padStart(2, "0");
+    this.numSpans[2].textContent = String(unit3).padStart(2, "0");
+    this.labelSpans[0].textContent = label1;
+    this.labelSpans[1].textContent = label2;
+    this.labelSpans[2].textContent = label3;
   }
 
   /**
@@ -815,25 +600,20 @@ loadFonts_() {
       this.attributes_["carouselEndEarly"] = this.parameters_["carouselEnd"];
     }
 
-    // Schedule the end of carousel 5 seconds before the end of the video
-    if (this.videoSlot_.duration > this.attributes_["carouselEndEarly"]) {
+    // Schedule the end of overlays 4 seconds before the end of the video
+    /*if (this.videoSlot_.duration > this.attributes_["carouselEndEarly"]) {
       const endTime = (this.videoSlot_.duration - this.attributes_["carouselEndEarly"]) * 1000;
       this.carouselEndTimeout_ = setTimeout(() => {
-        if (this.carouselInterval_) {
-          clearInterval(this.carouselInterval_);
-          this.carouselInterval_ = null;
-        }
-
-        const overlayContainer = document.getElementById("overlayContainer");
-        const logoContainer = document.getElementById("logoContainer");
+        const leftLogoTitleContainer = document.getElementById("leftLogoTitleContainer");
+        const rightCountdownContainer = document.getElementById("rightCountdownContainer");
         const bottomStripContainer = document.getElementById("bottomStripContainer");
-        if (overlayContainer && logoContainer && bottomStripContainer) {
-          overlayContainer.style.display = "none";
-          logoContainer.style.display = "none";
+        if (leftLogoTitleContainer && rightCountdownContainer && bottomStripContainer) {
+          leftLogoTitleContainer.style.display = "none";
+          rightCountdownContainer.style.display = "none";
           bottomStripContainer.style.display = "none";
         }
       }, endTime);
-    }
+    }*/
   }
 
   /**
@@ -863,10 +643,6 @@ loadFonts_() {
     this.log("Stopping ad");
 
     // Clear all timers
-    if (this.carouselInterval_) {
-      clearInterval(this.carouselInterval_);
-    }
-
     if (this.carouselStartTimeout_) {
       clearTimeout(this.carouselStartTimeout_);
     }
@@ -907,11 +683,6 @@ loadFonts_() {
   pauseAd() {
     this.log('pauseAd');
     this.videoSlot_.pause();
-    // Pause the carousel
-    if (this.carouselInterval_) {
-      clearInterval(this.carouselInterval_);
-      this.carouselInterval_ = null;
-    }
 
     // Pause the countdown
     if (this.countdownInterval_) {
@@ -927,16 +698,11 @@ loadFonts_() {
   resumeAd() {
     this.log('resumeAd');
     this.videoSlot_.play();
-    // Resume the carousel
-    if (!this.carouselInterval_ && this.overlayImages_.length > 1) {
-      this.carouselInterval_ = setInterval(() => {
-        this.updateOverlayImage_();
-      }, this.parameters_['carouselInterval'] * 1000);
-    }
 
     // Resume the countdown
-    if (this.parameters_.isCountdownEnabled) {
-      this.startCountdown_();
+    if (this.parameters_.isCountdownEnabled && !this.countdownInterval_) {
+      this.updateCountdown();
+      this.countdownInterval_ = setInterval(this.updateCountdown.bind(this), 1000);
     }
 
     this.callEvent_('AdPlaying');
