@@ -273,7 +273,7 @@ loadFonts_() {
     // Create bottom strip with two parts
     const bottomStripContainer = document.createElement("div");
     bottomStripContainer.id = "bottomStripContainer";
-    bottomStripContainer.style.display = "flex";
+    bottomStripContainer.style.display = "none";
     bottomStripContainer.style.position = "absolute";
     bottomStripContainer.style.bottom = "0";
     bottomStripContainer.style.width = "100%";
@@ -329,7 +329,6 @@ loadFonts_() {
     leftLogoTitleContainer.style.left = "0%";
     leftLogoTitleContainer.style.width = "32%";
     leftLogoTitleContainer.style.height = "27%";
-    leftLogoTitleContainer.style.display = "flex";
     leftLogoTitleContainer.style.flexDirection = "column";
     leftLogoTitleContainer.style.justifyContent = "center";
     leftLogoTitleContainer.style.alignItems = "center";
@@ -362,7 +361,6 @@ loadFonts_() {
     rightCountdownContainer.style.right = "0%";
     rightCountdownContainer.style.width = "66%";
     rightCountdownContainer.style.height = "14.5%";
-    rightCountdownContainer.style.display = "flex";
     rightCountdownContainer.style.justifyContent = "space-between";
     rightCountdownContainer.style.alignItems = "center";
     rightCountdownContainer.style.padding = this.scalePx(10);
