@@ -459,6 +459,7 @@ loadFonts_() {
     this.callEvent_("AdImpression");
 
     // Schedule the start of overlays after the delay
+    console.log("Scheduling overlays after ", this.parameters_["preBannerTime"], " seconds");
     this.carouselStartTimeout_ = setTimeout(() => {
       const leftLogoTitleContainer = document.getElementById("leftLogoTitleContainer");
       const rightCountdownContainer = document.getElementById("rightCountdownContainer");
@@ -597,13 +598,13 @@ loadFonts_() {
     // Then, update the player with the duration change.
     this.attributes_["duration"] = this.videoSlot_.duration;
     this.callEvent_("AdDurationChange");
-    if (this.parameters_["preBannerTime"] > 0) {
-      this.attributes_["preBannerTime"] = this.parameters_["preBannerTime"];
+    if (this.parameters_["postBannerTime"] > 0) {
+      this.attributes_["postBannerTime"] = this.parameters_["postBannerTime"];
     }
 
     // Schedule the end of overlays 4 seconds before the end of the video
-    if (this.videoSlot_.duration > this.attributes_["preBannerTime"]) {
-      const endTime = (this.videoSlot_.duration - this.attributes_["preBannerTime"]) * 1000;
+    if (this.videoSlot_.duration > this.attributes_["postBannerTime"]) {
+      const endTime = (this.videoSlot_.duration - this.attributes_["postBannerTime"]) * 1000;
       this.carouselEndTimeout_ = setTimeout(() => {
         const leftLogoTitleContainer = document.getElementById("leftLogoTitleContainer");
         const rightCountdownContainer = document.getElementById("rightCountdownContainer");
