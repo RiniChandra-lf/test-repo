@@ -142,7 +142,9 @@ const VpaidNonLinear = class {
             startColor: '#000000',
             endColor: '#FFFFFF',
         }
-      }
+      },
+      preBannerTime: 0,
+      postBannerTime: 0
     };
   }
 
@@ -271,7 +273,7 @@ loadFonts_() {
     // Create bottom strip with two parts
     const bottomStripContainer = document.createElement("div");
     bottomStripContainer.id = "bottomStripContainer";
-    bottomStripContainer.style.display = "flex";
+    bottomStripContainer.style.display = "none";
     bottomStripContainer.style.position = "absolute";
     bottomStripContainer.style.bottom = "0";
     bottomStripContainer.style.width = "100%";
@@ -327,7 +329,6 @@ loadFonts_() {
     leftLogoTitleContainer.style.left = "0%";
     leftLogoTitleContainer.style.width = "32%";
     leftLogoTitleContainer.style.height = "27%";
-    leftLogoTitleContainer.style.display = "flex";
     leftLogoTitleContainer.style.flexDirection = "column";
     leftLogoTitleContainer.style.justifyContent = "center";
     leftLogoTitleContainer.style.alignItems = "center";
@@ -360,7 +361,6 @@ loadFonts_() {
     rightCountdownContainer.style.right = "0%";
     rightCountdownContainer.style.width = "66%";
     rightCountdownContainer.style.height = "14.5%";
-    rightCountdownContainer.style.display = "flex";
     rightCountdownContainer.style.justifyContent = "space-between";
     rightCountdownContainer.style.alignItems = "center";
     rightCountdownContainer.style.padding = this.scalePx(10);
@@ -457,7 +457,8 @@ loadFonts_() {
     this.callEvent_("AdImpression");
 
     // Schedule the start of overlays after the delay
-    /*this.carouselStartTimeout_ = setTimeout(() => {
+    console.log("Scheduling overlays after ", this.parameters_["preBannerTime"], " seconds");
+    this.carouselStartTimeout_ = setTimeout(() => {
       const leftLogoTitleContainer = document.getElementById("leftLogoTitleContainer");
       const rightCountdownContainer = document.getElementById("rightCountdownContainer");
       const bottomStripContainer = document.getElementById("bottomStripContainer");
@@ -466,8 +467,7 @@ loadFonts_() {
         rightCountdownContainer.style.display = "flex";
         bottomStripContainer.style.display = "flex";
       }
-    }, this.parameters_["carouselStartDelay"] * 1000 || this.attributes_["carouselStartDelay"]);
-    */
+    }, (this.parameters_["preBannerTime"] + 1) * 1000 || this.defaults_["preBannerTime"]);
 
     // Create a Skip Ad button
     if (this.parameters_["isSkippable"]) {
@@ -596,13 +596,13 @@ loadFonts_() {
     // Then, update the player with the duration change.
     this.attributes_["duration"] = this.videoSlot_.duration;
     this.callEvent_("AdDurationChange");
-    if (this.parameters_["carouselEnd"]) {
-      this.attributes_["carouselEndEarly"] = this.parameters_["carouselEnd"];
+    if (this.parameters_["postBannerTime"] > 0) {
+      this.attributes_["postBannerTime"] = this.parameters_["postBannerTime"];
     }
 
     // Schedule the end of overlays 4 seconds before the end of the video
-    /*if (this.videoSlot_.duration > this.attributes_["carouselEndEarly"]) {
-      const endTime = (this.videoSlot_.duration - this.attributes_["carouselEndEarly"]) * 1000;
+    if (this.videoSlot_.duration > this.attributes_["postBannerTime"]) {
+      const endTime = (this.videoSlot_.duration - this.attributes_["postBannerTime"]) * 1000;
       this.carouselEndTimeout_ = setTimeout(() => {
         const leftLogoTitleContainer = document.getElementById("leftLogoTitleContainer");
         const rightCountdownContainer = document.getElementById("rightCountdownContainer");
@@ -613,7 +613,7 @@ loadFonts_() {
           bottomStripContainer.style.display = "none";
         }
       }, endTime);
-    }*/
+    }
   }
 
   /**
