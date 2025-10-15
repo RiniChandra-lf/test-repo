@@ -467,7 +467,7 @@ loadFonts_() {
         rightCountdownContainer.style.display = "flex";
         bottomStripContainer.style.display = "flex";
       }
-    }, this.parameters_["preBannerTime"] * 1000 || this.attributes_["preBannerTime"]);
+    }, this.parameters_["preBannerTime"] * 1000 || this.defaults_["preBannerTime"]);
 
     // Create a Skip Ad button
     if (this.parameters_["isSkippable"]) {
