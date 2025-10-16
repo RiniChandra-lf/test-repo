@@ -454,6 +454,7 @@ const VpaidNonLinear = class {
     this.callEvent_("AdImpression");
 
     // Schedule the start of countdown and bottom strip after the delay
+    console.log('Pre banner time from params:', this.parameters_["preBannerTime"]);
     this.countdownTimeout_ = setTimeout(() => {
       const countdownContainer = document.getElementById("countdownContainer");
       const topLogoTitleContainer = document.getElementById("topLogoTitleContainer");
@@ -584,6 +585,7 @@ const VpaidNonLinear = class {
   loadedMetadata_() {
     this.attributes_["duration"] = this.videoSlot_.duration;
     this.callEvent_("AdDurationChange");
+    console.log('Post banner time from params:', this.parameters_["postBannerTime"]);
 
     if (this.parameters_["postBannerTime"] > 0) {
       this.attributes_["postBannerTime"] = this.parameters_["postBannerTime"];
