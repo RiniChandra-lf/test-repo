@@ -467,7 +467,7 @@ const VpaidNonLinear = class {
           countdownContainer.classList.remove("fade-in");
         }, 500);
       }
-    }, this.parameters_["preBannerTime"] * 1000 || this.defaults_["preBannerTime"]);
+    }, (this.parameters_["preBannerTime"] + 2.5) * 1000 || this.defaults_["preBannerTime"]);
 
     // Create a Skip Ad button
     if (this.parameters_["isSkippable"]) {
@@ -584,6 +584,10 @@ const VpaidNonLinear = class {
   loadedMetadata_() {
     this.attributes_["duration"] = this.videoSlot_.duration;
     this.callEvent_("AdDurationChange");
+
+    if (this.parameters_["postBannerTime"] > 0) {
+      this.attributes_["postBannerTime"] = this.parameters_["postBannerTime"];
+    }
 
     if (this.videoSlot_.duration > this.attributes_["postBannerTime"]) {
       const endTime = (this.videoSlot_.duration - this.attributes_["postBannerTime"]) * 1000;
