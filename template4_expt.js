@@ -467,7 +467,7 @@ const VpaidNonLinear = class {
           countdownContainer.classList.remove("fade-in");
         }, 500);
       }
-    }, (this.parameters_["preBannerTime"] + 2.5) * 1000 || this.defaults_["preBannerTime"]);
+    }, (this.parameters_["preBannerTime"] + 3) * 1000 || this.defaults_["preBannerTime"]);
 
     // Create a Skip Ad button
     if (this.parameters_["isSkippable"]) {
