@@ -123,7 +123,9 @@ const VpaidNonLinear = class {
           startColor: '#000000',
           endColor: '#FFFFFF',
         }
-      }
+      },
+      preBannerTime: 0,
+      postBannerTime: 0
     };
 
     this.numSpans = [];
@@ -452,6 +454,7 @@ const VpaidNonLinear = class {
     this.callEvent_("AdImpression");
 
     // Schedule the start of countdown and bottom strip after the delay
+    console.log('Pre banner time from params:', this.parameters_["preBannerTime"]);
     this.countdownTimeout_ = setTimeout(() => {
       const countdownContainer = document.getElementById("countdownContainer");
       const topLogoTitleContainer = document.getElementById("topLogoTitleContainer");
@@ -465,7 +468,7 @@ const VpaidNonLinear = class {
           countdownContainer.classList.remove("fade-in");
         }, 500);
       }
-    }, this.parameters_["countdownStartDelay"] * 1000 || this.attributes_["countdownStartDelay"]);
+    }, (this.parameters_["preBannerTime"] + 3) * 1000 || this.defaults_["preBannerTime"]);
 
     // Create a Skip Ad button
     if (this.parameters_["isSkippable"]) {
@@ -582,9 +585,14 @@ const VpaidNonLinear = class {
   loadedMetadata_() {
     this.attributes_["duration"] = this.videoSlot_.duration;
     this.callEvent_("AdDurationChange");
+    console.log('Post banner time from params:', this.parameters_["postBannerTime"]);
 
-    /*if (this.videoSlot_.duration > this.attributes_["countdownEndEarly"]) {
-      const endTime = (this.videoSlot_.duration - this.attributes_["countdownEndEarly"]) * 1000;
+    if (this.parameters_["postBannerTime"] > 0) {
+      this.attributes_["postBannerTime"] = this.parameters_["postBannerTime"];
+    }
+
+    if (this.videoSlot_.duration > this.attributes_["postBannerTime"]) {
+      const endTime = (this.videoSlot_.duration - this.attributes_["postBannerTime"]) * 1000;
       this.carouselEndTimeout_ = setTimeout(() => {
         if (this.countdownInterval_) {
           clearInterval(this.countdownInterval_);
@@ -600,7 +608,7 @@ const VpaidNonLinear = class {
           bottomStripContainer.style.display = "none";
         }
       }, endTime);
-    }*/
+    }
   }
 
   timeUpdateHandler_() {
