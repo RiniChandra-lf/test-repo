@@ -1,93 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>90d.io Ad – Heavy-Ad Test</title>
-  <style>
-    body { margin:0; font-family:sans-serif; background:#f4f4f4; }
-    #ad-container {
-      width:300px; height:600px; margin:20px auto;
-      border:2px solid #ccc; position:relative; overflow:hidden;
-      background:#fff;
-    }
-    .msg { position:absolute; top:50%; left:0; right:0; text-align:center;
-            transform:translateY(-50%); color:#555; }
-    .debug { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.7);
-              color:#0f0; font-family:monospace; font-size:12px; padding:4px; }
-  </style>
-</head>
-<body>
+<!doctype html>
+<meta charset="utf-8" />
+<title>HAI Test — Your Creative + Reliable Bytes</title>
+<style>
+  body{font:14px system-ui;margin:20px;line-height:1.4}
+  iframe{border:1px solid #aaa;width:300px;height:600px;display:block;margin-top:12px}
+  label{display:block;margin:8px 0}
+</style>
 
-<div id="ad-container">
-  <div class="msg" id="fallback">Ad loading…</div>
-  <div class="debug" id="debug"></div>
-</div>
+<h2>Heavy Ad Intervention (HAI) test</h2>
+<ol>
+  <li>Open DevTools → Network: <b>Slow 4G</b>, check <b>Disable cache</b>.</li>
+  <li>DevTools → Performance: <b>20× CPU slowdown</b>.</li>
+  <li>Reload this page and wait ~5–15s. Check DevTools → <b>Issues</b> and Console.</li>
+</ol>
 
-<!-- ====================  YOUR ORIGINAL AD TAG  ==================== -->
+<label><input type="checkbox" id="cpuBurn" checked> Add CPU stress inside the ad</label>
+<label><input type="checkbox" id="netLoad" checked> Add large video & images (>30MB)</label>
+
+<iframe id="adframe"></iframe>
+
 <script>
-  // ---- 1. Config ----
-  window.ndClickThru = "%%CLICK_URL_UNESC%%https://photos3.walmart.com/category/1029-christmas--holiday-cards?size=4x8|5x7&povid=Photos3_megamenu_cards_other_christmas&_sort=featured&veh=dsp&adid=Gallery_HIVideo_Cards_Holiday25";
-  window.ndTagId = "ntag-1c690bc3-e078-4733-8761-02850bc8903b";
-  window.ndSize = [300,600];
-  window.metaData = "";
-  window.mediaFit = "fit";
+const adframe = document.getElementById('adframe');
 
-  // ---- 2. Debug counter (will show how many times we poll) ----
-  window.pollCount = 0;
-  const debugEl = document.getElementById('debug');
-  function logPoll() {
-    window.pollCount++;
-    debugEl.textContent = `Poll loops: ${window.pollCount}`;
-  }
+function writeAd(cpuOn, netOn){
+  const doc = adframe.contentWindow.document;
+  doc.open();
+  doc.write(`<!doctype html><html><head><meta charset="utf-8"></head><body>
 
-  // ---- 3. Choose which loader to run ----
-  const USE_SAFE_INTERVAL = false;   // <<=== SET TO true TO TEST THE FIX
+  <!-- Observe interventions (incl heavy-ad) -->
+  <script>
+    try{
+      const ro = new ReportingObserver((reports)=>{ reports.forEach(r=>console.log('[Intervention]', r.type, r.body)); }, {types:['intervention'], buffered:true});
+      ro.observe();
+    }catch(e){}
+  <\/script>
 
-  if (USE_SAFE_INTERVAL) {
-    // ---------- SAFE 250 ms polling ----------
-    const safeInt = setInterval(() => {
-      logPoll();
-      if (window.RenderStory) {
-        clearInterval(safeInt);
-        renderAd();
-      }
-    }, 250);
-  } else {
-    // ---------- ORIGINAL 0-ms polling (problematic) ----------
-    const origInt = setInterval(() => {
-      logPoll();
-      if (window.RenderStory) {
-        clearInterval(origInt);
-        renderAd();
-      }
-    });               // <-- NOTE: no delay argument → 0 ms
-  }
+  <!-- Force ad classification before heavy loads -->
+  <script src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"><\/script>
 
-  function renderAd() {
-    const rs = new window.RenderStory({
-      fetchedTagType: "landing",
-      tagUuid: window.ndTagId
-    });
-    rs.render();
-    document.getElementById('fallback').textContent = 'Ad rendered!';
-  }
+  <!-- ===== Your creative (unchanged) ===== -->
+  <script>
+    window.ndClickThru = "https://photos3.walmart.com/category/1029-christmas--holiday-cards?size=4x8|5x7&povid=Photos3_megamenu_cards_other_christmas&_sort=featured&veh=dsp&adid=Gallery_HIVideo_Cards_Holiday25";
+    window.ndTagId = "ntag-1c690bc3-e078-4733-8761-02850bc8903b";
+    window.ndSize = [300,600];
+    window.metaData = "";
+    window.mediaFit = "fit";
+  <\/script>
+  <script src="https://cdn.90d.io/js/player.js?cb=test"><\/script>
+  <script>
+  (function(){
+    var tries=0, max=300; // 30s @100ms
+    var interval = setInterval(function(){
+      if(window.RenderStory){
+        clearInterval(interval);
+        new window.RenderStory({ fetchedTagType: "landing", tagUuid: window.ndTagId }).render();
+      }else if(++tries>=max){ clearInterval(interval); }
+    },100);
+  })();
+  <\/script>
+  <!-- ===== End creative ===== -->
+
+  ${netOn ? `
+    <!-- Reliable network bytes: big MP4 + big JPEGs (offscreen) -->
+    <video preload="auto" muted playsinline style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px"
+           src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4?r=${Math.random()}"></video>
+
+    <img decoding="async" loading="eager"
+         src="https://picsum.photos/4000/4000?random=${Math.random()}"
+         style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;" />
+
+    <img decoding="async" loading="eager"
+         src="https://picsum.photos/4500/4500?random=${Math.random()}"
+         style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;" />
+
+    <script>console.log('Network payload requested: big video + large images');<\/script>
+  ` : ''}
+
+  ${cpuOn ? `
+    <!-- CPU burn in timed chunks (not rAF) -->
+    <script>
+      (function burn(totalMs){
+        function chunk(){
+          const end = performance.now() + 250;
+          while(performance.now() < end){}
+          totalMs -= 250;
+          if(totalMs > 0) setTimeout(chunk, 0);
+        }
+        chunk();
+      })(75000); // target >60s total CPU on throttled devices
+    <\/script>
+  ` : ''}
+
+  </body></html>`);
+  doc.close();
+}
+
+function loadAd(){
+  writeAd(
+    document.getElementById('cpuBurn').checked,
+    document.getElementById('netLoad').checked
+  );
+}
+
+document.getElementById('cpuBurn').addEventListener('change', loadAd);
+document.getElementById('netLoad').addEventListener('change', loadAd);
+loadAd();
 </script>
-
-<!-- 90d.io player (real URL, async) -->
-<script src="https://cdn.90d.io/js/player.js?cb=%%CACHEBUSTER%%" async></script>
-
-<!-- Fallback if the ad iframe gets removed by Heavy-Ad Intervention -->
-<script>
-  // Chrome removes the ad iframe and injects a message.  We detect that.
-  const container = document.getElementById('ad-container');
-  const observer = new MutationObserver(() => {
-    if (!container.querySelector('iframe') && container.innerHTML.trim() === '') {
-      document.getElementById('fallback').innerHTML =
-        '<strong style="color:red;">HEAVY AD INTERVENTION – ad hidden</strong>';
-    }
-  });
-  observer.observe(container, { childList:true, subtree:true });
-</script>
-
-</body>
-</html>
