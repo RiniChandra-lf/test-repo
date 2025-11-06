@@ -1,19 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>90d.io Ad – Heavy-Ad Test</title>
+  <style>
+    body { margin:0; font-family:sans-serif; background:#f4f4f4; }
+    #ad-container {
+      width:300px; height:600px; margin:20px auto;
+      border:2px solid #ccc; position:relative; overflow:hidden;
+      background:#fff;
+    }
+    .msg { position:absolute; top:50%; left:0; right:0; text-align:center;
+            transform:translateY(-50%); color:#555; }
+    .debug { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.7);
+              color:#0f0; font-family:monospace; font-size:12px; padding:4px; }
+  </style>
+</head>
+<body>
+
+<div id="ad-container">
+  <div class="msg" id="fallback">Ad loading…</div>
+  <div class="debug" id="debug"></div>
+</div>
+
+<!-- ====================  YOUR ORIGINAL AD TAG  ==================== -->
 <script>
-    window.ndClickThru = "%%CLICK_URL_UNESC%%https://photos3.walmart.com/category/1029-christmas--holiday-cards?size=4x8|5x7&povid=Photos3_megamenu_cards_other_christmas&_sort=featured&veh=dsp&adid=Gallery_HIVideo_Cards_Holiday25";    
-    window.ndTagId = "ntag-1c690bc3-e078-4733-8761-02850bc8903b";
-    window.ndSize = [300,600];
-    window.metaData = "";
-    window.mediaFit = "fit";
-</script>
-<script src="https://cdn.90d.io/js/player.js?cb=%%CACHEBUSTER%%" async></script>
-<script>
-(function () {
-    var interval = window.setInterval(function() {
-        if (window.RenderStory) {
-            window.clearInterval(interval);
-            let renderStory = new window.RenderStory({ fetchedTagType: "landing", tagUuid: window.ndTagId });
-            renderStory.render();
-        }
+  // ---- 1. Config ----
+  window.ndClickThru = "%%CLICK_URL_UNESC%%https://photos3.walmart.com/category/1029-christmas--holiday-cards?size=4x8|5x7&povid=Photos3_megamenu_cards_other_christmas&_sort=featured&veh=dsp&adid=Gallery_HIVideo_Cards_Holiday25";
+  window.ndTagId = "ntag-1c690bc3-e078-4733-8761-02850bc8903b";
+  window.ndSize = [300,600];
+  window.metaData = "";
+  window.mediaFit = "fit";
+
+  // ---- 2. Debug counter (will show how many times we poll) ----
+  window.pollCount = 0;
+  const debugEl = document.getElementById('debug');
+  function logPoll() {
+    window.pollCount++;
+    debugEl.textContent = `Poll loops: ${window.pollCount}`;
+  }
+
+  // ---- 3. Choose which loader to run ----
+  const USE_SAFE_INTERVAL = false;   // <<=== SET TO true TO TEST THE FIX
+
+  if (USE_SAFE_INTERVAL) {
+    // ---------- SAFE 250 ms polling ----------
+    const safeInt = setInterval(() => {
+      logPoll();
+      if (window.RenderStory) {
+        clearInterval(safeInt);
+        renderAd();
+      }
+    }, 250);
+  } else {
+    // ---------- ORIGINAL 0-ms polling (problematic) ----------
+    const origInt = setInterval(() => {
+      logPoll();
+      if (window.RenderStory) {
+        clearInterval(origInt);
+        renderAd();
+      }
+    });               // <-- NOTE: no delay argument → 0 ms
+  }
+
+  function renderAd() {
+    const rs = new window.RenderStory({
+      fetchedTagType: "landing",
+      tagUuid: window.ndTagId
     });
-})();
+    rs.render();
+    document.getElementById('fallback').textContent = 'Ad rendered!';
+  }
 </script>
+
+<!-- 90d.io player (real URL, async) -->
+<script src="https://cdn.90d.io/js/player.js?cb=%%CACHEBUSTER%%" async></script>
+
+<!-- Fallback if the ad iframe gets removed by Heavy-Ad Intervention -->
+<script>
+  // Chrome removes the ad iframe and injects a message.  We detect that.
+  const container = document.getElementById('ad-container');
+  const observer = new MutationObserver(() => {
+    if (!container.querySelector('iframe') && container.innerHTML.trim() === '') {
+      document.getElementById('fallback').innerHTML =
+        '<strong style="color:red;">HEAVY AD INTERVENTION – ad hidden</strong>';
+    }
+  });
+  observer.observe(container, { childList:true, subtree:true });
+</script>
+
+</body>
+</html>
